@@ -2,11 +2,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 
-function BasicExample() {
+function Header() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar sticky="top" expand="lg" className="bg-body-tertiary">
       <Container>
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Brand href="#home">
@@ -24,9 +23,8 @@ function BasicExample() {
         </Nav>
       </Container>
     </Navbar>
-
-    
+    // Navbar ^
   );
 }
 
-export default BasicExample;
+export default Header;
