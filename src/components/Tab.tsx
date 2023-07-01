@@ -8,21 +8,18 @@ interface Props {
 
 function Tab({ text, img, textRight }: any) {
   return (
-    <div className="container">
+    <div className={textRight === "true" ? "bg-primary" : "bg-secondary"}>
       <div className="row row-cols-2 justify-content-md-center">
-        <div className="col">
+        <div className="col d-flex align-items-center justify-content-center">
           {textRight === "true" ? (
             <img src={img} alt="" className="img-fluid" />
           ) : (
-            <div className="">
-              <p className="text-center text-wrap">{text}</p>
-            </div>
+            <p>{text}</p>
           )}
         </div>
         <div className="col d-flex align-items-center justify-content-center">
           {textRight === "true" ? (
-              <p>{text}</p>
-            
+            <p>{text}</p>
           ) : (
             <img src={img} alt="" className="img-fluid" />
           )}
