@@ -19,11 +19,10 @@ function Tab({ text, img, textRight }: any) {
             </div>
           )}
         </div>
-        <div className="col">
+        <div className="col d-flex align-items-center justify-content-center">
           {textRight === "true" ? (
-            <div className="right-50 top-50">
-              <p className="text-center text-wrap">{text}</p>
-            </div>
+              <p>{text}</p>
+            
           ) : (
             <img src={img} alt="" className="img-fluid" />
           )}
