@@ -1,0 +1,13 @@
+:root {
+    --red: #c42f21;
+    --yellow: #EDE431;
+    padding: 0 !important;
+}
+
+.right{
+    background-color: var(--red);
+}
+
+.left {
+    background-color: var(--yellow);
+}
