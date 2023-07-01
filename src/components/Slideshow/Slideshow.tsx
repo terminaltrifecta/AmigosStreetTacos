@@ -1,13 +1,13 @@
 import "bootstrap/dist/css/bootstrap.css";
 import Carousel from "react-bootstrap/Carousel";
-import "../App.css";
+import "./Slideshow.css";
 
 function Slideshow() {
   return (
     <Carousel>
-      <Carousel.Item interval={3000}>
+      <Carousel.Item interval={3000} className = "align-items-center">
         <img
-          className="d-block w-100 img-fluid"
+          className="d-block w-100"
           src=".\src\assets\slideshow\img1.png"
           alt="First slide"
         />
@@ -16,9 +16,9 @@ function Slideshow() {
           <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
         </Carousel.Caption>
       </Carousel.Item>
-      <Carousel.Item interval={3000}>
+      <Carousel.Item interval={3000} className = "align-items-center">
         <img
-          className="d-block w-100 img-fluid"
+          className="d-block w-100"
           src=".\src\assets\slideshow\img1.png"
           alt="Second slide"
         />
@@ -27,9 +27,9 @@ function Slideshow() {
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </Carousel.Caption>
       </Carousel.Item>
-      <Carousel.Item interval={3000}>
+      <Carousel.Item interval={3000} className = "align-items-center">
         <img
-          className="d-block w-100 img-fluid"
+          className="d-block w-100"
           src=".\src\assets\slideshow\img1.png"
           alt="Third slide"
         />
