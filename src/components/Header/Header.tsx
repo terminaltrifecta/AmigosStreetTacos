@@ -1,15 +1,21 @@
-import 'bootstrap/dist/css/bootstrap.css'
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import "bootstrap/dist/css/bootstrap.css";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import './Header.css'
 
 function Header() {
   return (
-    <Navbar sticky="top" expand="lg" className="bg-body-tertiary">
+    <Navbar sticky="top" expand="lg" className="navbar">
       <Container>
-        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Brand href="#home">
-          <img src=".\src\assets\amigoslogo.png" className="img-fluid p-2" alt="" width="150px" />
+          <img
+            src=".\src\assets\amigoslogo.png"
+            className="img-fluid p-2"
+            alt=""
+            width="150px"
+          />
         </Navbar.Brand>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

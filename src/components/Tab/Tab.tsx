@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.css";
-import './Tab.css';
+import "./Tab.css";
 
 interface Props {
   text: string;
@@ -13,7 +13,13 @@ function Tab({ text, img, textRight }: any) {
       <div className="row row-cols-2 justify-content-md-cente w-100">
         <div className="col d-flex align-items-center justify-content-center">
           {textRight === "true" ? (
-            <img src={img} alt="" className="img-fluid" />
+            <div className="p-4">
+              <img
+                src={img}
+                alt=""
+                className="img-fluid rounded-4 border border-5"
+              />
+            </div>
           ) : (
             <p>{text}</p>
           )}
@@ -22,7 +28,13 @@ function Tab({ text, img, textRight }: any) {
           {textRight === "true" ? (
             <p>{text}</p>
           ) : (
-            <img src={img} alt="" className="img-fluid" />
+            <div className="p-4">
+              <img
+                src={img}
+                alt=""
+                className="img-fluid rounded-4 border border-5"
+              />
+            </div>
           )}
         </div>
       </div>
