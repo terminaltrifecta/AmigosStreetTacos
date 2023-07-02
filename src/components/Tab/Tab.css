@@ -1,17 +1,13 @@
 :root {
     --red: #c42f21;
     --yellow: #EDE431;
-    --black: #020C14;
-    --white: #EAF1FE;
     padding: 0 !important;
 }
 
 .right{
     background-color: var(--red);
-    color: var(--white);
 }
 
 .left {
     background-color: var(--yellow);
-    color: var(--black);
 }

@@ -1,19 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import Header from "./components/Header1.tsx";
-import Slideshow from "./components/Slideshow/Slideshow.tsx";
+import Header from "./components/Header.tsx";
+import Slideshow from "./components/Slideshow.tsx";
 import Tab from "./components/Tab/Tab.tsx";
-
-import "./App.css"
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Header />
-    <div className="d-grid gap-2">
+    <div className="d-grid gap-4">
       <Slideshow />
       <Tab
-        text="Amazing, authentic Mexican cuisine!"
+        text="Hello World!"
         textRight="true"
         img=".\src\assets\slideshow\img1.png"
       />
@@ -55,4 +53,3 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     </div>
   </React.StrictMode>
 );
-
