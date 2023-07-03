@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
+import Footer from "./components/Footer/Footer.tsx";
 import Header from "./components/Header/Header.tsx";
 import Slideshow from "./components/Slideshow/Slideshow.tsx";
 import Tab from "./components/Tab/Tab.tsx";
@@ -51,5 +51,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         img=".\src\assets\slideshow\img1.png"
       />
     </div>
+    <Footer />
   </React.StrictMode>
 );

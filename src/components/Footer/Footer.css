@@ -1,0 +1,66 @@
+.main-footer{
+    padding: 4rem 4rem;
+}
+
+.columns {
+    padding: 4rem 4rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.column{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+a{
+    color: gray;
+    text-decoration: none;
+}
+
+.column h4{
+    font-size: 23px;
+    line-height: 26px;
+    margin-bottom: 0.9rem;
+}
+
+.column p{
+    font-size: 20px;
+    line-height: 23px;
+    margin: 0.5rem 0;
+    cursor: pointer;
+}
+
+.socials{
+    display: flex;
+    flex-direction: column;
+}
+
+.socials-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.fb{
+    width: 100px;
+}
+
+.sc{
+    width: 120px;
+}
+
+.ig{
+    width: 65px;
+}
+
+hr{
+    color: black !important;
+    width: 100%;
+}
+
