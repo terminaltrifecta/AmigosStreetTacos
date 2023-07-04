@@ -48,17 +48,12 @@ function Footer() {
         <div className="socials">
           <h4>Social Medias</h4>
           <div className="socials-row">
-            <a href="">
+            <a href="https://facebook.com/">
               <p>
                 <img className="fb" src=".\src\assets\fb.png" alt="" />
               </p>
             </a>
-            <a href="">
-              <p>
-                <img className="sc" src=".\src\assets\sc.png" alt="" />
-              </p>
-            </a>
-            <a href="">
+            <a href="https://instagram.com/">
               <p>
                 <img className="ig" src=".\src\assets\ig.png" alt="" />
               </p>

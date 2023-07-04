@@ -9,7 +9,7 @@ function Header() {
     <Navbar sticky="top" expand="lg" className="navbar">
       <Container>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img
             src=".\src\assets\amigoslogo.png"
             className="img-fluid p-2"
@@ -19,17 +19,18 @@ function Header() {
         </Navbar.Brand>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#menu">Menu</Nav.Link>
-            <Nav.Link href="#location">Locations</Nav.Link>
-            <Nav.Link href="#about">About</Nav.Link>
+            <Nav.Link href="/menu">Menu</Nav.Link>
+            <Nav.Link href="/locations">Locations</Nav.Link>
+            <Nav.Link href="/about">About</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Nav className="ms-auto">
-          <Nav.Link href="#order">Order</Nav.Link>
+          <Nav.Link href="/order">Order</Nav.Link>
         </Nav>
       </Container>
     </Navbar>
     // Navbar ^
+    //thank you for telling me
   );
 }
 
