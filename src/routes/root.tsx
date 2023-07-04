@@ -1,5 +1,3 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
 import Footer from "../components/Footer/Footer.tsx";
 import Header from "../components/Header/Header.tsx";
 import Slideshow from "../components/Slideshow/Slideshow.tsx";
