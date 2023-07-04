@@ -1,8 +1,10 @@
 :root {
     --red: #c42f21ae;
     --yellow: #ede431af;
+}
 
-    padding: 0 !important;
+#tab {
+    width: 100vw;
 }
 
 .right{
