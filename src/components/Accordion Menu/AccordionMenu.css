@@ -1,5 +1,16 @@
-.Accordion{
-    position: relative;
+.accordion{
+    --bs-accordion-color: var(---black);
+    --bs-accordion-bg: rgba(255,255,255,0.2);
+    --bs-accordion-border-width: 0.1vw;
+}
+
+.list-group-item {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.accordion-button {
+    --bs-accordion-active-bg: var(---yellow);
+    --bs-accordion-btn-focus-box-shadow: var(---black);
 }
 
 .Header{
