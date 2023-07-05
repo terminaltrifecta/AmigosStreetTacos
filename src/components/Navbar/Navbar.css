@@ -6,10 +6,11 @@
 }
 
 nav{
+    text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(---white);
+    background: rgba(255,255,255);
     padding: 2vh 5vw;
     transition: 0.25s ease-in-out;
     height: 10vh;

@@ -48,16 +48,16 @@ function Footer() {
         <div className="col">
           <h4>Social Medias</h4>
           <div className="socials-row">
-            <a href="https://facebook.com/">
+            <a href="https://facebook.com/" style={{ color: "blue" }}>
               <i className="fa-brands fa-facebook fa-2xl"></i>
             </a>
-            <a href="https://instagram.com/">
+            <a href="https://instagram.com/" style={{ color: "purple" }}>
               <i className="fa-brands fa-instagram fa-2xl"></i>
             </a>
-            <a href="https://instagram.com/">
+            <a href="https://instagram.com/" style={{ color: "#CEBE2F" }}>
               <i className="fa-brands fa-snapchat fa-2xl"></i>
             </a>
-            <a href="https://instagram.com/">
+            <a href="https://instagram.com/" style={{ color: "black" }}>
               <i className="fa-brands fa-tiktok fa-2xl"></i>
             </a>
           </div>
