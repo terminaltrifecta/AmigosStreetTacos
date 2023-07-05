@@ -6,13 +6,14 @@
     --bs-gutter-x: 0;
 }
 :root {
-    --red: #c42f21ae;
-    --yellow: #ede431af;
+    --red: #dc3c2eaf;
+    --yellow: #e3cc4daf;
+    --white: #fff6ebaf;
 }
 
 .right{
     background-image: url("../../src/assets/whitebackground2.png");
-    background-color: rgb(254, 246, 237);
+    background-color: var(--white);
     background-blend-mode: multiply;
 }
 
