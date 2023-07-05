@@ -31,7 +31,7 @@ nav{
 }
 
 #orderBody:hover {
-    background-color: #dc3c2e;
+    background-color: var(---red);
     box-shadow: 0 0.1rem 15px var(---black);
 }
 
