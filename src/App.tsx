@@ -6,7 +6,7 @@ import Order from "./routes/order.tsx";
 import Menu from "./routes/menu.tsx";
 import Navbar from "./components/Navbar/Navbar.tsx";
 import Footer from "./components/Footer/Footer.tsx";
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
@@ -14,16 +14,15 @@ function App() {
       <Navbar />
 
       {/* pages */}
-      <Routes> 
+      <Routes>
         <Route path="/" element={<Root />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/order" element={<Order />}></Route>
         <Route path="/locations" element={<Locations />}></Route>
         <Route path="/menu" element={<Menu />}></Route>
       </Routes>
-      <Footer/>
+      <Footer />
     </>
   );
 }
-
 export default App;

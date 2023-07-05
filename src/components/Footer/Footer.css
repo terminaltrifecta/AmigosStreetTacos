@@ -5,17 +5,17 @@
 
 
 hr{
-    color: black;
-    background-color: black;
+    color: #140a02;
+    background-color: #140a02;
 }
 
 .background {
-    background: rgb(255, 246, 235);
+    background: #fff6eb;
     width: 100%;
     max-width: 100vw;
 }
 a{
-    color: rgb(20, 10, 2);
+    color: #140a02;
     text-decoration: none;
 }
 
