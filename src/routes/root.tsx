@@ -22,33 +22,7 @@ export default function Root() {
           textRight="true"
           img=".\src\assets\slideshow\img1.png"
         />
-        <Tab
-          text="Mudda trucka!"
-          textRight="false"
-          img=".\src\assets\slideshow\img1.png"
-        />
-        <Tab
-          text="Hello World!"
-          textRight="true"
-          img=".\src\assets\slideshow\img1.png"
-        />
-        <Tab
-          text="Mudda trucka!"
-          textRight="false"
-          img=".\src\assets\slideshow\img1.png"
-        />
-        <Tab
-          text="Hello World!"
-          textRight="true"
-          img=".\src\assets\slideshow\img1.png"
-        />
-        <Tab
-          text="Mudda trucka!"
-          textRight="false"
-          img=".\src\assets\slideshow\img1.png"
-        />
       </div>
-      {/* <Footer /> */}
     </>
   );
 }

@@ -12,7 +12,8 @@ nav{
     background: var(---white);
     padding: 2vh 5vw;
     transition: 0.25s ease-in-out;
-    height: 10vh
+    height: 10vh;
+    width: 100%;
 }
 
 #orderBody {
@@ -22,7 +23,7 @@ nav{
     width: 100px; 
     text-align: center;
     background-color: var(---red);
-    box-shadow: 0 .3rem 15px var(---black);
+    /* box-shadow: 0 .3rem 15px var(---black); */
     border-radius: 1vw;
     height: 6vh;
     transition: 0.25s ease-in-out;
@@ -111,13 +112,13 @@ nav{
         align-items:flex-start;
         justify-content: flex-start;
         position: fixed;
-        top: 90px;
-        right: -300px;
-        width: 75vw;
+        top: 10vh;
+        right: -55%;
+        width: 50%;
         max-width:300px;
         height: 100vh;
         background: var(---yellow);
-        box-shadow: 0 50px 50px var(---black);
+        /* box-shadow: 0 50px 50px var(---black); */
         padding: 40px 0 0 10px;
         transition: 0.25s ease-in-out;
         z-index: 99;

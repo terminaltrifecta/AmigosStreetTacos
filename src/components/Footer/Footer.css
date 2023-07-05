@@ -1,5 +1,6 @@
 .main-footer{
     padding: 4rem 4rem;
+    width: 100%;
 }
 
 .columns {
@@ -45,6 +46,20 @@ a{
 .socials-row{
     display: flex;
     flex-direction: row;
+    height: 50%;
+}
+
+.socials-row a{
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.socials-row i{
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .fb{
