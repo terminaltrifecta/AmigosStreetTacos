@@ -4,40 +4,45 @@ import "./Slideshow.css"
 
 function Slideshow() {
   return (
-    <Carousel controls={false} touch={true}>
+    <Carousel controls={true} touch={true}>
       <Carousel.Item interval={3000}>
         <img
           className="d-block w-100 img-fluid"
-          src=".\src\assets\slideshow\img1.png"
+          src=".\src\assets\slideshow\tacoplatter.jpg"
           alt="First slide"
         />
         <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h3>Delicious Tacos</h3>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item interval={3000}>
         <img
           className="d-block w-100 img-fluid"
-          src=".\src\assets\slideshow\img1.png"
+          src=".\src\assets\slideshow\ingredients.jpg"
           alt="Second slide"
         />
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h3>Fresh Ingredients</h3>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item interval={3000}>
         <img
           className="d-block w-100 img-fluid"
-          src=".\src\assets\slideshow\img1.png"
+          src=".\src\assets\slideshow\interior.jpg"
           alt="Third slide"
         />
         <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
+          <h3>Clean Locations</h3>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item interval={3000}>
+        <img
+          className="d-block w-100 img-fluid"
+          src=".\src\assets\slideshow\beanplatter.jpg"
+          alt="Third slide"
+        />
+        <Carousel.Caption>
+          <h3>Authentic Cuisine</h3>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
