@@ -1,0 +1,9 @@
+.Accordion{
+    display: flex;
+}
+
+.Header{
+    display: flex;
+    justify-content: center;
+    z-index: 100;
+}

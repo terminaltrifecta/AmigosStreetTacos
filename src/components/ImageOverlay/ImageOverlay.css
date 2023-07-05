@@ -1,0 +1,27 @@
+.MenuImage{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    position: relative;
+    text-align: center;
+    color: white;
+  }
+
+ @font-face {
+    font-family: Monoton !important;
+    src: url(fonts/Monoton-Regular) !important;
+}
+
+.bottom-centered-text{
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 100%;
+  font-family: Monoton !important;
+  color: yellow;
+  font-size: 6vw;
+}
