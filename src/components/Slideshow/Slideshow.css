@@ -3,7 +3,7 @@
     color: #140a02;
 }
 h3 {
-    font-size: 300px;
-    color: var(---black);
-    mix-blend-mode: soft-light;
+    font-size: 10vw;
+    color: rgba(255,255,255,0.7);
+    -webkit-text-stroke: var(---white) 0.3vw;
 }
