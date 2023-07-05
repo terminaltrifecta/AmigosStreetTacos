@@ -36,7 +36,7 @@ function Navbar() {
       <div id="orderMobileContainer">
         <a
           className="orderParent"
-          href="https://food.google.com/chooseprovider?restaurantId=/g/11jvr584cn&g2lbs=AP8S6EPTYWYNbtOxlU6AsRjrPflEnyTLXeR8tsC8APAz-kMFLPvFnq9qo3rUzaLyx8GDAt6b38KTcNYd6tnl6-ACMhnmU_qfPElei05irWlLCYrmtXiPzVLGy5pbahVdqbQeflp9P4Em&hl=en-US&gl=us&cs=1&ssta=1&fo_m=MfohQo559jFvMUOzJVpjPL1YMfZ3bInYwBDuMfaXTPp5KXh-&gei=z8-kZIbRHK-kptQPzJmiqAM&ei=z8-kZIbRHK-kptQPzJmiqAM&fo_s=OA&orderType=2&sei=CTRfhwuxP1WvEQGWhico-r_D&utm_campaign"
+          href="https://food.google.com/?sei=CSMFYu9J0EmqERGSCnevhSDv&utm_campaign&ved&q=amigos%20street%20tacos&loc_q&fo_m=EhESAggCqgEKCggIARIEEgIIAg&lat=42.074968894897076&lng=-82.871581339737"
           target="_blank"
         >
           <div

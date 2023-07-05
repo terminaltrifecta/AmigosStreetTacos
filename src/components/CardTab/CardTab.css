@@ -5,8 +5,24 @@
     border-radius: 10px;
 }
 
+.cardCol {
+    max-width: 25%;
+}
+
 .mainCardTab {
+    width:100%;
     background-color: var(---red);
     background-blend-mode: multiply;
     background-image: url("../../src/assets/whitebackground2.png")
+}
+
+@media screen and (max-width:1199px) {
+    .cardCol {
+        max-width:50%;
+    }
+}
+@media screen and (max-width:569px) {
+    .cardCol {
+        max-width:100%;
+    }
 }

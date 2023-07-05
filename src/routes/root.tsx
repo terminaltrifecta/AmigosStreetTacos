@@ -8,27 +8,27 @@ export default function Root() {
       <div className="d-grid gap-3">
         <Slideshow />
         <Tab
-          text="Hello World!"
+          text="Carne Asada Fries. They're f**cking delicious."
           textRight="true"
-          img=".\src\assets\slideshow\img1.png"
+          img=".\src\assets\home\fries.jpg"
         />
         <Tab
-          text="Mudda trucka!"
+          text="Enjoy from the comfort of your home with delivery services."
           textRight="false"
-          img=".\src\assets\slideshow\img1.png"
+          img=".\src\assets\home\delivery.jpg"
         />
         <CardTab
           img1=".\src\assets\slideshow\img1.png"
           hdr1="Chicken Tacos"
-          img2=".\src\assets\slideshow\img1.png"
+          img2=".\src\assets\home\carnetacos.jpg"
           hdr2="Carne Asada Tacos"
-          img3=".\src\assets\slideshow\img1.png"
+          img3=".\src\assets\home\barriatacos.jpg"
           hdr3="Birria Tacos"
         />
         <Tab
-          text="Hello World!"
+          text="Love the tacos? Take them home with fast carry out services."
           textRight="true"
-          img=".\src\assets\slideshow\img1.png"
+          img=".\src\assets\home\carryout.jpg"
         />
       </div>
     </>

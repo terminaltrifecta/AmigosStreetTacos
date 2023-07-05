@@ -21,12 +21,12 @@ function IframeTab({
   text,
 }: any) {
   return (
-    <div className="height=2px">
-      <div className={textRight === "true" ? "main right" : "main left"}>
+    <div className="height=2px iframe">
+      <div className={textRight === "true" ? "main right p-4" : "main left p-4"}>
         <div className="row row-cols-1">
           <div className="col d-flex align-items-center justify-content-center">
-            {textRight === "true" ? (
-              <div className="p-4">
+            {textRight === "false" ? (
+              <div>
                 <iframe
                   src={iframeLink}
                   className="map img-fluid rounded-4 border border-5"
@@ -40,10 +40,10 @@ function IframeTab({
             )}
           </div>
           <div className="col d-flex align-items-center justify-content-center">
-            {textRight === "true" ? (
+            {textRight === "false" ? (
               <p>{text}</p>
             ) : (
-              <div className="p-4">
+              <div>
                 <iframe
                   src={iframeLink}
                   className="map img-fluid rounded-4 border border-5"
