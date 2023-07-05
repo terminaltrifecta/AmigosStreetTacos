@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-import '../../App.css';
 
 function Navbar() {
   const [clicked, setClicked] = useState(false);

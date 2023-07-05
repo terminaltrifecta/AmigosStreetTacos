@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.css";
 import Carousel from "react-bootstrap/Carousel";
-import "./Slideshow.css"
+import "./Slideshow.css";
 
 function Slideshow() {
   return (
