@@ -1,4 +1,3 @@
-import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "./CardTab.css";
 import "../../App.css";
