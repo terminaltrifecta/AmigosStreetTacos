@@ -11,6 +11,10 @@
     --white: #fff6ebaf;
 }
 
+.main img {
+    /* max-width: 500px; */
+}
+
 .right{
     background-image: url("../../src/assets/whitebackground2.png");
     background-color: var(--white);
@@ -21,4 +25,14 @@
     background-image: url("../../src/assets/whitebackground.png");
     background-color: var(--yellow);
     background-blend-mode: multiply;
+}
+
+.tabcol {
+    width: 50%;
+}
+
+@media screen and (max-width:1199px) {
+    .tabcol {
+        width: 100%;
+    }
 }

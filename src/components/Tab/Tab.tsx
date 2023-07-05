@@ -10,8 +10,8 @@ interface Props {
 function Tab({ text, img, textRight }: any) {
   return (
     <div className={textRight === "true" ? "main right" : "main left"}>
-      <div className="row row-cols-2">
-        <div className="col d-flex align-items-center justify-content-center p-4">
+      <div className="row row-cols-auto justify-content-center">
+        <div className="col d-flex align-items-center justify-content-center p-4 tabcol">
           {textRight === "true" ? (
             <div>
               <img
@@ -24,7 +24,7 @@ function Tab({ text, img, textRight }: any) {
             <p>{text}</p>
           )}
         </div>
-        <div className="col d-flex align-items-center justify-content-center p-4">
+        <div className="col d-flex align-items-center justify-content-center p-4 tabcol">
           {textRight === "true" ? (
             <p>{text}</p>
           ) : (

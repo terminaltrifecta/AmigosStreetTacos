@@ -37,3 +37,13 @@ a{
     align-items: center;
     display: flex;
 }
+
+.footercol {
+    width: 25%;
+}
+
+@media screen and (max-width:769px) {
+    .footercol {
+        width:50%;
+    }
+}

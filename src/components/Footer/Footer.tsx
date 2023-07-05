@@ -5,8 +5,8 @@ function Footer() {
   return (
     <div className="background">
       <div className="p-4 container text-center mainfooter">
-        <div className="row">
-          <div className="col">
+        <div className="row row-cols-auto w-100">
+          <div className="col footercol">
             <h4>Big Black</h4>
             <a href="">
               <p>balls?</p>
@@ -19,7 +19,7 @@ function Footer() {
             </a>
           </div>
 
-          <div className="col">
+          <div className="col footercol">
             <h4>N</h4>
             <a href="">
               <p>balls?</p>
@@ -32,7 +32,7 @@ function Footer() {
             </a>
           </div>
 
-          <div className="col">
+          <div className="col footercol">
             <h4>Balls!</h4>
             <a href="">
               <p>balls?</p>
@@ -45,7 +45,7 @@ function Footer() {
             </a>
           </div>
 
-          <div className="col">
+          <div className="col footercol">
             <h4>Social Medias</h4>
             <div className="socials-row">
               <a
