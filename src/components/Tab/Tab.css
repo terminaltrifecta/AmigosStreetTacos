@@ -12,6 +12,8 @@
 
 .right{
     background-image: url("../../src/assets/whitebackground2.png");
+    background-color: rgb(254, 246, 237);
+    background-blend-mode: multiply;
 }
 
 .left {

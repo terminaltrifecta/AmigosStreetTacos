@@ -10,7 +10,7 @@ nav{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(255,255,255);
+    background: rgb(255, 246, 235);
     padding: 2vh 5vw;
     transition: 0.25s ease-in-out;
     height: 10vh;
@@ -31,8 +31,7 @@ nav{
 }
 
 #orderBody:hover {
-    background-color: var(---red);
-    box-shadow: 0 0.1rem 15px var(---black);
+    background-color: var(---black);
 }
 
 #orderMobileContainer{

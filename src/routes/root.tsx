@@ -1,11 +1,12 @@
 import Footer from "../components/Footer/Footer.tsx";
 import Slideshow from "../components/Slideshow/Slideshow.tsx";
 import Tab from "../components/Tab/Tab.tsx";
+import App from "../App.css";
 
 export default function Root() {
   return (
     <>
-      <div className="d-grid gap-4">
+      <div className="d-grid gap-3">
         <Slideshow />
         <Tab
           text="Hello World!"
