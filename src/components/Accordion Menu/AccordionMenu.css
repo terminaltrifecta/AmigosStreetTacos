@@ -1,5 +1,5 @@
 .Accordion{
-    display: flex;
+    position: relative;
 }
 
 .Header{

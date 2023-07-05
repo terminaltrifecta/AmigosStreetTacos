@@ -1,11 +1,14 @@
 .MenuImage{
-    width: 100%;
-    display: flex;
-    justify-content: center;
+  position: relative;
+  width: 100%;
+  max-height: 85vw;
+  text-align: center;
 }
 
-.container {
+.container-image{
     position: relative;
+    width: 100%;
+    max-height: 55vw;
     text-align: center;
   }
 
@@ -15,12 +18,8 @@
 }
 
 .bottom-centered-text{
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-weight: 100%;
-  font-family: Monoton !important;
-  color: yellow;
-  font-size: 6vw;
+    font-size: 10vw;
+    color: rgba(255,255,255,0.7);
+    -webkit-text-stroke: var(---white) 0.3vw;
+    transform: translate(0%, -200%);
 }
