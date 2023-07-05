@@ -1,0 +1,37 @@
+:root {
+    ---red: #dc3c2e;
+    ---yellow: #e3cc4d;
+    ---white: #fff6eb;
+    ---black: #140a02;
+}
+
+#buttonParent {
+    color: var(---white);
+    font-size: 1.3rem;
+    font-weight: 600; 
+    text-align: center;
+    align-items: center;
+    display: flex;
+    border-radius: 1vw;
+    border-color: rgba(0,0,0,0);
+    height: 6vh;
+    transition: 0.25s ease-in-out;
+}
+
+#buttonParent:hover {
+    background-color: var(---black);
+}
+
+#buttonParent.red {
+    background-color: var(---red);
+}
+
+#buttonParent.black {
+    background-color: var(---black);
+}
+
+#buttonParent.black:hover {
+    background-color: var(---white);
+    color: var(---black);
+    border-color: var(---black);
+}

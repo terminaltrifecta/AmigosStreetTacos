@@ -1,0 +1,12 @@
+.card {
+    --bs-card-bg: var(---white);
+    --bs-card-border-color: rgba(0,0,0,0.1);
+    --bs-card-border-width: 5px;
+    border-radius: 10px;
+}
+
+.mainCardTab {
+    background-color: var(---red);
+    background-blend-mode: multiply;
+    background-image: url("../../src/assets/whitebackground2.png")
+}

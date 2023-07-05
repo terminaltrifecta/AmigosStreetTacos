@@ -5,7 +5,6 @@ function Footer() {
   return (
     <div className="background">
       <div className="p-4 container text-center mainfooter">
-        <hr className="tophr" />
         <div className="row">
           <div className="col">
             <h4>Big Black</h4>
