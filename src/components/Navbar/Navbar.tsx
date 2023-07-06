@@ -12,12 +12,11 @@ function Navbar() {
 
   return (
     <nav id="nav" className={clicked ? "sticky-top active" : "sticky-top"}>
-      <NavLink to="/">
+      <NavLink to="/" className="logo">
         <img
           src=".\src\assets\amigoslogo.png"
-          className="img-fluid p-2"
+          className="img-fluid"
           alt=""
-          width="150px"
         />
       </NavLink>
       <div>

@@ -27,7 +27,7 @@ export default function Root() {
         />
         <Tab
           text="Love the tacos? Take them home with fast carry out services."
-          textRight="true"
+          textRight="false"
           img=".\src\assets\home\carryout.jpg"
         />
       </div>
