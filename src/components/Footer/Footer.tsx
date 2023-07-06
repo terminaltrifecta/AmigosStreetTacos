@@ -15,8 +15,8 @@ function Footer() {
 
           <div className="col footercol Hours">
             <h4>Hours</h4>
-            <p>Monday - Saturday 8AM - 10PM</p>
-            <p>Sunday 8AM - 8PM</p>
+            <p>Monday - Saturday: 8AM - 10PM</p>
+            <p>Sunday: 8AM - 8PM</p>
           </div>
 
           <div className="col footercol">

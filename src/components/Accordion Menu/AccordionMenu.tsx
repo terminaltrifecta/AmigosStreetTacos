@@ -151,7 +151,7 @@ function AccordionMenu({
             <ListGroup.Item>Choriqueso - $10.00</ListGroup.Item>
             <ListGroup.Item>Crunch Wrap - $12.00</ListGroup.Item>
             <ListGroup.Item>Chicken Tostada - $3.50</ListGroup.Item>
-            <ListGroup.Item>Tamales (Sold Individually) - $2.25</ListGroup.Item>
+            <ListGroup.Item>Tamales (Sold Individually, Pork or Chicken) - $2.25</ListGroup.Item>
             <ListGroup.Item>Nachos Supreme - $13.00</ListGroup.Item>
             <ListGroup.Item>Mangonada - $5.75</ListGroup.Item>
             <ListGroup.Item>

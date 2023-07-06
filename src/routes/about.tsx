@@ -6,12 +6,12 @@ export default function About() {
   return (
     <React.StrictMode>
       <Tab
-        text="Es importante cuidar al paciente, ser seguido por el paciente, pero sucederá en un momento en el que hay mucho trabajo y dolor. Porque para llegar al más mínimo detalle, nadie debe practicar ningún tipo de trabajo a menos que obtenga algún beneficio de él. No te enojes con el dolor en la reprimenda en el placer que quiere ser un cabello del dolor en la esperanza de que no haya crianza. A menos que estén cegados por la lujuria, no salen, están en falta quienes abandonan sus deberes y ablandan su corazón, es decir, sus trabajos."
+        text="We treat each and every guest here like family. You don't get that kind of experience at no fast food joint. Pick any item from our large menu and expect the best of the best. We only use halal food products, except those that are pork."
         textRight="true"
-        img="src\assets\about\happymexicanman.jpeg"
+        img="src\assets\about\amigosgrub01.jpg"
       />
       <Tab
-        text="Es importante cuidar al paciente, ser seguido por el paciente, pero sucederá en un momento en el que hay mucho trabajo y dolor. Porque para llegar al más mínimo detalle, nadie debe practicar ningún tipo de trabajo a menos que obtenga algún beneficio de él. No te enojes con el dolor en la reprimenda en el placer que quiere ser un cabello del dolor en la esperanza de que no haya crianza. A menos que estén cegados por la lujuria, no salen, están en falta quienes abandonan sus deberes y ablandan su corazón, es decir, sus trabajos."
+        text="We have three bona fide Mexican locations. We take pride in our authenticity. We establish and maintain a clean and welcoming environment. Our objective is to deliver memorable, enjoyable experiences and memories!"
         textRight="false"
         img="src\assets\about\amigos.jpeg"
       />
