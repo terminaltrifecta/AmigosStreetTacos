@@ -1,7 +1,7 @@
 .MenuImage{
   position: relative;
+  height: 100%; 
   width: 100%;
-  height: 100%;
   text-align: center;
   object-fit: cover;
 }
@@ -9,7 +9,7 @@
 .container-image{
     position: relative;
     width: 100%;
-    max-height: 90vh;
+    max-height: 85vh;
     text-align: center;
   }
 
