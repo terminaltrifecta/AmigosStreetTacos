@@ -8,7 +8,7 @@ export default function Root() {
       <div className="d-grid gap-3">
         <Slideshow />
         <Tab
-          text="Carne Asada Fries. They're f#!cking delicious."
+          text="Carne Asada Fries. They're f#cking delicious."
           textRight="true"
           img=".\src\assets\home\fries.jpg"
         />
