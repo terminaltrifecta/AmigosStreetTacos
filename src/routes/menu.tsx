@@ -16,13 +16,6 @@ export default function Menu() {
             acchdr5="Tacos - $2.85"
             acchdr6="Gourmet Items - $3.50"
             acchdr7="Amigos Specials"
-            acctxt1="poop"
-            acctxt2="poop"
-            acctxt3="poop"
-            acctxt4="poop"
-            acctxt5="poop"
-            acctxt6="poop"
-            acctxt7="poop"
           />
         </div>
       </div>

@@ -7,42 +7,23 @@ function Footer() {
       <div className="p-4 container text-center mainfooter">
         <div className="row row-cols-auto w-100">
           <div className="col footercol">
-            <h4>Column</h4>
-            <a href="">
-              <p>link</p>
-            </a>
-            <a href="">
-              <p>link</p>
-            </a>
-            <a href="">
-              <p>link</p>
-            </a>
+            <h4>Locations</h4>
+            <p>5823 17 Mile Rd, Sterling Heights, MI 48310</p>
+            <p>13245 14 Mile Rd, Sterling Heights, MI 48312</p>
+            <p>22428 Greater Mack AveSt Clair Shores, MI 48080</p>
+          </div>
+
+          <div className="col footercol Hours">
+            <h4>Hours</h4>
+            <p>Monday - Saturday 8AM - 10PM</p>
+            <p>Sunday 8AM - 8PM</p>
           </div>
 
           <div className="col footercol">
-            <h4>Column</h4>
-            <a href="">
-              <p>link</p>
-            </a>
-            <a href="">
-              <p>link</p>
-            </a>
-            <a href="">
-              <p>link</p>
-            </a>
-          </div>
-
-          <div className="col footercol">
-            <h4>Column</h4>
-            <a href="">
-              <p>link</p>
-            </a>
-            <a href="">
-              <p>link</p>
-            </a>
-            <a href="">
-              <p>link</p>
-            </a>
+            <h4>Contact Us</h4>
+            <p>(586) 218-7247</p>
+            <p>(586) 838-4311</p>
+            <p>(313) 429-9090</p>
           </div>
 
           <div className="col footercol">
@@ -68,7 +49,7 @@ function Footer() {
 
         <div className="finePrint row">
           <p>
-            @{new Date().getFullYear()} Amigos Street Tacos. All Rights
+            ©️{new Date().getFullYear()} Amigos Street Tacos. All Rights
             Reserved.
           </p>
         </div>
