@@ -2,7 +2,9 @@
     max-width:1300px;
 }
 
-
+.Hours{
+    transform: translate(10%, 0%);
+}
 
 hr{
     color: #140a02;
@@ -20,13 +22,15 @@ a{
 }
 
 .socials-row{
+    justify-content:center;
     display: flex;
     flex-direction: row;
     height: 50%;
 }
 
 .socials-row a{
-    width: 50%;
+    width: 15%;
+    height: 50%;
     justify-content: center;
     align-items: center;
     display: flex;
