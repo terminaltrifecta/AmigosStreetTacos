@@ -7,46 +7,46 @@ function Footer() {
       <div className="p-4 container text-center mainfooter">
         <div className="row row-cols-auto w-100">
           <div className="col footercol">
-            <h4>Big Black</h4>
+            <h4>Column</h4>
             <a href="">
-              <p>balls?</p>
+              <p>link</p>
             </a>
             <a href="">
-              <p>balls?</p>
+              <p>link</p>
             </a>
             <a href="">
-              <p>balls?</p>
-            </a>
-          </div>
-
-          <div className="col footercol">
-            <h4>N</h4>
-            <a href="">
-              <p>balls?</p>
-            </a>
-            <a href="">
-              <p>balls?</p>
-            </a>
-            <a href="">
-              <p>balls?</p>
+              <p>link</p>
             </a>
           </div>
 
           <div className="col footercol">
-            <h4>Balls!</h4>
+            <h4>Column</h4>
             <a href="">
-              <p>balls?</p>
+              <p>link</p>
             </a>
             <a href="">
-              <p>balls?</p>
+              <p>link</p>
             </a>
             <a href="">
-              <p>balls?</p>
+              <p>link</p>
             </a>
           </div>
 
           <div className="col footercol">
-            <h4>Social Medias</h4>
+            <h4>Column</h4>
+            <a href="">
+              <p>link</p>
+            </a>
+            <a href="">
+              <p>link</p>
+            </a>
+            <a href="">
+              <p>link</p>
+            </a>
+          </div>
+
+          <div className="col footercol">
+            <h4>Social Media</h4>
             <div className="socials-row">
               <a
                 href="https://facebook.com/"
@@ -59,18 +59,6 @@ function Footer() {
                 style={{ color: "rgb(20, 10, 2)" }}
               >
                 <i className="fa-brands fa-instagram fa-2xl"></i>
-              </a>
-              <a
-                href="https://instagram.com/"
-                style={{ color: "rgb(20, 10, 2)" }}
-              >
-                <i className="fa-brands fa-snapchat fa-2xl"></i>
-              </a>
-              <a
-                href="https://instagram.com/"
-                style={{ color: "rgb(20, 10, 2)" }}
-              >
-                <i className="fa-brands fa-tiktok fa-2xl"></i>
               </a>
             </div>
           </div>
