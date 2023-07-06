@@ -10,7 +10,7 @@ export default function Locations() {
           iframeWidth="1000"
           iframeHeight="1000"
           loading="lazy"
-          text="Come and visit any of our three locations."
+          text="Come and visit any of our three locations. We're waiting."
         />
       </div>
     </>

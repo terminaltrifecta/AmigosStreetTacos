@@ -8,12 +8,12 @@ export default function Root() {
       <div className="d-grid gap-3">
         <Slideshow />
         <Tab
-          text="Carne Asada Fries. They're f**cking delicious."
+          text="Carne Asada Fries. They're f#!cking delicious."
           textRight="true"
           img=".\src\assets\home\fries.jpg"
         />
         <Tab
-          text="Enjoy from the comfort of your home with delivery services."
+          text="Enjoy real Mexican from the comfort of your home with online delivery services. You can find us anywhere!"
           textRight="false"
           img=".\src\assets\home\delivery.jpg"
         />
@@ -26,7 +26,7 @@ export default function Root() {
           hdr3="Birria Tacos"
         />
         <Tab
-          text="Love the tacos? Take them home with fast carry out services."
+          text="Love what you see? Take everything home with our quick carry-out."
           textRight="false"
           img=".\src\assets\home\carryout.jpg"
         />
