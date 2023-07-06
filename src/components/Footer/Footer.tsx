@@ -21,9 +21,15 @@ function Footer() {
 
           <div className="col footercol">
             <h4>Contact Us</h4>
-            <p>(586) 218-7247</p>
-            <p>(586) 838-4311</p>
-            <p>(313) 429-9090</p>
+            <a href="tel:586-218-7247">
+              <p>(586) 218-7247</p>
+            </a>
+            <a href="tel:586-838-4311">
+              <p>(586) 838-4311</p>
+            </a>
+            <a href="tel:313-429-9090">
+              <p>(313) 429-9090</p>
+            </a>
           </div>
 
           <div className="col footercol">
