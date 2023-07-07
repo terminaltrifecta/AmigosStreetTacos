@@ -14,7 +14,7 @@ export default function Menu() {
             acchdr3="Quesadillas - $9"
             acchdr4="Burritos - $10"
             acchdr5="Tacos - $2.85"
-            acchdr6="Gourmet Items - $3.50"
+            acchdr6="Gourmet Items - $3.75"
             acchdr7="Amigos Specials"
           />
         </div>
