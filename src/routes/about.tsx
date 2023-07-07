@@ -5,7 +5,7 @@ import ImageOverlay from "../components/ImageOverlay/ImageOverlay.tsx";
 export default function About() {
   return (
     <div className="d-grid gap-3">
-      <ImageOverlay text="About" img="src/assets/about/amigosgrub01.jpg" />
+      <ImageOverlay text="About" img="src/assets/about/AboutBackground.png" />
       <Tab
         text="We treat each and every guest here like family. You don't get that kind of experience at no fast food joint. Pick any item from our large menu and expect the best of the best. We only use halal food products, except those that are pork."
         textRight="true"
