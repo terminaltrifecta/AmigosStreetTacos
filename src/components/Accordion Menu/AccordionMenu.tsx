@@ -144,20 +144,20 @@ function AccordionMenu({
             <ListGroup.Item>Birria Tacos - $12.00</ListGroup.Item>
             <ListGroup.Item>Asada Fries - $13.00</ListGroup.Item>
             <ListGroup.Item>Taco Salad - $10.00</ListGroup.Item>
-            <ListGroup.Item>Chicken Enchiladas - $11.00</ListGroup.Item>
-            <ListGroup.Item>Combo Dinner - $11.00</ListGroup.Item>
-            <ListGroup.Item>Tamales Dinner - $11.00</ListGroup.Item>
-            <ListGroup.Item>Taco Dinner - $11.00</ListGroup.Item>
+            <ListGroup.Item>Chicken Enchiladas - $12.00</ListGroup.Item>
+            <ListGroup.Item>Combo Dinner - $12.00</ListGroup.Item>
+            <ListGroup.Item>Tamales Dinner - $12.00</ListGroup.Item>
+            <ListGroup.Item>Taco Dinner - $12.00</ListGroup.Item>
             <ListGroup.Item>Choriqueso - $10.00</ListGroup.Item>
-            <ListGroup.Item>Crunch Wrap - $12.00</ListGroup.Item>
+            <ListGroup.Item>Crunch Wrap - $13.50</ListGroup.Item>
             <ListGroup.Item>Chicken Tostada - $3.50</ListGroup.Item>
-            <ListGroup.Item>Tamales (Sold Individually, Pork or Chicken) - $2.25</ListGroup.Item>
+            <ListGroup.Item>Tamales (Sold Individually, Pork or Chicken) - $2.50</ListGroup.Item>
             <ListGroup.Item>Nachos Supreme - $13.00</ListGroup.Item>
             <ListGroup.Item>Mangonada - $5.75</ListGroup.Item>
             <ListGroup.Item>
               Spicy Street Corn (With Hot Cheetos) - $5.50
             </ListGroup.Item>
-            <ListGroup.Item>Street Corn - $3.50</ListGroup.Item>
+            <ListGroup.Item>Street Corn - $4.00</ListGroup.Item>
             <ListGroup.Item>Torta With French Fries - $12.00</ListGroup.Item>
           </ListGroup>
         </Accordion.Body>
