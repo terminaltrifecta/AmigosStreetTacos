@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import {useState} from "react";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
@@ -13,11 +13,7 @@ function Navbar() {
   return (
     <nav id="nav" className={clicked ? "sticky-top active" : "sticky-top"}>
       <NavLink to="/" className="logo">
-        <img
-          src=".\src\assets\amigoslogo.png"
-          className="img-fluid"
-          alt=""
-        />
+        <img src=".\src\assets\amigoslogo.png" className="img-fluid" alt="" />
       </NavLink>
       <div>
         <ul id="navbar" className={clicked ? "#navbar active" : "#navbar"}>
