@@ -1,12 +1,5 @@
-import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "./ImageOverlay.css";
-
-
-interface Props {
-  img: String;
-  text: String
-}
 
 function ImageOverlay({img, text}: any) {
   return (

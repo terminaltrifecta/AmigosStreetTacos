@@ -1,15 +1,6 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "./IframeTab.css";
 
-interface Props {
-  text: string;
-  iframe: string;
-  textRight: boolean;
-  iframeLink: string;
-  style: string;
-  iframeHeight: string;
-  iframeWidth: string;
-}
 
 function IframeTab({
   iframeLink,
