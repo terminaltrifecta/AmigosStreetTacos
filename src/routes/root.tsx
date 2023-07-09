@@ -30,6 +30,16 @@ export default function Root() {
           textRight="false"
           img="\static\assets\home\carryout.jpg"
         />
+        <Tab
+          text="We have amazing deals as well! Get 5 tacos for ten dollars anyday, or a special $2.00 per street taco on Taco Tuesdays!"
+          textRight="true"
+          img="\static\assets\home\tacosdeal.jpeg"
+        />
+        <Tab
+          text="Like what you see? Come and try our birria tacos today!"
+          textRight="false"
+          img="\static\assets\home\barriatacos.jpg"
+        />
       </div>
     </>
   );
