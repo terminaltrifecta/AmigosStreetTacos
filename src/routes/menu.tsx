@@ -6,7 +6,7 @@ export default function Menu() {
   return (
     <React.StrictMode>
       <div className="d-grid">
-        <ImageOverlay text="Our Menu" img="public\static\assets/about/amigosgrub.jpg" />
+        <ImageOverlay text="Our Menu" img="\static\assets/about/amigosgrub.jpg" />
         <div className="p-4">
           <AccordionMenu
             acchdr1="Breakfast - $5"

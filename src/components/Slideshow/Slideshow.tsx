@@ -8,7 +8,7 @@ function Slideshow() {
       <Carousel.Item interval={3000}>
         <img
           className="d-block w-100 img-fluid"
-          src=".\public\static\assets\slideshow\tacoplatter.jpg"
+          src="\static\assets\slideshow\tacoplatter.jpg"
           alt="First slide"
         />
         <Carousel.Caption>
@@ -18,7 +18,7 @@ function Slideshow() {
       <Carousel.Item interval={3000}>
         <img
           className="d-block w-100 img-fluid"
-          src=".\public\static\assets\slideshow\ingredients.jpg"
+          src="\static\assets\slideshow\ingredients.jpg"
           alt="Second slide"
         />
         <Carousel.Caption>
@@ -28,7 +28,7 @@ function Slideshow() {
       <Carousel.Item interval={3000}>
         <img
           className="d-block w-100 img-fluid"
-          src=".\public\static\assets\slideshow\interior.jpg"
+          src="\static\assets\slideshow\interior.jpg"
           alt="Third slide"
         />
         <Carousel.Caption>
@@ -38,7 +38,7 @@ function Slideshow() {
       <Carousel.Item interval={3000}>
         <img
           className="d-block w-100 img-fluid"
-          src=".\public\static\assets\slideshow\beanplatter.jpg"
+          src="\static\assets\slideshow\beanplatter.jpg"
           alt="Third slide"
         />
         <Carousel.Caption>
