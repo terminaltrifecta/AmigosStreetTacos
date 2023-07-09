@@ -13,7 +13,7 @@
     width:100%;
     background-color: var(---red);
     background-blend-mode: multiply;
-    background-image: url("../../src/assets/whitebackground2.png")
+    background-image: url("/public/assets/whitebackground2.png")
 }
 
 @media screen and (max-width:1199px) {
