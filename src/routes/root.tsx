@@ -38,7 +38,7 @@ export default function Root() {
         <Tab
           text="Like what you see? Come and try our birria tacos today!"
           textRight="false"
-          img="\static\assets\home\barriatacos.jpg"
+          img="\static\assets\home\birria_tacos_AdobeExpress.gif"
         />
       </div>
     </>
