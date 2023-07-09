@@ -13,7 +13,7 @@ function Navbar() {
   return (
     <nav id="nav" className={clicked ? "sticky-top active" : "sticky-top"}>
       <NavLink to="/" className="logo">
-        <img src=".\src\assets\amigoslogo.png" className="img-fluid" alt="" />
+        <img src=".\public\static\assets\amigoslogo.png" className="img-fluid" alt="" />
       </NavLink>
       <div>
         <ul id="navbar" className={clicked ? "#navbar active" : "#navbar"}>
