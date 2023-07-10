@@ -51,3 +51,9 @@ a{
         width:50%;
     }
 }
+
+@media screen and (max-width:1079px) {
+    .socials-row {
+        justify-content: space-around;
+    }
+}

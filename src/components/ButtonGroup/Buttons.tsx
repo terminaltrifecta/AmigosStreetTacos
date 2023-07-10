@@ -1,9 +1,5 @@
 import "./Buttons.css";
 
-interface Props {
-  color: String;
-  children: String;
-}
 
 function Buttons({ color, children }: any) {
   return (

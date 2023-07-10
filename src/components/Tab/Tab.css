@@ -16,13 +16,13 @@
 }
 
 .right{
-    background-image: url("../../src/assets/whitebackground2.png");
+    background-image: url("/static/assets/whitebackground2.png");
     background-color: var(--white);
     background-blend-mode: multiply;
 }
 
 .left {
-    background-image: url("../../src/assets/whitebackground.png");
+    background-image: url("/static/assets/whitebackground.png");
     background-color: var(--yellow);
     background-blend-mode: multiply;
 }

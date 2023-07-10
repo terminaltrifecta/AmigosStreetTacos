@@ -1,12 +1,6 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "./Tab.css";
 
-interface Props {
-  text: string;
-  img: string;
-  textRight: boolean;
-}
-
 function Tab({ text, img, textRight }: any) {
   return (
     <div className={textRight === "true" ? "main right p-4" : "main left p-4"}>

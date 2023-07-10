@@ -3,18 +3,6 @@ import "./CardTab.css";
 import Buttons from "../ButtonGroup/Buttons";
 import Card from "react-bootstrap/Card";
 
-interface Props {
-  img1: String;
-  img2: String;
-  img3: String;
-  hdr1: String;
-  hdr2: String;
-  hdr3: String;
-  txt1: String;
-  txt2: String;
-  txt3: String;
-}
-
 function Tab({ img1, img2, img3, hdr1, hdr2, hdr3, txt1, txt2, txt3 }: any) {
   return (
     <div className="mainCardTab">

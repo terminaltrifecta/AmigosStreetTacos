@@ -3,22 +3,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./AccordionMenu.css";
 import ListGroup from "react-bootstrap/ListGroup";
 
-interface Props {
-  acchdr1: String;
-  acchdr2: String;
-  acchdr3: String;
-  acchdr4: String;
-  acchdr5: String;
-  acchdr6: String;
-  acchdr7: String;
-  acctxt1: String;
-  acctxt2: String;
-  acctxt3: String;
-  acctxt4: String;
-  acctxt5: String;
-  acctxt6: String;
-  acctxt7: String;
-}
 
 function AccordionMenu({
   acchdr1,
@@ -27,14 +11,7 @@ function AccordionMenu({
   acchdr4,
   acchdr5,
   acchdr6,
-  acchdr7,
-  acctxt1,
-  acctxt2,
-  acctxt3,
-  acctxt4,
-  acctxt5,
-  acctxt6,
-  acctxt7,
+  acchdr7
 }: any) {
   return (
     <Accordion>

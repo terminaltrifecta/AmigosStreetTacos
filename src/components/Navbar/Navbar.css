@@ -126,7 +126,7 @@
         height: 100vh;
         background: var(---yellow);
         box-shadow: 0 50px 50px var(---black);
-        padding: 40px 0 0 10px;
+        padding: 40px 0 0 0px;
         transition: 0.25s ease-in-out;
     }
 
