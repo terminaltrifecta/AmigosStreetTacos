@@ -10,7 +10,7 @@ function Footer() {
             <h4>Locations</h4>
             <p>5823 17 Mile Rd, Sterling Heights, MI 48310</p>
             <p>13245 14 Mile Rd, Sterling Heights, MI 48312</p>
-            <p>22428 Greater Mack Ave St Clair Shores, MI 48080</p>
+            <p>22428 Greater Mack Ave, St Clair Shores, MI 48080</p>
           </div>
 
           <div className="col footercol Hours">
