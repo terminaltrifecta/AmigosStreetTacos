@@ -40,6 +40,11 @@ export default function Root() {
           textRight="false"
           img="\static\assets\home\birria_tacos_AdobeExpress.gif"
         />
+        <Tab
+          text="Be sure to try our lunch combo! It comes 2 tacos, rice and beans, a can of pop, and chips and salsa! All for $12!"
+          textRight="true"
+          img="\static\assets\home\riceandbeans.jpg"
+        />
       </div>
     </>
   );

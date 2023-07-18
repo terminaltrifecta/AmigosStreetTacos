@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./AccordionMenu.css";
 import ListGroup from "react-bootstrap/ListGroup";
 
-
 function AccordionMenu({
   acchdr1,
   acchdr2,
@@ -11,7 +10,7 @@ function AccordionMenu({
   acchdr4,
   acchdr5,
   acchdr6,
-  acchdr7
+  acchdr7,
 }: any) {
   return (
     <Accordion>
@@ -128,7 +127,9 @@ function AccordionMenu({
             <ListGroup.Item>Choriqueso - $10.00</ListGroup.Item>
             <ListGroup.Item>Crunch Wrap - $13.50</ListGroup.Item>
             <ListGroup.Item>Chicken Tostada - $3.50</ListGroup.Item>
-            <ListGroup.Item>Tamales (Sold Individually, Pork or Chicken) - $2.50</ListGroup.Item>
+            <ListGroup.Item>
+              Tamales (Sold Individually, Pork or Chicken) - $2.50
+            </ListGroup.Item>
             <ListGroup.Item>Nachos Supreme - $13.00</ListGroup.Item>
             <ListGroup.Item>Mangonada - $5.75</ListGroup.Item>
             <ListGroup.Item>
@@ -136,6 +137,22 @@ function AccordionMenu({
             </ListGroup.Item>
             <ListGroup.Item>Street Corn - $4.00</ListGroup.Item>
             <ListGroup.Item>Torta With French Fries - $12.00</ListGroup.Item>
+            <ListGroup.Item>Steak Fajitas Tacos - $12.00</ListGroup.Item>
+            <ListGroup.Item>Cajun Dinner - $12.00</ListGroup.Item>
+            <ListGroup.Item>
+              Chicken Tenders with French Fries - $10.00
+            </ListGroup.Item>
+            <ListGroup.Item>Choriqueso With Chips - $10.00</ListGroup.Item>
+            <ListGroup.Item>Walking Tacos - $8.00</ListGroup.Item>
+            <ListGroup.Item>Asada Dinner - $12.00</ListGroup.Item>
+            <ListGroup.Item>Chicken Flautas - $12.00</ListGroup.Item>
+            <ListGroup.Item>Fish Tacos - $12.00</ListGroup.Item>
+            <ListGroup.Item>Fish and Chips - $12.00</ListGroup.Item>
+            <ListGroup.Item>Lunch Special - $12.00</ListGroup.Item>
+            <ListGroup.Item>Amigos Burritos - $13.00</ListGroup.Item>
+            <ListGroup.Item>Amigos Salad - $12.00</ListGroup.Item>
+            <ListGroup.Item>Gorditas Dinner - $12.00</ListGroup.Item>
+            <ListGroup.Item>Buffalo Burrito - $11.00</ListGroup.Item>
           </ListGroup>
         </Accordion.Body>
       </Accordion.Item>
