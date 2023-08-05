@@ -21,14 +21,14 @@ function Footer() {
 
           <div className="col footercol">
             <h4>Contact Us</h4>
-            <a href="tel:5862187247">
-              <p>(586) 218-7247</p>
+            <a href="tel:3134299090">
+              <p>(313) 429-9090 (17 Mile)</p>
             </a>
             <a href="tel:5868384311">
-              <p>(586) 838-4311</p>
+              <p>(586) 838-4311 (14 Mile)</p>
             </a>
-            <a href="tel:3134299090">
-              <p>(313) 429-9090</p>
+            <a href="tel:5862187247">
+              <p>(586) 218-7247 (St. Clair)</p>
             </a>
           </div>
 
