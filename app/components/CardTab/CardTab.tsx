@@ -6,8 +6,8 @@ import Card from "react-bootstrap/Card";
 function Tab({ img1, img2, img3, hdr1, hdr2, hdr3, txt1, txt2, txt3 }: any) {
   return (
     <div className="mainCardTab">
-      <div className="row row-cols-auto justify-content-center w-100 ">
-        <div className="cardCol col justify-content-center d-flex p-4">
+      <div className="cardRow">
+        <div className="cardCol">
           <Card>
             <Card.Img variant="top" src={img1} />
             <Card.Body>
@@ -17,7 +17,7 @@ function Tab({ img1, img2, img3, hdr1, hdr2, hdr3, txt1, txt2, txt3 }: any) {
             </Card.Body>
           </Card>
         </div>
-        <div className="cardCol col justify-content-center d-flex p-4">
+        <div className="cardCol">
           <Card>
             <Card.Img variant="top" src={img2} />
 
@@ -28,7 +28,7 @@ function Tab({ img1, img2, img3, hdr1, hdr2, hdr3, txt1, txt2, txt3 }: any) {
             </Card.Body>
           </Card>
         </div>
-        <div className="cardCol col justify-content-center d-flex p-4">
+        <div className="cardCol">
           <Card>
             <Card.Img variant="top" src={img3} />
             <Card.Body>

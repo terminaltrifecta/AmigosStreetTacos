@@ -6,11 +6,31 @@
 }
 
 .cardCol {
+    justify-content: center;
+    display: flex;
+    padding: 1.5rem;
     max-width: 25%;
+    flex: 1 0 0%;
+}
+
+.cardRow{
+    justify-content: center;
+    width: 100%;
+    display: flex;
+    flex: 0 0 auto;
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-0.5 * var(--bs-gutter-x));
+    margin-left: calc(-0.5 * var(--bs-gutter-x));
 }
 
 .mainCardTab {
     width:100%;
+    display: flex;
+    justify-content: center;
     background-color: var(---red);
     background-blend-mode: multiply;
     background-image: url("/public/assets/whitebackground2.png")
@@ -18,11 +38,12 @@
 
 @media screen and (max-width:1199px) {
     .cardCol {
-        max-width:50%;
+        max-width: 50%;
     }
 }
 @media screen and (max-width:569px) {
     .cardCol {
-        max-width:100%;
+        max-width: 100%;
+        width: 100%;
     }
 }

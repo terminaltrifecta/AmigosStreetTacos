@@ -5,8 +5,8 @@ import Image from "next/image";
 function Tab({ text, img, textRight }: any) {
   return (
     <div className={textRight === "true" ? "main right p-4" : "main left p-4"}>
-      <div className="row row-cols-auto justify-content-center">
-        <div className="col d-flex align-items-center justify-content-center tabcol">
+      <div className="row">
+        <div className="col">
           {textRight === "true" ? (
             <div>
               <Image
@@ -21,7 +21,7 @@ function Tab({ text, img, textRight }: any) {
             <p className="tabtext">{text}</p>
           )}
         </div>
-        <div className="col d-flex align-items-center justify-content-center tabcol">
+        <div className="col">
           {textRight === "true" ? (
             <p className="tabtext">{text}</p>
           ) : (

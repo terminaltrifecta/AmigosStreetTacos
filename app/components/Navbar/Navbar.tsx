@@ -1,9 +1,10 @@
-"use client";
+'use client'
 
 import { useState } from "react";
 import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Link from "next/link";
+import { Menu } from "iconoir-react";
 
 function Navbar() {
   const [clicked, setClicked] = useState(false);
@@ -15,7 +16,7 @@ function Navbar() {
 
   return (
     <nav id="nav" className={clicked ? "sticky-top active" : "sticky-top"}>
-      <a
+      <Link
         href="/"
         className="logo"
         onClick={() => {
@@ -23,7 +24,7 @@ function Navbar() {
         }}
       >
         <img src="\static\assets\amigoslogo.png" className="img-fluid" alt="" />
-      </a>
+      </Link>
       <div>
         <ul id="navbar" className={clicked ? "#navbar active" : "#navbar"}>
           <li>
@@ -75,11 +76,7 @@ function Navbar() {
           </div>
         </Link>
         <div id="mobile">
-          <i
-            id="bar"
-            className={clicked ? "fas fa-times" : "fas fa-bars"}
-            onClick={switchClick}
-          />
+          <Menu id="icon" width={32} height={32}/>
         </div>
       </div>
     </nav>

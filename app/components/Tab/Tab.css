@@ -4,7 +4,20 @@
 
 .row {
     --bs-gutter-x: 0;
+    columns: 2;
+    justify-content: center;
 }
+/* row-cols-auto justify-content-center */
+
+.col {
+    width: 40%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* d-flex align-items-center justify-content-center */
+
 :root {
     --red: #dc3c2eaf;
     --yellow: #e3cc4daf;
@@ -25,11 +38,6 @@
     background-image: url("/static/assets/whitebackground.png");
     background-color: var(--yellow);
     background-blend-mode: multiply;
-}
-
-.tabcol {
-    width: 40%;
-    text-align: center;
 }
 
 .tabtext {

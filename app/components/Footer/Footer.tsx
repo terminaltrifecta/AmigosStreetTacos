@@ -1,26 +1,29 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "./Footer.css";
 import Link from "next/link";
+import { Iconoir } from "iconoir-react";
+import { Instagram, Facebook } from "iconoir-react/regular";
+
 
 function Footer() {
   return (
     <div className="background">
       <div className="p-4 container text-center mainfooter">
-        <div className="row  w-100">
-          <div className="col footercol">
+        <div className="footerRow w-100">
+          <div className="footercol">
             <h4>Locations</h4>
             <p>5823 17 Mile Rd, Sterling Heights, MI 48310</p>
             <p>13245 14 Mile Rd, Sterling Heights, MI 48312</p>
             <p>22428 Greater Mack Ave, St Clair Shores, MI 48080</p>
           </div>
 
-          <div className="col footercol Hours">
+          <div className="footercol Hours">
             <h4>Hours</h4>
             <p>Monday - Saturday: 8AM - 10PM</p>
             <p>Sunday: 8AM - 8PM</p>
           </div>
 
-          <div className="col footercol">
+          <div className="footercol">
             <h4>Contact Us</h4>
             <Link href="tel:3134299090">
               <p>(313) 429-9090 (17 Mile)</p>
@@ -33,20 +36,20 @@ function Footer() {
             </Link>
           </div>
 
-          <div className="col footercol">
+          <div className="footercol">
             <h4>Social Media</h4>
             <div className="socials-row">
               <a
                 href="https://facebook.com/"
                 style={{ color: "rgb(20, 10, 2)" }}
               >
-                <i className="fa-brands fa-facebook fa-2xl"></i>
+                <Facebook height={32} width={32}/>
               </a>
               <a
                 href="https://instagram.com/"
                 style={{ color: "rgb(20, 10, 2)" }}
               >
-                <i className="fa-brands fa-instagram fa-2xl"></i>
+                <Instagram height={32} width={32}/>
               </a>
             </div>
           </div>

@@ -8,7 +8,7 @@ function Slideshow() {
     <Carousel controls={true} touch={true}>
       <Carousel.Item interval={3000}>
         <Image
-          className="d-block w-100 img-fluid"
+          className="carouselImage"
           src="/static/assets/slideshow/tacoplatter.jpg"
           alt="First slide"
           width={1920}
@@ -20,7 +20,7 @@ function Slideshow() {
       </Carousel.Item>
       <Carousel.Item interval={3000}>
         <Image
-          className="d-block w-100 img-fluid"
+          className="carouselImage"
           src="/static/assets/slideshow/ingredients.jpg"
           alt="Second slide"
           width={1920}
@@ -32,7 +32,7 @@ function Slideshow() {
       </Carousel.Item>
       <Carousel.Item interval={3000}>
         <Image
-          className="d-block w-100 img-fluid"
+          className="carouselImage"
           src="/static/assets/slideshow/interior.jpg"
           alt="Third slide"
           width={1920}
@@ -44,7 +44,7 @@ function Slideshow() {
       </Carousel.Item>
       <Carousel.Item interval={3000}>
         <Image
-          className="d-block w-100 img-fluid"
+          className="carouselImage"
           src="/static/assets/slideshow/beanplatter.jpg"
           alt="Third slide"
           width={1920}
