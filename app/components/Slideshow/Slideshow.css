@@ -2,8 +2,14 @@
     max-height: 85vh;
     color: #140a02;
 }
+
+.carousel-caption {
+    max-width:15vw;
+}
+
 h3 {
     font-size: 10vw;
+
     color: rgba(255,255,255,0.7);
     -webkit-text-stroke: var(---white) 0.3vw;
 }

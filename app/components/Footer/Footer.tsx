@@ -1,11 +1,12 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "./Footer.css";
+import Link from "next/link";
 
 function Footer() {
   return (
     <div className="background">
       <div className="p-4 container text-center mainfooter">
-        <div className="row row-cols-auto w-100">
+        <div className="row  w-100">
           <div className="col footercol">
             <h4>Locations</h4>
             <p>5823 17 Mile Rd, Sterling Heights, MI 48310</p>
@@ -21,15 +22,15 @@ function Footer() {
 
           <div className="col footercol">
             <h4>Contact Us</h4>
-            <a href="tel:3134299090">
+            <Link href="tel:3134299090">
               <p>(313) 429-9090 (17 Mile)</p>
-            </a>
-            <a href="tel:5868384311">
+            </Link>
+            <Link href="tel:5868384311">
               <p>(586) 838-4311 (14 Mile)</p>
-            </a>
-            <a href="tel:5862187247">
+            </Link>
+            <Link href="tel:5862187247">
               <p>(586) 218-7247 (St. Clair)</p>
-            </a>
+            </Link>
           </div>
 
           <div className="col footercol">

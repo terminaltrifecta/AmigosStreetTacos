@@ -46,6 +46,11 @@ a{
     width: 25%;
 }
 
+.footercol a {
+    text-decoration: none;
+    color: #140a02;
+}
+
 @media screen and (max-width:769px) {
     .footercol {
         width:50%;
