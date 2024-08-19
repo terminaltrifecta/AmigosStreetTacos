@@ -1,3 +1,5 @@
+'use client'
+
 import "bootstrap/dist/css/bootstrap.css";
 import "./ImageOverlay.css";
 

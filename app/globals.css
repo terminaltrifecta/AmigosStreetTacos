@@ -2,10 +2,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Oswald', sans-serif;
+    font-family: var(--font-oswald);
     text-transform: uppercase;
 }
 
 body {
-    background-color: rgb(255, 246, 235);;
+    background-color: rgb(255, 246, 235);
 }

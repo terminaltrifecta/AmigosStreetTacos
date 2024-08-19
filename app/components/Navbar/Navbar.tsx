@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import {useState} from "react";
+import { useState } from "react";
 import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -13,13 +13,13 @@ function Navbar() {
 
   return (
     <nav id="nav" className={clicked ? "sticky-top active" : "sticky-top"}>
-      <a  href="/" className="logo">
+      <a href="/" className="logo">
         <img src="\static\assets\amigoslogo.png" className="img-fluid" alt="" />
       </a>
       <div>
         <ul id="navbar" className={clicked ? "#navbar active" : "#navbar"}>
           <li>
-            <a href="../routes/menu">Menu</a>
+            <a href="/menu">Menu</a>
           </li>
           <li>
             <a href="/locations">Locations</a>

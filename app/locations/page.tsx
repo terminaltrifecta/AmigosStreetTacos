@@ -1,10 +1,16 @@
-import IframeTab from "../components/IframeTab/IframeTab.tsx";
-import ImageOverlay from "../components/ImageOverlay/ImageOverlay.tsx";
+"use client";
+
+import React from "react";
+import IframeTab from "../components/IframeTab/IframeTab";
+import ImageOverlay from "../components/ImageOverlay/ImageOverlay";
 
 export default function Locations() {
   return (
     <div className="d-grid gap-3">
-      <ImageOverlay text="locations" img="\static\assets/amigosstreettacos.jpg" />
+      <ImageOverlay
+        text="locations"
+        img="\static\assets/amigosstreettacos.jpg"
+      />
       <IframeTab
         iframeLink="https://storage.googleapis.com/maps-solutions-5882juutz9/locator-plus/kt70/locator-plus.html"
         textRight="true"
