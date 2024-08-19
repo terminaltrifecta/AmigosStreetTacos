@@ -1,6 +1,7 @@
+'use client'
+
 import {useState} from "react";
 import "./Navbar.css";
-import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
 function Navbar() {
@@ -12,19 +13,19 @@ function Navbar() {
 
   return (
     <nav id="nav" className={clicked ? "sticky-top active" : "sticky-top"}>
-      <NavLink to="/" className="logo">
+      <a  href="/" className="logo">
         <img src="\static\assets\amigoslogo.png" className="img-fluid" alt="" />
-      </NavLink>
+      </a>
       <div>
         <ul id="navbar" className={clicked ? "#navbar active" : "#navbar"}>
           <li>
-            <NavLink to="/menu">Menu</NavLink>
+            <a href="../routes/menu">Menu</a>
           </li>
           <li>
-            <NavLink to="/locations">Locations</NavLink>
+            <a href="/locations">Locations</a>
           </li>
           <li>
-            <NavLink to="/about">About</NavLink>
+            <a href="/about">About</a>
           </li>
         </ul>
       </div>

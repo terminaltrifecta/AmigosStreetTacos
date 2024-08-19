@@ -5,6 +5,10 @@
     ---black: #140a02;
 }
 
+#aref {
+    text-decoration: none;
+}
+
 #buttonParent {
     color: var(---white);
     font-size: 1.3rem;
@@ -16,6 +20,7 @@
     border-color: rgba(0,0,0,0);
     height: 6vh;
     transition: 0.25s ease-in-out;
+    
 }
 
 #buttonParent:hover {

@@ -112,6 +112,10 @@
     align-items: center;
 }
 
+.orderParent {
+    text-decoration: none;
+}
+
 @media screen and (max-width:769px) {
     #navbar {
         display:flex;
