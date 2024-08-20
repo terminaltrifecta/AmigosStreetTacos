@@ -134,8 +134,9 @@
         transition: 0.25s ease-in-out;
     }
 
-    #navbar .active{
+    #navbar.active{
         right: 0px;
+        
     }
 
     #navbar li{

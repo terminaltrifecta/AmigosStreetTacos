@@ -5,8 +5,8 @@ import Image from "next/image";
 function Tab({ text, img, textRight }: any) {
   return (
     <div className={textRight === "true" ? "main right p-4" : "main left p-4"}>
-      <div className="row">
-        <div className="col">
+      <div className="tabRow">
+        <div className="tabCol">
           {textRight === "true" ? (
             <div>
               <Image
@@ -21,7 +21,7 @@ function Tab({ text, img, textRight }: any) {
             <p className="tabtext">{text}</p>
           )}
         </div>
-        <div className="col">
+        <div className="tabCol">
           {textRight === "true" ? (
             <p className="tabtext">{text}</p>
           ) : (

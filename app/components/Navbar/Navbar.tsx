@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Link from "next/link";
-import { Menu } from "iconoir-react";
+import { Menu, Xmark } from "iconoir-react";
 
 function Navbar() {
   const [clicked, setClicked] = useState(false);
@@ -26,7 +26,7 @@ function Navbar() {
         <img src="\static\assets\amigoslogo.png" className="img-fluid" alt="" />
       </Link>
       <div>
-        <ul id="navbar" className={clicked ? "#navbar active" : "#navbar"}>
+        <ul id="navbar" className={clicked ? "active" : ""}>
           <li>
             <Link
               href="/menu"
@@ -75,8 +75,17 @@ function Navbar() {
             Order
           </div>
         </Link>
-        <div id="mobile">
-          <Menu id="icon" width={32} height={32}/>
+        <div
+          id="mobile"
+          onClick={() => {
+            switchClick();
+          }}
+        >
+          {clicked ? (
+            <Xmark id="icon" width={32} height={32} strokeWidth={3} />
+          ) : (
+            <Menu id="icon" width={32} height={32} strokeWidth={3} />
+          )}
         </div>
       </div>
     </nav>

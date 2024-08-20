@@ -43,13 +43,13 @@ function Footer() {
                 href="https://facebook.com/"
                 style={{ color: "rgb(20, 10, 2)" }}
               >
-                <Facebook height={32} width={32}/>
+                <Facebook height={32} width={32} strokeWidth={2}/>
               </a>
               <a
                 href="https://instagram.com/"
                 style={{ color: "rgb(20, 10, 2)" }}
               >
-                <Instagram height={32} width={32}/>
+                <Instagram height={32} width={32} strokeWidth={2}/>
               </a>
             </div>
           </div>
