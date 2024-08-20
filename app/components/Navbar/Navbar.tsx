@@ -4,7 +4,7 @@ import { useState } from "react";
 import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Link from "next/link";
-import { Menu, Xmark } from "iconoir-react";
+import { Menu, Xmark, CartAlt } from "iconoir-react";
 
 function Navbar() {
   const [clicked, setClicked] = useState(false);
@@ -75,6 +75,14 @@ function Navbar() {
             Order
           </div>
         </Link>
+
+        <Link
+          href="/cart"
+          className="cartParent"
+        >
+          <CartAlt className="cart" width={32} height={32} strokeWidth={2}/>
+        </Link>
+
         <div
           id="mobile"
           onClick={() => {

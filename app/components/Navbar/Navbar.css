@@ -47,6 +47,16 @@
     justify-content: space-between;
 }
 
+.cart {
+    margin-left: 1.5rem;
+    color: var(---black);
+    transition: 0.125s ease-in;
+}
+
+.cart:hover {
+    color: var(---yellow);
+}
+
 #navbar {
     display:flex;
     align-items:center;
