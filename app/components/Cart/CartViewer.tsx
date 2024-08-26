@@ -13,7 +13,7 @@ interface CartViewerProps {
   onRemoveItem: (name: string) => void;
 }
 
-const CartViewer: React.FC<CartViewerProps> = ({ cartItems, onRemoveItem }) => {
+export default function CartViewer({cartItems, onRemoveItem}: CartViewerProps) {
   return (
     <Container>
       <h1>Shopping Cart</h1>
@@ -33,5 +33,3 @@ const CartViewer: React.FC<CartViewerProps> = ({ cartItems, onRemoveItem }) => {
     </Container>
   );
 };
-
-export default CartViewer;

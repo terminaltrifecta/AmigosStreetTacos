@@ -64,7 +64,7 @@ function Navbar() {
       </div>
       <div id="orderMobileContainer">
         <Link
-          href="/Order"
+          href="/order"
           className={selected == "Order" ? "active" : ""}
           onClick={() => {
             setSelected("Order");
