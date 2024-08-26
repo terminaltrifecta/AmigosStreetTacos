@@ -64,23 +64,16 @@ function Navbar() {
       </div>
       <div id="orderMobileContainer">
         <Link
-          className="orderParent"
-          href="https://food.google.com/?sei=CSMFYu9J0EmqERGSCnevhSDv&utm_campaign&ved&q=amigos%20street%20tacos&loc_q&fo_m=EhESAggCqgEKCggIARIEEgIIAg&lat=42.074968894897076&lng=-82.871581339737"
-          target="_blank"
+          href="/Order"
+          className={selected == "Order" ? "active" : ""}
+          onClick={() => {
+            setSelected("Order");
+          }}
         >
-          <div
-            id="orderBody"
-            className="d-flex align-items-center justify-content-center"
-          >
-            Order
-          </div>
+          Order
         </Link>
-
-        <Link
-          href="/cart"
-          className="cartParent"
-        >
-          <CartAlt className="cart" width={32} height={32} strokeWidth={2}/>
+        <Link href="/cart" className="cartParent">
+          <CartAlt className="cart" width={32} height={32} strokeWidth={2} />
         </Link>
 
         <div

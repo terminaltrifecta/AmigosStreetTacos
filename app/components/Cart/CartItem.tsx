@@ -1,23 +1,36 @@
-import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import React from "react";
+import { Card, Button } from "react-bootstrap";
 
+// Define the interface for the props that CartItem will receive
 interface CartItemProps {
-  name: string;
-  price: number;
-  quantity: number;
-  onRemove: (name: string) => void;
+  name: string; // Name of the item
+  price: number; // Price of the item
+  quantity: number; // Quantity of the item in the cart
+  onRemove: (name: string) => void; // Function to call when removing the item from the cart
 }
 
-const CartItem: React.FC<CartItemProps> = ({ name, price, quantity, onRemove }) => {
+// The CartItem functional component takes CartItemProps as props
+const CartItem: React.FC<CartItemProps> = ({
+  name,
+  price,
+  quantity,
+  onRemove,
+}) => {
   return (
     <Card className="mb-3">
+      {" "}
+      {/* Card component to display item information */}
       <Card.Body>
-        <Card.Title>{name}</Card.Title>
+        <Card.Title>{name}</Card.Title>{" "}
+        {/* Display the name of the item as the card title */}
         <Card.Text>
-          Quantity: {quantity} <br />
-          Price: ${price.toFixed(2)}
+          Quantity: {quantity} <br /> {/* Display the quantity of the item */}
+          Price: ${price.toFixed(2)}{" "}
+          {/* Display the price, formatted to two decimal places */}
         </Card.Text>
         <Button variant="danger" onClick={() => onRemove(name)}>
+          {" "}
+          {/* Button to remove the item */}
           Remove
         </Button>
       </Card.Body>
