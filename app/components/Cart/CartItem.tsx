@@ -1,3 +1,5 @@
+import { useAppDispatch } from "@/lib/hooks";
+import { removeFromCart } from "@/slices/cartSlice";
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 
@@ -6,16 +8,12 @@ interface CartItemProps {
   name: string; // Name of the item
   price: number; // Price of the item
   quantity: number; // Quantity of the item in the cart
-  onRemove: (name: string) => void; // Function to call when removing the item from the cart
 }
 
 // The CartItem functional component takes CartItemProps as props
-const CartItem: React.FC<CartItemProps> = ({
-  name,
-  price,
-  quantity,
-  onRemove,
-}) => {
+const CartItem: React.FC<CartItemProps> = ({ name, price, quantity }) => {
+  const dispatch = useAppDispatch();
+
   return (
     <Card className="mb-3">
       {" "}
@@ -28,7 +26,7 @@ const CartItem: React.FC<CartItemProps> = ({
           Price: ${price.toFixed(2)}{" "}
           {/* Display the price, formatted to two decimal places */}
         </Card.Text>
-        <Button variant="danger" onClick={() => onRemove(name)}>
+        <Button variant="danger" onClick={() => dispatch(removeFromCart(name))}>
           {" "}
           {/* Button to remove the item */}
           Remove
