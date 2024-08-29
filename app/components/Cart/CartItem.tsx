@@ -11,7 +11,7 @@ interface CartItemProps {
 }
 
 // The CartItem functional component takes CartItemProps as props
-const CartItem: React.FC<CartItemProps> = ({ name, price, quantity }) => {
+export default function CartItem({ name, price, quantity }: CartItemProps) {
   const dispatch = useAppDispatch();
 
   return (
@@ -34,6 +34,4 @@ const CartItem: React.FC<CartItemProps> = ({ name, price, quantity }) => {
       </Card.Body>
     </Card>
   );
-};
-
-export default CartItem;
+}

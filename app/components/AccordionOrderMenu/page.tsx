@@ -1,8 +1,9 @@
 import { useAppDispatch } from "@/lib/hooks";
 import { addToCart } from "@/slices/cartSlice";
 import React from "react";
-import { Accordion, Button, ListGroup } from "react-bootstrap";
+import { Accordion, Button, Dropdown, ListGroup } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import NumberInput from "../numberInput/numberInput";
 
 interface AccordionMenuProps {
   acchdr1: string;
@@ -169,12 +170,21 @@ function AccordionMenuOrder({
                   className="d-flex justify-content-between align-items-center"
                 >
                   <span>{item.name}</span>
-                  <Button
-                    variant="primary"
-                    onClick={() => dispatch(addToCart(item))}
-                  >
-                    Add to Cart
-                  </Button>
+                  <div className="d-flex">
+                    <NumberInput
+                      decrease={() => {
+                        item.quantity--;
+                      }}
+                      increase={() => item.quantity++}
+                      value={item.quantity}
+                    />
+                    <Button
+                      variant="primary"
+                      onClick={() => dispatch(addToCart(item))}
+                    >
+                      Add to Cart
+                    </Button>
+                  </div>
                 </ListGroup.Item>
               ))}
             </ListGroup>

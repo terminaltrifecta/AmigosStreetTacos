@@ -15,12 +15,12 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState: [],
   reducers: {
-    addToCart: (state: Item[], { payload }) => {
+    addToCart: (state: any, { payload }) => {
       const existingItem = state.find(
-        (cartItem) => cartItem.name == payload.name
+        (cartItem: any) => cartItem.name == payload.name
       );
       if (existingItem) {
-        state.map((cartItem) =>
+        return state.map((cartItem: any) =>
           cartItem.name == payload.name
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
@@ -29,8 +29,8 @@ export const cartSlice = createSlice({
         state.push(payload);
       }
     },
-    removeFromCart: (state:any, { payload }) => {
-      return state.filter((item:Item) => item.name != payload);
+    removeFromCart: (state: any, { payload }) => {
+      return state.filter((item: Item) => item.name != payload);
     },
   },
 });
