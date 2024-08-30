@@ -1,7 +1,8 @@
 import { useAppDispatch } from "@/lib/hooks";
-import { removeFromCart } from "@/slices/cartSlice";
+import { addToCart, removeFromCart, setQuantity } from "@/slices/cartSlice";
 import React from "react";
 import { Card, Button } from "react-bootstrap";
+import NumberInput from "../numberInput/numberInput";
 
 // Define the interface for the props that CartItem will receive
 interface CartItemProps {
@@ -22,7 +23,16 @@ export default function CartItem({ name, price, quantity }: CartItemProps) {
         <Card.Title>{name}</Card.Title>{" "}
         {/* Display the name of the item as the card title */}
         <Card.Text>
-          Quantity: {quantity} <br /> {/* Display the quantity of the item */}
+          <NumberInput
+            value={quantity}
+            increase={() => {
+              dispatch(setQuantity({ quantity: quantity + 1, name: name }));
+            }}
+            decrease={() => {
+              dispatch(setQuantity({ quantity: quantity - 1, name: name }));
+            }}
+          />{" "}
+          <br /> {/* Display the quantity of the item */}
           Price: ${price.toFixed(2)}{" "}
           {/* Display the price, formatted to two decimal places */}
         </Card.Text>

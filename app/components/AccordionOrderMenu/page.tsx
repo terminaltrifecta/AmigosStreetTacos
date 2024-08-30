@@ -171,13 +171,7 @@ function AccordionMenuOrder({
                 >
                   <span>{item.name}</span>
                   <div className="d-flex">
-                    <NumberInput
-                      decrease={() => {
-                        item.quantity--;
-                      }}
-                      increase={() => item.quantity++}
-                      value={item.quantity}
-                    />
+              
                     <Button
                       variant="primary"
                       onClick={() => dispatch(addToCart(item))}
