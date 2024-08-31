@@ -4,6 +4,7 @@ import React from "react";
 import { Accordion, Button, Dropdown, ListGroup } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import NumberInput from "../numberInput/numberInput";
+import { useState } from "react";
 
 interface AccordionMenuProps {
   acchdr1: string;
@@ -154,38 +155,60 @@ function AccordionMenuOrder({
   ];
 
   const dispatch = useAppDispatch();
+  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+
+  const handleAddToCart = (item: {
+    name: string;
+    price: number;
+    quantity: number;
+  }) => {
+    dispatch(addToCart(item)); // Dispatch the action to add the item to the cart
+    setShowPopup(true); // Show the popup
+    setTimeout(() => setShowPopup(false), 3000); // Hide after 3 seconds
+  };
 
   return (
-    <Accordion>
-      {menuItems.map((section, index) => (
-        <Accordion.Item eventKey={`${index + 1}`} key={section.header}>
-          <Accordion.Header>
-            <h4>{section.header}</h4>
-          </Accordion.Header>
-          <Accordion.Body>
-            <ListGroup variant="flush">
-              {section.items.map((item) => (
-                <ListGroup.Item
-                  key={item.name}
-                  className="d-flex justify-content-between align-items-center"
-                >
-                  <span>{item.name}</span>
-                  <div className="d-flex">
-              
-                    <Button
-                      variant="primary"
-                      onClick={() => dispatch(addToCart(item))}
-                    >
-                      Add to Cart
-                    </Button>
-                  </div>
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </Accordion.Body>
-        </Accordion.Item>
-      ))}
-    </Accordion>
+    <>
+      <Accordion>
+        {menuItems.map((section, index) => (
+          <Accordion.Item eventKey={`${index + 1}`} key={section.header}>
+            <Accordion.Header>
+              <h4>{section.header}</h4>
+            </Accordion.Header>
+            <Accordion.Body>
+              <ListGroup variant="flush">
+                {section.items.map((item) => (
+                  <ListGroup.Item
+                    key={item.name}
+                    className="d-flex justify-content-between align-items-center"
+                  >
+                    <span>{item.name}</span>
+                    <div className="d-flex">
+                      <Button
+                        variant="primary"
+                        onClick={() => handleAddToCart(item)}
+                      >
+                        Add to Cart
+                      </Button>
+                    </div>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </Accordion.Body>
+          </Accordion.Item>
+        ))}
+      </Accordion>
+
+      {/* Popup */}
+      {showPopup && (
+        <div
+          className="toast show position-fixed bottom-0 end-0 p-3"
+          style={{ zIndex: 1051 }}
+        >
+          <div className="toast-body">Item added to cart!</div>
+        </div>
+      )}
+    </>
   );
 }
 
