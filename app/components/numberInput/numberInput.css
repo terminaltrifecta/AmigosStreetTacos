@@ -1,0 +1,46 @@
+.numberContainer {
+    display:flex;
+    border: 0.15rem solid var(---red);
+    width: fit-content;
+    border-radius: 45px;
+}
+
+input[type="number"] {
+    appearance: textfield;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    background-color: var(---white);
+    color: var(---black);
+
+}
+
+.cardTitle {
+    font-size: 1.5rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin:0
+}
+
+.numButton {
+    color:var(---red);
+    background-color: var(---white);
+    border:none;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#decrement {
+    padding: 15px 5px 15px 25px;
+    border-radius: 45px 0 0 45px;
+}
+
+#increment {
+    padding: 15px 25px 15px 5px;
+    border-radius: 0 45px 45px 0;
+}

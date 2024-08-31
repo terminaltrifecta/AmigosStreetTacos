@@ -16,13 +16,10 @@ export default function CartItem({ name, price, quantity }: CartItemProps) {
   const dispatch = useAppDispatch();
 
   return (
-    <Card className="mb-3">
-      {" "}
-      {/* Card component to display item information */}
-      <Card.Body>
-        <Card.Title>{name}</Card.Title>{" "}
-        {/* Display the name of the item as the card title */}
-        <Card.Text>
+    <div className="whiteBackground whiteBorder px-4 py-2 my-4">
+      <div className="cardTitle">{name}</div> {/* Display the name of the item as the card title */}
+      <div className="d-flex">
+        <div>
           <NumberInput
             value={quantity}
             increase={() => {
@@ -31,17 +28,21 @@ export default function CartItem({ name, price, quantity }: CartItemProps) {
             decrease={() => {
               dispatch(setQuantity({ quantity: quantity - 1, name: name }));
             }}
-          />{" "}
-          <br /> {/* Display the quantity of the item */}
-          Price: ${price.toFixed(2)}{" "}
+          />
           {/* Display the price, formatted to two decimal places */}
-        </Card.Text>
-        <Button variant="danger" onClick={() => dispatch(removeFromCart(name))}>
-          {" "}
-          {/* Button to remove the item */}
-          Remove
-        </Button>
-      </Card.Body>
-    </Card>
+        </div>
+
+        <div className="d-flex flex-column px-4">
+          Price: ${(price * quantity).toFixed(2)}
+          <Button
+            variant="danger"
+            onClick={() => dispatch(removeFromCart(name))}
+          >
+            {/* Button to remove the item */}
+            Remove
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -5,6 +5,7 @@ import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Link from "next/link";
 import { Menu, Xmark, CartAlt } from "iconoir-react";
+import Buttons from "../ButtonGroup/Buttons";
 
 function Navbar() {
   const [clicked, setClicked] = useState(false);
@@ -63,15 +64,14 @@ function Navbar() {
         </ul>
       </div>
       <div id="orderMobileContainer">
-        <Link
-          href="/order"
-          className={selected == "Order" ? "active" : ""}
+        <a
           onClick={() => {
             setSelected("Order");
           }}
         >
-          Order
-        </Link>
+          <Buttons color="red">Order</Buttons>
+        </a>
+        
         <Link href="/cart" className="cartParent">
           <CartAlt className="cart" width={32} height={32} strokeWidth={2} />
         </Link>

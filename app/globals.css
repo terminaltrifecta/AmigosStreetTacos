@@ -9,3 +9,12 @@
 body {
     background-color: rgb(255, 246, 235);
 }
+
+.whiteBackground {
+    background-color: var(---white);
+}
+
+.whiteBorder {
+    border: 0.2rem solid #e2d3c0;
+    border-radius: 20px;
+}
