@@ -18,3 +18,16 @@ body {
     border: 0.2rem solid #e2d3c0;
     border-radius: 20px;
 }
+
+.clickable {
+    cursor: pointer;
+}
+
+#trashIcon {
+    color: var(---black);
+    transition: 0.125s ease-in-out;
+}
+
+#trashIcon:hover {
+    color: var(---red)
+}

@@ -1,0 +1,16 @@
+.cartItemContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cardTitleContainer {
+    display:flex;
+    flex-direction: row;
+}
+
+@media screen and (max-width:769px) {
+    .cartItemContainer {
+        align-items: top;
+    }
+}

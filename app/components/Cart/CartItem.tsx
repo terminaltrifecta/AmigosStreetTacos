@@ -3,6 +3,8 @@ import { addToCart, removeFromCart, setQuantity } from "@/slices/cartSlice";
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import NumberInput from "../numberInput/numberInput";
+import { Trash, Xmark } from "iconoir-react";
+import "./cart.css";
 
 // Define the interface for the props that CartItem will receive
 interface CartItemProps {
@@ -17,9 +19,16 @@ export default function CartItem({ name, price, quantity }: CartItemProps) {
 
   return (
     <div className="whiteBackground whiteBorder px-4 py-2 my-4">
-      <div className="cardTitle">{name}</div> {/* Display the name of the item as the card title */}
-      <div className="d-flex">
-        <div>
+      <div className="cartItemContainer">
+        <div className="cartTitleContainer">
+          <div className="cardTitle">{name}</div>{" "}
+          {/* Display the name of the item as the card title */}
+          <div className="cardTitle fw-light">
+            {" "}
+            ${(price * quantity).toFixed(2)}
+          </div>
+        </div>
+        <div className="d-flex">
           <NumberInput
             value={quantity}
             increase={() => {
@@ -30,17 +39,14 @@ export default function CartItem({ name, price, quantity }: CartItemProps) {
             }}
           />
           {/* Display the price, formatted to two decimal places */}
-        </div>
-
-        <div className="d-flex flex-column px-4">
-          Price: ${(price * quantity).toFixed(2)}
-          <Button
-            variant="danger"
-            onClick={() => dispatch(removeFromCart(name))}
+          <div
+            className="clickable ps-2"
+            onClick={() => {
+              dispatch(removeFromCart(name));
+            }}
           >
-            {/* Button to remove the item */}
-            Remove
-          </Button>
+            <Xmark id="trashIcon" width={24} height={24} strokeWidth={2.2} />
+          </div>
         </div>
       </div>
     </div>

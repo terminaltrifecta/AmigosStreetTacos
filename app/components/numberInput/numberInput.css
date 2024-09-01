@@ -33,6 +33,11 @@ input::-webkit-inner-spin-button{
     font-size: 15px;
     cursor: pointer;
     font-weight: bold;
+    transition: 0.125s ease-in-out;
+}
+
+.numButton:hover {
+    color: var(---black);
 }
 
 #decrement {

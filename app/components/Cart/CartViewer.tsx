@@ -41,14 +41,14 @@ export default function CartViewer() {
 
       <br />
       <div className="whiteBorder p-4">
-          <div className="">Subtotal: ${subtotal.toFixed(2)}</div>
-          <div className="">Tax: ${tax.toFixed(2)}</div>
-          <div className="">Convience Fee: ${convience.toFixed(2)}</div>
-          <div className="fs-3">
-            Total: ${(subtotal + tax + convience).toFixed(2)}
-          </div>
+        <div className="">Subtotal: ${subtotal.toFixed(2)}</div>
+        <div className="">Tax: ${tax.toFixed(2)}</div>
+        <div className="">Convience Fee: ${convience.toFixed(2)}</div>
+        <div className="fs-3">
+          Total: ${(subtotal + tax + convience).toFixed(2)}
+        </div>
 
-<br />
+        <br />
         <Link id="aref" href="/order">
           <button id="buttonParent" className="bigRed">
             <div className="d-flex align-items-center justify-content-center p-4">

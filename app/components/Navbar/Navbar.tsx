@@ -1,19 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Link from "next/link";
 import { Menu, Xmark, CartAlt } from "iconoir-react";
 import Buttons from "../ButtonGroup/Buttons";
+import { useAppSelector } from "@/lib/hooks";
+import { RootState } from "@/lib/store";
 
-function Navbar() {
+export default function Navbar() {
   const [clicked, setClicked] = useState(false);
   const [selected, setSelected] = useState("home");
+  const [justAdded, setJustAdded] = useState(false);
 
   function switchClick() {
     setClicked(!clicked);
   }
+
+  const cart = useAppSelector((state: RootState) => state.cart);
+
+  const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
+
+  useEffect(() => {
+    setJustAdded(true); // begin the animation
+    setTimeout(() => setJustAdded(false), 500); // end after 0.5s
+  }, [itemCount]) 
 
   return (
     <nav id="nav" className={clicked ? "sticky-top active" : "sticky-top"}>
@@ -64,15 +76,18 @@ function Navbar() {
         </ul>
       </div>
       <div id="orderMobileContainer">
-        <p
+        <div
           onClick={() => {
             setSelected("Order");
           }}
         >
           <Buttons color="red">Order</Buttons>
-        </p>
-        
+        </div>
+
         <Link href="/cart" className="cartParent">
+          <div className={justAdded ? "orderQuantity orderJustAdded" : "orderQuantity"}>
+            {itemCount}
+          </div>
           <CartAlt className="cart" width={32} height={32} strokeWidth={2} />
         </Link>
 
@@ -92,5 +107,3 @@ function Navbar() {
     </nav>
   );
 }
-
-export default Navbar;

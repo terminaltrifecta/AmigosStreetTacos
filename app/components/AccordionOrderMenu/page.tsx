@@ -197,9 +197,6 @@ function AccordionMenuOrder({
         prevPopups.filter((popup) => popup.id !== newPopup.id)
       );
     }, 3000);
-
-    //make da happy noise and shit
-    playSound("static\assets\soundshappy.mp3");
   };
 
   return (
@@ -244,8 +241,8 @@ function AccordionMenuOrder({
             key={popup.id}
             className="toast show mb-2"
             style={{
-              backgroundColor: "#4CAF50",
-              color: "white",
+              backgroundColor: "#140a02",
+              color: "#fff6eb",
               animation: "fade-in-out 3s",
               borderRadius: "8px",
             }}

@@ -21,9 +21,11 @@ export default function RootLayout({
     <html lang="en">
       <head></head>
       <body className={oswald.className}>
-        <Navbar />
-        <StoreProvider>{children}</StoreProvider>
-        <Footer />
+        <StoreProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );
