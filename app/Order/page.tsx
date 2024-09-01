@@ -11,7 +11,7 @@ export default function Order() {
   const cart = useAppSelector((state: RootState) => state.cart);
 
   return (
-    <div className="d-grid gap-3">
+    <div className="d-grid p-4">
       <AccordionMenuOrder
         acchdr1="Breakfast - $5"
         acchdr2="Bowls - $10"

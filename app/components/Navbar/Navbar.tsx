@@ -64,13 +64,13 @@ function Navbar() {
         </ul>
       </div>
       <div id="orderMobileContainer">
-        <a
+        <p
           onClick={() => {
             setSelected("Order");
           }}
         >
           <Buttons color="red">Order</Buttons>
-        </a>
+        </p>
         
         <Link href="/cart" className="cartParent">
           <CartAlt className="cart" width={32} height={32} strokeWidth={2} />
