@@ -5,6 +5,7 @@ import { Accordion, Button, Dropdown, ListGroup } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import NumberInput from "../numberInput/numberInput";
 import { useState } from "react";
+import { CheckCircle } from "react-bootstrap-icons"; // Importing Bootstrap icon
 
 interface AccordionMenuProps {
   acchdr1: string;
@@ -14,6 +15,11 @@ interface AccordionMenuProps {
   acchdr5: string;
   acchdr6: string;
   acchdr7: string;
+}
+
+interface Popup {
+  id: number;
+  message: string;
 }
 
 function AccordionMenuOrder({
@@ -155,16 +161,45 @@ function AccordionMenuOrder({
   ];
 
   const dispatch = useAppDispatch();
-  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+  const [popups, setPopups] = useState<Popup[]>([]);
+
+  // Function to trigger haptic feedback
+  const triggerHapticFeedback = () => {
+    if ("vibrate" in navigator) {
+      navigator.vibrate(100); // Vibrate for 100ms
+    }
+  };
+
+  const playSound = (soundUrl: string) => {
+    const audio = new Audio(soundUrl);
+    audio.play();
+  };
 
   const handleAddToCart = (item: {
     name: string;
     price: number;
     quantity: number;
   }) => {
-    dispatch(addToCart(item)); // Dispatch the action to add the item to the cart
-    setShowPopup(true); // Show the popup
-    setTimeout(() => setShowPopup(false), 3000); // Hide after 3 seconds
+    dispatch(addToCart(item));
+
+    const newPopup: Popup = {
+      id: Date.now(),
+      message: `${item.name} added to cart!`,
+    };
+
+    setPopups((prevPopups) => [...prevPopups, newPopup]);
+
+    // Trigger haptic feedback
+    triggerHapticFeedback();
+
+    setTimeout(() => {
+      setPopups((prevPopups) =>
+        prevPopups.filter((popup) => popup.id !== newPopup.id)
+      );
+    }, 3000);
+
+    //make da happy noise and shit
+    playSound("static\assets\soundshappy.mp3");
   };
 
   return (
@@ -199,15 +234,63 @@ function AccordionMenuOrder({
         ))}
       </Accordion>
 
-      {/* Popup */}
-      {showPopup && (
-        <div
-          className="toast show position-fixed bottom-0 end-0 p-3"
-          style={{ zIndex: 1051 }}
-        >
-          <div className="toast-body">Item added to cart!</div>
-        </div>
-      )}
+      {/* Centered Stackable Popups at the Bottom */}
+      <div
+        className="position-fixed bottom-0 start-50 translate-middle-x p-3"
+        style={{ zIndex: 1051, maxWidth: "300px", width: "100%" }}
+      >
+        {popups.map((popup) => (
+          <div
+            key={popup.id}
+            className="toast show mb-2"
+            style={{
+              backgroundColor: "#4CAF50",
+              color: "white",
+              animation: "fade-in-out 3s",
+              borderRadius: "8px",
+            }}
+          >
+            <div className="toast-body d-flex align-items-center">
+              <CheckCircle className="me-2" size={24} />
+              {popup.message}
+              <div
+                className="progress ms-2"
+                style={{ height: "4px", flexGrow: 1 }}
+              >
+                <div
+                  className="progress-bar"
+                  style={{ width: "100%", animation: "progress 3s linear" }}
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <style jsx>{`
+        @keyframes fade-in-out {
+          0% {
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
+        }
+        @keyframes progress {
+          from {
+            width: 100%;
+          }
+          to {
+            width: 0;
+          }
+        }
+      `}</style>
     </>
   );
 }
