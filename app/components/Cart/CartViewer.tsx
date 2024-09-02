@@ -23,9 +23,9 @@ export default function CartViewer() {
   const convience = itemCount > 0 ? 0.029 * subtotal + 0.3 : 0;
 
   return (
-    <Container>
-      <h1>Shopping Cart</h1>
-      <h2>Total Items: {itemCount}</h2>
+    <Container className="p-4">
+      <div className="fs-1">Shopping Cart</div>
+      <div className="fs-3 fw-light">Total Items: {itemCount}</div>
       {cart.length === 0 ? (
         <p>The cart is empty.</p>
       ) : (

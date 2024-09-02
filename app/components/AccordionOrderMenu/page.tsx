@@ -2,8 +2,6 @@ import { useAppDispatch } from "@/lib/hooks";
 import { addToCart } from "@/slices/cartSlice";
 import React from "react";
 import { Accordion, Button, Dropdown, ListGroup } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import NumberInput from "../numberInput/numberInput";
 import { useState } from "react";
 import { CheckCircle } from "react-bootstrap-icons"; // Importing Bootstrap icon
 

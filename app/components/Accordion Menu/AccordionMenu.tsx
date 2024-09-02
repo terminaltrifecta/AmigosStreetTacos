@@ -149,7 +149,7 @@ function AccordionMenu({
             <ListGroup.Item>Fish Tacos - $12.00</ListGroup.Item>
             <ListGroup.Item>Fish and Chips - $12.00</ListGroup.Item>
             <ListGroup.Item>Lunch Special - $12.00</ListGroup.Item>
-            <ListGroup.Item>Amigos Burritos - $13.00</ListGroup.Item>
+          <ListGroup.Item>Amigos Burritos - $13.00</ListGroup.Item>
             <ListGroup.Item>Amigos Salad - $12.00</ListGroup.Item>
             <ListGroup.Item>Gorditas Dinner - $12.00</ListGroup.Item>
             <ListGroup.Item>Buffalo Burrito - $11.00</ListGroup.Item>
