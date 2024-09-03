@@ -1,22 +1,34 @@
 "use client";
 
 import "bootstrap/dist/css/bootstrap.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CartViewer from "../components/Cart/CartViewer";
 import AccordionMenuOrder from "../components/AccordionOrderMenu/page";
 import { RootState } from "@/lib/store";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { setLocation } from "@/slices/locationSlice";
+import LocationPopup from "../components/LocationPopup/LocationPopup"; // Import the LocationPopup component
 
 export default function Order() {
   const dispatch = useAppDispatch();
   const location = useAppSelector((state: RootState) => state.location);
+  const [showLocationPopup, setShowLocationPopup] = useState(true);
 
+  useEffect(() => {
+    // Show the location popup on page load
+    setShowLocationPopup(true);
+  }, []);
+
+  const handleClosePopup = () => {
+    setShowLocationPopup(false);
+  };
 
   return (
     <div className="d-grid p-4">
+      {/* Location Popup */}
+      <LocationPopup show={showLocationPopup} onClose={handleClosePopup} />
+
       <div className="d-flex">
         <div className="fs-2 p-2 fw-bold">Location: {location}</div>
         <Button
@@ -25,7 +37,7 @@ export default function Order() {
             dispatch(setLocation("seventeen"));
           }}
         >
-          seventeen
+          Seventeen
         </Button>
         <Button
           variant="primary"
@@ -34,7 +46,7 @@ export default function Order() {
             dispatch(setLocation("fourteen"));
           }}
         >
-          fourteen
+          Fourteen
         </Button>
         <Button
           variant="primary"
@@ -42,7 +54,7 @@ export default function Order() {
             dispatch(setLocation("clair"));
           }}
         >
-          clair
+          Clair
         </Button>
       </div>
       <AccordionMenuOrder
