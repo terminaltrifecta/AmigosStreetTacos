@@ -1,0 +1,42 @@
+.dropdownButton {
+    color: var(---white);
+    font-size: 1.3rem;
+    font-weight: 600; 
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 1rem;
+    border: 2px var(---black) solid;
+    background-color: var(---black);
+    height: 2.5rem;
+    transition: 0.25s ease-in-out;
+    text-decoration: none;
+    padding: 0.3rem 2rem;
+    cursor: pointer;
+}
+
+.dropdownButton:hover {
+    background-color: var(---white);
+    color: var(---black);
+}
+
+.menuOptions {
+    display: absolute;
+    margin-top: 0.5rem;
+    background-color: var(--white);
+    border: 2px var(---black) solid;
+    border-radius: 1rem;
+    z-index: 10;
+}
+
+.option {
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+    transition: ease-in 0.125s;
+}
+.option:hover {
+    background-color: var(---black);
+    color: var(---white);
+
+}

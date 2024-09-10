@@ -4,6 +4,7 @@ import React from "react";
 import { Accordion, Button, Dropdown, ListGroup } from "react-bootstrap";
 import { useState } from "react";
 import { CheckCircle } from "react-bootstrap-icons"; // Importing Bootstrap icon
+import { CartPlus, PlusCircle } from "iconoir-react";
 
 interface AccordionMenuProps {
   acchdr1: string;
@@ -37,123 +38,220 @@ function AccordionMenuOrder({
           name: "Chorizo, Egg, Cheese, and Veggie Burrito (Contains Pork)",
           price: 5.99,
           quantity: 1,
+          instructions: "",
         },
         {
           name: "Bacon, Egg, Cheddar, and Hash Brown Burrito",
           price: 6.49,
           quantity: 1,
+          instructions: "",
         },
         {
           name: "3 Eggs, Carne Asada, Pico, and Cheese Burrito",
           price: 7.49,
           quantity: 1,
+          instructions: "",
         },
         {
           name: "Two Tacos, Egg, Chorizo, Queso, Beans and Cilantro (Tacos, Pork)",
           price: 8.99,
           quantity: 1,
+          instructions: "",
         },
         {
           name: "Huevos Rancheros, 3 Eggs, Veggies (Tacos)",
           price: 7.99,
           quantity: 1,
+          instructions: "",
         },
       ],
     },
     {
       header: acchdr2,
       items: [
-        { name: "Grilled Chicken", price: 10.99, quantity: 1 },
-        { name: "Grilled Vegetables", price: 8.99, quantity: 1 },
-        { name: "Chicken Mole", price: 12.49, quantity: 1 },
-        { name: "Carne Asada", price: 13.99, quantity: 1 },
-        { name: "Chicken Fajitas", price: 11.99, quantity: 1 },
+        {
+          name: "Grilled Chicken",
+          price: 10.99,
+          quantity: 1,
+          instructions: "",
+        },
+        {
+          name: "Grilled Vegetables",
+          price: 8.99,
+          quantity: 1,
+          instructions: "",
+        },
+        { name: "Chicken Mole", price: 12.49, quantity: 1, instructions: "" },
+        { name: "Carne Asada", price: 13.99, quantity: 1, instructions: "" },
+        {
+          name: "Chicken Fajitas",
+          price: 11.99,
+          quantity: 1,
+          instructions: "",
+        },
       ],
     },
     {
       header: acchdr3,
       items: [
-        { name: "Chicken Quesadilla", price: 9.99, quantity: 1 },
-        { name: "California Quesadilla", price: 10.49, quantity: 1 },
-        { name: "BBQ Chicken Quesadilla", price: 10.99, quantity: 1 },
+        {
+          name: "Chicken Quesadilla",
+          price: 9.99,
+          quantity: 1,
+          instructions: "",
+        },
+        {
+          name: "California Quesadilla",
+          price: 10.49,
+          quantity: 1,
+          instructions: "",
+        },
+        {
+          name: "BBQ Chicken Quesadilla",
+          price: 10.99,
+          quantity: 1,
+          instructions: "",
+        },
       ],
     },
     {
       header: acchdr4,
       items: [
-        { name: "California", price: 9.99, quantity: 1 },
-        { name: "Chicken Fajitas", price: 11.99, quantity: 1 },
-        { name: "Chicken Mole", price: 12.49, quantity: 1 },
-        { name: "Grilled Vegetables", price: 8.99, quantity: 1 },
-        { name: "Carne Asada", price: 13.99, quantity: 1 },
-        { name: "Beef & Cheese", price: 10.49, quantity: 1 },
+        { name: "California", price: 9.99, quantity: 1, instructions: "" },
+        {
+          name: "Chicken Fajitas",
+          price: 11.99,
+          quantity: 1,
+          instructions: "",
+        },
+        { name: "Chicken Mole", price: 12.49, quantity: 1, instructions: "" },
+        {
+          name: "Grilled Vegetables",
+          price: 8.99,
+          quantity: 1,
+          instructions: "",
+        },
+        { name: "Carne Asada", price: 13.99, quantity: 1, instructions: "" },
+        { name: "Beef & Cheese", price: 10.49, quantity: 1, instructions: "" },
       ],
     },
     {
       header: acchdr5,
       items: [
-        { name: "Chicken", price: 9.99, quantity: 1 },
-        { name: "Carne Asada", price: 13.99, quantity: 1 },
-        { name: "Ground Beef", price: 8.99, quantity: 1 },
-        { name: "Carnitas (Pork)", price: 12.49, quantity: 1 },
-        { name: "Suadero (Beef Steak)", price: 13.99, quantity: 1 },
-        { name: "Chorizo (Pork)", price: 11.49, quantity: 1 },
+        { name: "Chicken", price: 9.99, quantity: 1, instructions: "" },
+        { name: "Carne Asada", price: 13.99, quantity: 1, instructions: "" },
+        { name: "Ground Beef", price: 8.99, quantity: 1, instructions: "" },
+        {
+          name: "Carnitas (Pork)",
+          price: 12.49,
+          quantity: 1,
+          instructions: "",
+        },
+        {
+          name: "Suadero (Beef Steak)",
+          price: 13.99,
+          quantity: 1,
+          instructions: "",
+        },
+        { name: "Chorizo (Pork)", price: 11.49, quantity: 1, instructions: "" },
       ],
     },
     {
       header: acchdr6,
       items: [
-        { name: "Meatlovers Taco", price: 10.99, quantity: 1 },
-        { name: "Taco Ranchero", price: 9.49, quantity: 1 },
-        { name: "Taco Loco", price: 9.99, quantity: 1 },
-        { name: "Veggie Taco", price: 7.99, quantity: 1 },
-        { name: "Taco Campechano", price: 10.49, quantity: 1 },
-        { name: "Quesadilla Rachera", price: 11.49, quantity: 1 },
+        {
+          name: "Meatlovers Taco",
+          price: 10.99,
+          quantity: 1,
+          instructions: "",
+        },
+        { name: "Taco Ranchero", price: 9.49, quantity: 1, instructions: "" },
+        { name: "Taco Loco", price: 9.99, quantity: 1, instructions: "" },
+        { name: "Veggie Taco", price: 7.99, quantity: 1, instructions: "" },
+        {
+          name: "Taco Campechano",
+          price: 10.49,
+          quantity: 1,
+          instructions: "",
+        },
+        {
+          name: "Quesadilla Rachera",
+          price: 11.49,
+          quantity: 1,
+          instructions: "",
+        },
       ],
     },
     {
       header: acchdr7,
       items: [
-        { name: "Shrimp Tostada", price: 3.75, quantity: 1 },
-        { name: "Shrimp Tacos", price: 12.0, quantity: 1 },
-        { name: "Birria Tacos", price: 12.0, quantity: 1 },
-        { name: "Asada Fries", price: 13.0, quantity: 1 },
-        { name: "Taco Salad", price: 10.0, quantity: 1 },
-        { name: "Chicken Enchiladas", price: 12.0, quantity: 1 },
-        { name: "Combo Dinner", price: 12.0, quantity: 1 },
-        { name: "Tamales Dinner", price: 12.0, quantity: 1 },
-        { name: "Taco Dinner", price: 12.0, quantity: 1 },
-        { name: "Choriqueso", price: 10.0, quantity: 1 },
-        { name: "Crunch Wrap", price: 13.5, quantity: 1 },
-        { name: "Chicken Tostada", price: 3.5, quantity: 1 },
+        { name: "Shrimp Tostada", price: 3.75, quantity: 1, instructions: "" },
+        { name: "Shrimp Tacos", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Birria Tacos", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Asada Fries", price: 13.0, quantity: 1, instructions: "" },
+        { name: "Taco Salad", price: 10.0, quantity: 1, instructions: "" },
+        {
+          name: "Chicken Enchiladas",
+          price: 12.0,
+          quantity: 1,
+          instructions: "",
+        },
+        { name: "Combo Dinner", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Tamales Dinner", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Taco Dinner", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Choriqueso", price: 10.0, quantity: 1, instructions: "" },
+        { name: "Crunch Wrap", price: 13.5, quantity: 1, instructions: "" },
+        { name: "Chicken Tostada", price: 3.5, quantity: 1, instructions: "" },
         {
           name: "Tamales (Sold Individually, Pork or Chicken)",
           price: 2.5,
           quantity: 1,
+          instructions: "",
         },
-        { name: "Nachos Supreme", price: 13.0, quantity: 1 },
-        { name: "Mangonada", price: 5.75, quantity: 1 },
+        { name: "Nachos Supreme", price: 13.0, quantity: 1, instructions: "" },
+        { name: "Mangonada", price: 5.75, quantity: 1, instructions: "" },
         {
           name: "Spicy Street Corn (With Hot Cheetos)",
           price: 5.5,
           quantity: 1,
+          instructions: "",
         },
-        { name: "Street Corn", price: 4.0, quantity: 1 },
-        { name: "Torta With French Fries", price: 12.0, quantity: 1 },
-        { name: "Steak Fajitas Tacos", price: 12.0, quantity: 1 },
-        { name: "Cajun Dinner", price: 12.0, quantity: 1 },
-        { name: "Chicken Tenders with French Fries", price: 10.0, quantity: 1 },
-        { name: "Choriqueso With Chips", price: 10.0, quantity: 1 },
-        { name: "Walking Tacos", price: 8.0, quantity: 1 },
-        { name: "Asada Dinner", price: 12.0, quantity: 1 },
-        { name: "Chicken Flautas", price: 12.0, quantity: 1 },
-        { name: "Fish Tacos", price: 12.0, quantity: 1 },
-        { name: "Fish and Chips", price: 12.0, quantity: 1 },
-        { name: "Lunch Special", price: 12.0, quantity: 1 },
-        { name: "Amigos Burritos", price: 13.0, quantity: 1 },
-        { name: "Amigos Salad", price: 12.0, quantity: 1 },
-        { name: "Gorditas Dinner", price: 12.0, quantity: 1 },
-        { name: "Buffalo Burrito", price: 11.0, quantity: 1 },
+        { name: "Street Corn", price: 4.0, quantity: 1, instructions: "" },
+        {
+          name: "Torta With French Fries",
+          price: 12.0,
+          quantity: 1,
+          instructions: "",
+        },
+        {
+          name: "Steak Fajitas Tacos",
+          price: 12.0,
+          quantity: 1,
+          instructions: "",
+        },
+        { name: "Cajun Dinner", price: 12.0, quantity: 1, instructions: "" },
+        {
+          name: "Chicken Tenders with French Fries",
+          price: 10.0,
+          quantity: 1,
+          instructions: "",
+        },
+        {
+          name: "Choriqueso With Chips",
+          price: 10.0,
+          quantity: 1,
+          instructions: "",
+        },
+        { name: "Walking Tacos", price: 8.0, quantity: 1, instructions: "" },
+        { name: "Asada Dinner", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Chicken Flautas", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Fish Tacos", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Fish and Chips", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Lunch Special", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Amigos Burritos", price: 13.0, quantity: 1, instructions: "" },
+        { name: "Amigos Salad", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Gorditas Dinner", price: 12.0, quantity: 1, instructions: "" },
+        { name: "Buffalo Burrito", price: 11.0, quantity: 1, instructions: "" },
       ],
     },
   ];
@@ -177,6 +275,7 @@ function AccordionMenuOrder({
     name: string;
     price: number;
     quantity: number;
+    instructions: string;
   }) => {
     dispatch(addToCart(item));
 
@@ -213,13 +312,9 @@ function AccordionMenuOrder({
                     className="d-flex justify-content-between align-items-center"
                   >
                     <span>{item.name}</span>
-                    <div className="d-flex">
-                      <Button
-                        variant="primary"
-                        onClick={() => handleAddToCart(item)}
-                      >
-                        Add to Cart
-                      </Button>
+
+                    <div className="icon" onClick={() => handleAddToCart(item)}>
+                      <PlusCircle width={24} height={24} strokeWidth={2} />
                     </div>
                   </ListGroup.Item>
                 ))}

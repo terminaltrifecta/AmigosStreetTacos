@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import "./Navbar.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Link from "next/link";
-import { Menu, Xmark, CartAlt } from "iconoir-react";
+import { Menu, Xmark, CartAlt, MapPin } from "iconoir-react";
 import Buttons from "../ButtonGroup/Buttons";
 import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
+import LocationSelector from "./LocationSelector/LocationSelector";
 
 export default function Navbar() {
   const [clicked, setClicked] = useState(false);
@@ -25,7 +26,7 @@ export default function Navbar() {
   useEffect(() => {
     setJustAdded(true); // begin the animation
     setTimeout(() => setJustAdded(false), 500); // end after 0.5s
-  }, [itemCount]) 
+  }, [itemCount]);
 
   return (
     <nav id="nav" className={clicked ? "sticky-top active" : "sticky-top"}>
@@ -76,6 +77,7 @@ export default function Navbar() {
         </ul>
       </div>
       <div id="orderMobileContainer">
+        {/* order icon */}
         <div
           onClick={() => {
             setSelected("Order");
@@ -84,9 +86,19 @@ export default function Navbar() {
           <Buttons color="red">Order</Buttons>
         </div>
 
+        {/* location selecting */}
+        <LocationSelector/>
+
+        {/* cart icon */}
         <Link href="/cart" className="cartParent">
-          <div className={justAdded ? "orderQuantity orderJustAdded" : "orderQuantity"}>
-            {itemCount}
+          <div className="orderMarker">
+            <div
+              className={
+                justAdded ? "orderQuantity orderJustAdded" : "orderQuantity"
+              }
+            >
+              {itemCount}
+            </div>
           </div>
           <CartAlt className="cart" width={32} height={32} strokeWidth={2} />
         </Link>

@@ -5,6 +5,7 @@ interface Item {
   name: string;
   price: number;
   quantity: number;
+  instructions: string;
 }
 
 export interface CartState {
@@ -17,7 +18,7 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state: any, { payload }) => {
       const existingItem = state.find(
-        (cartItem: any) => cartItem.name == payload.name
+        (cartItem: any) => (cartItem.name == payload.name && cartItem.instructions == payload.instructions)
       );
       if (existingItem) {
         return state.map((cartItem: any) =>
@@ -30,7 +31,7 @@ export const cartSlice = createSlice({
       }
     },
     removeFromCart: (state: any, { payload }) => {
-      return state.filter((item: Item) => item.name != payload);
+      return state.filter((cartItem: any) => !(cartItem.name == payload.name && cartItem.instructions == payload.instructions));
     },
     setQuantity: (state: any, { payload }) => {
       if (payload.quantity <= 0) {
@@ -43,9 +44,17 @@ export const cartSlice = createSlice({
           : cartItem
       );
     },
+    setInstructions: (state: any, { payload }) => {
+      
+      return state.map((cartItem: any) =>
+        cartItem.name == payload.name
+          ? { ...cartItem, instructions: payload.instructions }
+          : cartItem
+      );
+    }
   },
 });
 
-export const { addToCart, removeFromCart, setQuantity } = cartSlice.actions;
+export const { addToCart, removeFromCart, setQuantity, setInstructions } = cartSlice.actions;
 
 export default cartSlice.reducer;

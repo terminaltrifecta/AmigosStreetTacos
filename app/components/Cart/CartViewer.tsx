@@ -9,6 +9,7 @@ interface Item {
   name: string;
   price: number;
   quantity: number;
+  instructions: string;
 }
 
 export default function CartViewer() {
@@ -35,6 +36,7 @@ export default function CartViewer() {
             name={item.name}
             price={item.price}
             quantity={item.quantity}
+            instructions={item.instructions}
           />
         ))
       )}

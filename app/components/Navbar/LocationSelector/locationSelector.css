@@ -1,0 +1,54 @@
+.locationButton {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.menuOptions {
+    position: absolute;
+    top: 12vh;
+    right: -100%;
+    background-color: var(---white);
+    border: 2px var(---black) solid;
+    border-radius: 1rem;
+    width: clamp(20%, 300px, 70%);
+    transition: ease 0.25s;
+    z-index: 11;
+}
+
+.open {
+    right: 2rem;
+}
+
+.option {
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.8rem;
+    transition: ease-in 0.125s;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color: var(---black);
+    color: var(---white);
+}
+
+.selectedLocation {
+    cursor: pointer;
+
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.8rem;
+    transition: ease-in 0.125s;
+    background-color: var(---red);
+    color: var(---white);
+}
+
+.backdrop {
+    transition: ease-in-out 0.25s;
+    z-index: 10;
+    background-color: var(---black);
+    position:absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 10vh;
+    left: 0;
+    opacity: 0.5
+}

@@ -23,11 +23,12 @@ body {
     cursor: pointer;
 }
 
-#trashIcon {
+.icon {
     color: var(---black);
+    cursor: pointer;
     transition: 0.125s ease-in-out;
 }
 
-#trashIcon:hover {
+.icon:hover {
     color: var(---red)
 }

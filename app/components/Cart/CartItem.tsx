@@ -1,9 +1,8 @@
 import { useAppDispatch } from "@/lib/hooks";
-import { addToCart, removeFromCart, setQuantity } from "@/slices/cartSlice";
+import { removeFromCart, setInstructions, setQuantity } from "@/slices/cartSlice";
 import React from "react";
-import { Card, Button } from "react-bootstrap";
 import NumberInput from "../numberInput/numberInput";
-import { Trash, Xmark } from "iconoir-react";
+import { Xmark } from "iconoir-react";
 import "./cart.css";
 
 // Define the interface for the props that CartItem will receive
@@ -11,10 +10,11 @@ interface CartItemProps {
   name: string; // Name of the item
   price: number; // Price of the item
   quantity: number; // Quantity of the item in the cart
+  instructions: string;
 }
 
 // The CartItem functional component takes CartItemProps as props
-export default function CartItem({ name, price, quantity }: CartItemProps) {
+export default function CartItem({ name, price, quantity, instructions }: CartItemProps) {
   const dispatch = useAppDispatch();
 
   return (
@@ -42,13 +42,21 @@ export default function CartItem({ name, price, quantity }: CartItemProps) {
           <div
             className="clickable ps-2"
             onClick={() => {
-              dispatch(removeFromCart(name));
+              dispatch(removeFromCart({name: name, instructions: instructions}));
             }}
           >
-            <Xmark id="trashIcon" width={24} height={24} strokeWidth={2.2} />
+            <Xmark className="icon" width={24} height={24} strokeWidth={2.2} />
           </div>
         </div>
       </div>
+      <input
+        placeholder={instructions.length > 0 ? instructions : "Custom Instructions"}
+        className="itemInstructions"
+        type="text"
+        onChange={(event: any) => {
+          dispatch(setInstructions({name: name, instructions: event.target.value}))
+        }}
+      />
     </div>
   );
 }

@@ -11,7 +11,7 @@ interface LocationPopupProps {
 const LocationPopup: React.FC<LocationPopupProps> = ({ show, onClose }) => {
   const dispatch = useAppDispatch();
 
-  const handleLocationSelect = (location: string) => {
+  const handleLocationSelect = (location: number) => {
     dispatch(setLocation(location));
     onClose();
   };
@@ -30,24 +30,25 @@ const LocationPopup: React.FC<LocationPopupProps> = ({ show, onClose }) => {
       <Modal.Body>
         <p>Please select the location you're ordering for:</p>
         <div className="d-flex justify-content-around">
-          <Button
-            variant="primary"
-            onClick={() => handleLocationSelect("seventeen")}
-          >
-            Seventeen
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => handleLocationSelect("fourteen")}
-          >
-            Fourteen
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => handleLocationSelect("clair")}
-          >
-            Clair
-          </Button>
+          
+          <button id="buttonParent" className="red" onClick={() => handleLocationSelect(0)}>
+            <div className="d-flex align-items-center justify-content-center p-2">
+              17 Mile Rd
+            </div>
+          </button>
+
+          <button id="buttonParent" className="red" onClick={() => handleLocationSelect(1)}>
+            <div className="d-flex align-items-center justify-content-center p-2">
+              14 Mile Rd
+            </div>
+          </button>
+
+          <button id="buttonParent" className="red" onClick={() => handleLocationSelect(2)}>
+            <div className="d-flex align-items-center justify-content-center p-2">
+              St Clair Shores
+            </div>
+          </button>
+
         </div>
       </Modal.Body>
     </Modal>
