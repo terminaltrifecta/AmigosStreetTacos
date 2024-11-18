@@ -1,3 +1,5 @@
+'use client'
+
 import { useAppDispatch } from "@/lib/hooks";
 import { addToCart } from "@/slices/cartSlice";
 import React from "react";
