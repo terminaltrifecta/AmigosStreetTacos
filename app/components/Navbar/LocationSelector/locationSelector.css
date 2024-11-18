@@ -6,7 +6,7 @@
 .menuOptions {
     position: absolute;
     top: 12vh;
-    right: -100%;
+    left: 100vw;
     background-color: var(---white);
     border: 2px var(---black) solid;
     border-radius: 1rem;
@@ -16,7 +16,7 @@
 }
 
 .open {
-    right: 2rem;
+    left: calc(100vw - clamp(20%, 300px, 70%) - 2rem);
 }
 
 .option {

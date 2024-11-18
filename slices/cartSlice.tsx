@@ -34,12 +34,12 @@ export const cartSlice = createSlice({
       return state.filter((cartItem: any) => !(cartItem.name == payload.name && cartItem.instructions == payload.instructions));
     },
     setQuantity: (state: any, { payload }) => {
-      if (payload.quantity <= 0) {
+      if (payload.quantity < 1) {
         payload.quantity = 1;
-      }
+      } //dont let them change quantity below one
 
       return state.map((cartItem: any) =>
-        cartItem.name == payload.name
+        cartItem.name == payload.name && cartItem.instructions == payload.instructions
           ? { ...cartItem, quantity: payload.quantity }
           : cartItem
       );
@@ -47,7 +47,7 @@ export const cartSlice = createSlice({
     setInstructions: (state: any, { payload }) => {
       
       return state.map((cartItem: any) =>
-        cartItem.name == payload.name
+        cartItem.name == payload.name && cartItem.instructions == payload.oldInstructions
           ? { ...cartItem, instructions: payload.instructions }
           : cartItem
       );

@@ -32,10 +32,11 @@ export default function CartItem({ name, price, quantity, instructions }: CartIt
           <NumberInput
             value={quantity}
             increase={() => {
-              dispatch(setQuantity({ quantity: quantity + 1, name: name }));
+              dispatch(setQuantity({ quantity: quantity + 1, name: name, instructions: instructions }));
+              console.log("increased!!");
             }}
             decrease={() => {
-              dispatch(setQuantity({ quantity: quantity - 1, name: name }));
+              dispatch(setQuantity({ quantity: quantity - 1, name: name, instructions: instructions }));
             }}
           />
           {/* Display the price, formatted to two decimal places */}
@@ -50,11 +51,12 @@ export default function CartItem({ name, price, quantity, instructions }: CartIt
         </div>
       </div>
       <input
-        placeholder={instructions.length > 0 ? instructions : "Custom Instructions"}
+        placeholder={"Custom Instructions"}
+        value={instructions}
         className="itemInstructions"
         type="text"
         onChange={(event: any) => {
-          dispatch(setInstructions({name: name, instructions: event.target.value}))
+          dispatch(setInstructions({name: name, oldInstructions: instructions, instructions: event.target.value}))
         }}
       />
     </div>
