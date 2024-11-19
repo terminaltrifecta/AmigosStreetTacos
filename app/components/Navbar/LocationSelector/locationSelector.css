@@ -8,7 +8,6 @@
     top: 12vh;
     left: 100vw;
     background-color: var(---white);
-    border: 2px var(---black) solid;
     border-radius: 1rem;
     width: clamp(20%, 300px, 70%);
     transition: ease 0.25s;
@@ -33,7 +32,6 @@
 
 .selectedLocation {
     cursor: pointer;
-
     padding: 0.5rem 0.5rem;
     border-radius: 0.8rem;
     transition: ease-in 0.125s;

@@ -103,6 +103,8 @@ export default function Navbar() {
         {/* cart icon */}
         <Link href="/cart" className="cartParent">
           <div className="orderMarker">
+            {
+            itemCount > 0 &&
             <div
               className={
                 justAdded ? "orderQuantity orderJustAdded" : "orderQuantity"
@@ -110,6 +112,7 @@ export default function Navbar() {
             >
               {itemCount}
             </div>
+          }
           </div>
           <CartAlt className="cart" width={32} height={32} strokeWidth={2} />
         </Link>
