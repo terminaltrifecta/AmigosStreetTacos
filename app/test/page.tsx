@@ -8,7 +8,7 @@ export default function About() {
   async function supabaseCall() {
     const { data, error } = await supabase
       .from('locations')
-      .select('*');
+      .select('*, franchise(name)');
 
     if (error) {
       console.error(error);
