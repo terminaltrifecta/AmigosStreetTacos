@@ -13,7 +13,7 @@
     background: var(---white);
     padding: 0 5vw;
     transition: 0.25s ease-in-out;
-    width: 100%;
+    width: 100vw;
     height:10vh;
 }
 

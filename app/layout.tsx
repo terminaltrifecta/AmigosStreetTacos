@@ -21,13 +21,12 @@ export default function RootLayout({
     <html lang="en">
       <head></head>
       <body className={oswald.className}>
-        <div className="overflow-hidden">
           <StoreProvider>
             <Navbar />
+            <div className="spacer"/>
             {children}
             <Footer />
           </StoreProvider>
-        </div>
       </body>
     </html>
   );

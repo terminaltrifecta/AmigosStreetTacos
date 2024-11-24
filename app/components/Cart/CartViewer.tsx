@@ -4,12 +4,22 @@ import CartItem from "./CartItem";
 import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 import Link from "next/link";
+import { supabase } from "@/app/supabase";
 
 interface Item {
   name: string;
   price: number;
   quantity: number;
   instructions: string;
+}
+
+async function cartSend() {
+
+  const locationsData = [
+    { location_name: "Location 1", address: "Address 1", franchise_id: 1, location: "POINT(10, 20)" },
+    { location_name: "Location 2", address: "Address 2", franchise_id: 2, location: "POINT(30, 40)" },
+    // ... more locations
+  ];
 }
 
 export default function CartViewer() {
@@ -52,7 +62,7 @@ export default function CartViewer() {
 
         <br />
         <Link id="aref" href="/order">
-          <button id="buttonParent" className="bigRed">
+          <button id="buttonParent" className="bigRed" onClick={cartSend}>
             <div className="d-flex align-items-center justify-content-center p-4">
               Checkout
             </div>
