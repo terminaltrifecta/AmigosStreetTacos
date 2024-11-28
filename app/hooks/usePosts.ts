@@ -1,11 +1,33 @@
 import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 
-interface PostData {
-  test: string
+export interface PostData {
+    "customer_first_name": string,
+    "customer_last_name": string,
+    "email": string,
+    "phone_number": string,
+    "location_id": number,
+    "time_placed": string,
+    "time_requested": string,
+    "location": string,
+    "is_pickup": true,
+    "status_id": number,
+    "cart": [
+        {
+            "item_name": "Carne Asada Taco",
+            "quantity": 3,
+            "comments": "Garlic on da side!"
+        },
+        {
+            "item_name": "Chorizo Taco",
+            "quantity": 2,
+            "comments": "errrxtra garlic chile!"
+        }
+    ]
+
 }
 
 async function postData(data: PostData) {
-  const response = await fetch('https://eo4i52he7vf9wt6.m.pipedream.net', {
+  const response = await fetch('http://127.0.0.1:5000/api', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

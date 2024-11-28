@@ -3,15 +3,34 @@
 import React from "react";
 import { supabase } from '../supabase';
 import AddLocation from "../components/AddLocation/AddLocation";
-import usePostMutation from "../hooks/usePosts";
+import usePostMutation, { PostData } from "../hooks/usePosts";
 
 export default function About() {
 
     const { mutate, error } = usePostMutation();
 
     function functionAdd() {
-      const postData: any = {
-        test: 'aiden is a whore',
+      const postData: PostData = {
+        customer_first_name: "Aiden",
+        customer_last_name: "Alazo",
+        email: "luvnataliehanna798@gmail.com",
+        phone_number: "5863501415",
+        location_id: 1,
+        time_placed: "2024-11-26T14:30:00Z",
+        time_requested: "2024-11-26T14:30:00Z",
+        location: "change this to the latitude longitude location type cuz idk how to do it",
+        is_pickup: true,
+        status_id: 6,
+        cart: [{
+          "item_name": "Carne Asada Taco",
+          "quantity": 3,
+          "comments": "Garlic on da side!"
+      },
+      {
+          "item_name": "Chorizo Taco",
+          "quantity": 2,
+          "comments": "errrxtra garlic chile!"
+      }]
       };
       mutate(postData);
     };
