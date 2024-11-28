@@ -1,22 +1,39 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 
-type Post = {
-  id: number
-  title: string
-  body: string
+interface PostData {
+  test: string
 }
 
-const fetchPosts = async (limit = 10): Promise<Array<Post>> => {
-  const response = await fetch('http://127.0.0.1:5000')
-  const data = await response.json()
-  return data.filter((x: Post) => x.id <= limit)
+async function postData(data: PostData) {
+  const response = await fetch('https://eo4i52he7vf9wt6.m.pipedream.net', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Network response was not ok: ${await response.text()}`); // Include more info
+  }
+
+  return response.json();
 }
 
-const usePosts = (limit: number) => {
-  return useQuery({
-    queryKey: ['posts', limit],
-    queryFn: () => fetchPosts(limit),
-  })
-}
+export default function usePostMutation(): UseMutationResult<any, unknown, PostData> {
+  const mutationOptions: UseMutationOptions<any, unknown, PostData> = {
+    mutationFn: postData,
+    onSuccess: (data) => {
+      console.log('Data posted successfully:', data);
+    },
+    onError: (error: unknown, variables: PostData, context: unknown) => {
+      if (error instanceof Error) {
+        console.error('Error posting data:', error.message);
+      } else {
+        console.error('Unexpected error:', error);
+      }
+    },
+  };
 
-export { usePosts, fetchPosts }
+  return useMutation(mutationOptions);
+}

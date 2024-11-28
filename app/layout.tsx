@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-query";
 import React from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import QueryProvider from "./providers";
 
 const oswald = Oswald({ subsets: ["latin"], variable: "--font-oswald" });
 
@@ -25,13 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const [queryClient] = React.useState(() => new QueryClient())
-
   return (
     <html lang="en">
       <head></head>
       <body className={oswald.className}>
-        <QueryClientProvider client={queryClient}>
+        <QueryProvider>
           <StoreProvider>
             <Navbar />
             <div className="spacer" />
@@ -39,7 +38,7 @@ export default function RootLayout({
             <Footer />
           </StoreProvider>
           <ReactQueryDevtools/>
-        </QueryClientProvider>
+        </QueryProvider>
       </body>
     </html>
   );
