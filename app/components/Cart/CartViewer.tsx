@@ -61,7 +61,7 @@ export default function CartViewer() {
         </div>
 
         <br />
-        <Link id="aref" href="/order">
+        <Link id="aref" href="/payment">
           <button id="buttonParent" className="bigRed" onClick={cartSend}>
             <div className="d-flex align-items-center justify-content-center p-4">
               Checkout
