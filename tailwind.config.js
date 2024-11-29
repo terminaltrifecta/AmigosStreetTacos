@@ -5,7 +5,16 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}"
   ],
-  theme: {},
+  theme: {
+    extend: {
+      colors: {
+          amigosred: "#dc3c2e",
+          amigosyellow: "#e3cc4d",
+          amigoswhite: "#fff6eb",
+          amigosblack: "#140a02",
+      }
+    }
+  },
   plugins: [],
 }
 
