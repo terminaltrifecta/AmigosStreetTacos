@@ -13,15 +13,17 @@ export interface PostData {
     "status_id": number,
     "cart": [
         {
-            "item_name": "Carne Asada Taco",
-            "quantity": 3,
-            "comments": "Garlic on da side!"
+            "item_name": string,
+            "item_id": number,
+            "quantity": number,
+            "comments": string
         },
         {
-            "item_name": "Chorizo Taco",
-            "quantity": 2,
-            "comments": "errrxtra garlic chile!"
-        }
+          "item_name": string,
+          "item_id": number,
+          "quantity": number,
+          "comments": string
+      },
     ]
 
 }
