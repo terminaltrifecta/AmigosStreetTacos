@@ -16,51 +16,42 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
 }
 
-export default function Payment() {
-  var promise = null;
+const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
+export default function Page() {
   const [clientSecret, setClientSecret] = useState("");
 
-  async function getPromise() {
-    promise = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!).then(
-      (res) => {
-        console.log(res);
-        return res;
-      }
-    );
-  }
-  const amount = convertToSubcurrency(50.47);
+  const amount = 50.47; //will change
 
   useEffect(() => {
-    getPromise();
 
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({amount: amount}),
+      body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
     })
       .then((res) => res.json())
       .then((data) => {
-        setClientSecret(data.clientSecret)
-        console.log("Client secret: " + data.clientSecret)
+        setClientSecret(data.clientSecret);
       });
   }, []);
 
   const options = { clientSecret };
-  
+
   return (
-    <div className="p-4 min-h-[100dvh] flex justify-center">
-      <div className="p-8 min-w-[40dvw] justify-center align-center">
+    <div className="flex justify-center bg-white min-h-[70dvh] p-4">
+      <div className="w-[50dvw] max-w-[48rem] space-y-4">
         <div className="text-3xl font-bold text-amigosblack">
           Complete purchase of ${amount}.
         </div>
 
-        <Elements
-          stripe={promise}
-          options={options}
-        >
-          <CheckoutPage amount={amount} />
-        </Elements>
+        {clientSecret ? (
+          <Elements stripe={promise} options={options}>
+            <CheckoutPage amount={convertToSubcurrency(amount)} clientSecret={clientSecret} />
+          </Elements>
+        ) : (
+          <div className="text-2xl text-amigostblack">Loading ... </div>
+        )}
       </div>
     </div>
   );
