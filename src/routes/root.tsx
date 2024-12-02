@@ -40,7 +40,7 @@ export default function Root() {
         <Tab
           text="Like what you see? Come and try our birria tacos today!"
           textRight="false"
-          img="\static\assets\home\birria_tacos_AdobeExpress.gif"
+          img="\static\assets\home\new.webp"
         />
         <Tab
           text="Be sure to try our lunch combo! It comes 2 tacos, rice and beans, a can of pop, and chips and salsa! All for $12!"
