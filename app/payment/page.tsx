@@ -11,6 +11,9 @@ import {
 } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "@/lib/convertToSubcrrency";
 import CheckoutPage from "../components/CheckoutPage";
+import Image from "next/image";
+import { useAppSelector } from "@/lib/hooks";
+import { RootState } from "@/lib/store";
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
@@ -21,10 +24,19 @@ const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 export default function Page() {
   const [clientSecret, setClientSecret] = useState("");
 
-  const amount = 50.47; //will change
+  const cart = useAppSelector((state: RootState) => state.cart);
 
-  useEffect(() => {
+  const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
+  const subtotal = cart.reduce(
+    (a: any, v: any) => (a = a + v.quantity * v.price),
+    0
+  ); //adds the sum of price and quantity for each item
+  const tax = subtotal * 0.06;
+  const convience = itemCount > 0 ? 0.029 * subtotal + 0.3 : 0;
 
+  const amount = (subtotal + tax + convience).toFixed(2);
+
+useEffect(() => {
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -40,18 +52,29 @@ export default function Page() {
 
   return (
     <div className="flex justify-center bg-white min-h-[70dvh] p-4">
-      <div className="w-[50dvw] max-w-[48rem] space-y-4">
-        <div className="text-3xl font-bold text-amigosblack">
-          Complete purchase of ${amount}.
-        </div>
+      <div className="lg:w-[80dvw] space-x-4 space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2">
 
-        {clientSecret ? (
+      {clientSecret ? (
           <Elements stripe={promise} options={options}>
-            <CheckoutPage amount={convertToSubcurrency(amount)} clientSecret={clientSecret} />
+            <CheckoutPage amount={amount} clientSecret={clientSecret} />
           </Elements>
         ) : (
-          <div className="text-2xl text-amigostblack">Loading ... </div>
+          <div className="w-full min-h-24 h-[25dvh] text-2xl flex justify-center items-center">
+            Loading...
+          </div>
         )}
+
+        <div className="">
+          <Image
+            src={"/static/assets/home/tacosdeal.jpeg"}
+            alt=""
+            className="img-fluid rounded-4 border border-5"
+            width={1920}
+            height={1080}
+          />
+        </div>
+
+        
       </div>
     </div>
   );
