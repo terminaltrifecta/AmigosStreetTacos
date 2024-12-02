@@ -6,10 +6,12 @@ import Menu from "./routes/menu.tsx";
 import Navbar from "./components/Navbar/Navbar.tsx";
 import Footer from "./components/Footer/Footer.tsx";
 import "./App.css";
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   return (
     <>
+    <Analytics/>
       <Navbar />
 
       {/* pages */}
