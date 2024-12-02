@@ -29,7 +29,7 @@ export interface PostData {
 }
 
 async function postData(data: PostData) {
-  const response = await fetch('http://127.0.0.1:5000/api', {
+  const response = await fetch('https://claws-api.onrender.com/api', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
