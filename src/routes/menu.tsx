@@ -1,11 +1,13 @@
 import React from "react";
 import AccordionMenu from "../components/Accordion Menu/AccordionMenu";
 import ImageOverlay from "../components/ImageOverlay/ImageOverlay";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function Menu() {
   return (
     <React.StrictMode>
       <div className="d-grid">
+      <Analytics />
         <ImageOverlay text="Our Menu" img="\static\assets/about/amigosgrub.jpg" />
         <div className="p-4">
           <AccordionMenu

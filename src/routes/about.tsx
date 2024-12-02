@@ -1,10 +1,12 @@
 import "bootstrap/dist/css/bootstrap.css";
 import Tab from "../components/Tab/Tab.tsx";
 import ImageOverlay from "../components/ImageOverlay/ImageOverlay.tsx";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function About() {
   return (
     <div className="d-grid gap-3">
+      <Analytics />
       <ImageOverlay
         text="About"
         img="/static/assets/about/AboutBackground.png"

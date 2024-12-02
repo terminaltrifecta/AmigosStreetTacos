@@ -1,10 +1,12 @@
 import CardTab from "../components/CardTab/CardTab.tsx";
 import Slideshow from "../components/Slideshow/Slideshow.tsx";
 import Tab from "../components/Tab/Tab.tsx";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function Root() {
   return (
     <>
+    <Analytics />
       <div className="d-grid gap-3">
         <Slideshow />
         <Tab
