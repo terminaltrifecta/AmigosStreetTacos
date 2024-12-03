@@ -7,6 +7,8 @@ import {
 } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
 import usePostMutation, { PostData } from "../hooks/usePosts";
+import { useAppSelector } from "@/lib/hooks";
+import { RootState } from "@/lib/store";
 
 export default function CheckoutPage({ amount, clientSecret }: any) {
   const stripe = useStripe();
@@ -18,6 +20,9 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
   const { mutate, error } = usePostMutation();
 
     function functionAdd() {
+
+      const cart = useAppSelector((state: RootState) => state.cart);
+
       const postData: PostData = {
         customer_first_name: "Aiden",
         customer_last_name: "Alazo",
@@ -29,18 +34,7 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
         location: "POINT (-73.935242 40.730610)",
         is_pickup: true,
         status_id: 6,
-        cart: [{
-          "item_name": "Carne Asada Taco",
-          "item_id": 1,
-          "quantity": 3,
-          "comments": "Garlic on da side!"
-          },
-          {
-          "item_name": "Chicken Taco",
-          "item_id": 2,
-          "quantity": 2,
-          "comments": "errrxtra garlic chile!"
-      }]
+        cart: cart
       };
       mutate(postData);
     };

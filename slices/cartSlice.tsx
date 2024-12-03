@@ -18,11 +18,11 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state: any, { payload }) => {
       const existingItem = state.find(
-        (cartItem: any) => (cartItem.name == payload.name && cartItem.instructions == payload.instructions)
+        (cartItem: Item) => (cartItem.item_name == payload.item_name && cartItem.comments == payload.comments)
       );
       if (existingItem) {
-        return state.map((cartItem: any) =>
-          cartItem.name == payload.name
+        return state.map((cartItem: Item) =>
+          cartItem.item_name == payload.item_name
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
         );
@@ -31,24 +31,24 @@ export const cartSlice = createSlice({
       }
     },
     removeFromCart: (state: any, { payload }) => {
-      return state.filter((cartItem: any) => !(cartItem.name == payload.name && cartItem.instructions == payload.instructions));
+      return state.filter((cartItem: Item) => !(cartItem.item_name == payload.item_name && cartItem.comments == payload.comments));
     },
     setQuantity: (state: any, { payload }) => {
       if (payload.quantity < 1) {
         payload.quantity = 1;
       } //dont let them change quantity below one
 
-      return state.map((cartItem: any) =>
-        cartItem.name == payload.name && cartItem.instructions == payload.instructions
+      return state.map((cartItem: Item) =>
+        cartItem.item_name == payload.item_name && cartItem.comments == payload.comments
           ? { ...cartItem, quantity: payload.quantity }
           : cartItem
       );
     },
     setInstructions: (state: any, { payload }) => {
       
-      return state.map((cartItem: any) =>
-        cartItem.name == payload.name && cartItem.instructions == payload.oldInstructions
-          ? { ...cartItem, instructions: payload.instructions }
+      return state.map((cartItem: Item) =>
+        cartItem.item_name == payload.item_name && cartItem.comments == payload.oldComments
+          ? { ...cartItem, comments: payload.comments }
           : cartItem
       );
     }

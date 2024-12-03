@@ -7,10 +7,10 @@ import Link from "next/link";
 import { supabase } from "@/app/supabase";
 
 interface Item {
-  name: string;
-  price: number;
+  item_name: string;
+  item_id: number;
   quantity: number;
-  instructions: string;
+  comments: string;
 }
 
 async function cartSend() {
@@ -27,11 +27,11 @@ export default function CartViewer() {
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
   const subtotal = cart.reduce(
-    (a: any, v: any) => (a = a + v.quantity * v.price),
+    (a: any, v: any) => (a = a + v.quantity * v.item_id),
     0
   ); //adds the sum of price and quantity for each item
   const tax = subtotal * 0.06;
-  const convience = itemCount > 0 ? 0.029 * subtotal + 0.3 : 0;
+  const convience = 0.02 * subtotal;
 
   return (
     <Container className="p-4">
@@ -40,13 +40,13 @@ export default function CartViewer() {
       {cart.length === 0 ? (
         <p>The cart is empty.</p>
       ) : (
-        cart.map((item: any) => (
+        cart.map((item: Item) => (
           <CartItem
-            key={item.name}
-            name={item.name}
-            price={item.price}
+            key={item.item_name}
+            item_name={item.item_name}
+            item_id={item.item_id}
             quantity={item.quantity}
-            instructions={item.instructions}
+            comments={item.comments}
           />
         ))
       )}

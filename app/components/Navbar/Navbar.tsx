@@ -74,17 +74,6 @@ export default function Navbar() {
               About
             </Link>
           </li>
-          <li>
-            <Link
-              href="/test"
-              className={selected == "test" ? "active" : ""}
-              onClick={() => {
-                setSelected("test");
-              }}
-            >
-              Test
-            </Link>
-          </li>
         </ul>
       </div>
       <div id="orderMobileContainer">

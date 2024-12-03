@@ -31,15 +31,7 @@ export default function Order() {
       {/* Location Popup */}
       <LocationPopup show={showLocationPopup} onClose={handleClosePopup} />
 
-      <AccordionMenuOrder
-        acchdr1="Breakfast - $5"
-        acchdr2="Bowls - $10"
-        acchdr3="Quesadillas - $10"
-        acchdr4="Burritos - $10"
-        acchdr5="Tacos - $2.85"
-        acchdr6="Gourmet Items - $3.75"
-        acchdr7="Amigos Specials"
-      />
+      <AccordionMenuOrder/>
     </div>
   );
 }

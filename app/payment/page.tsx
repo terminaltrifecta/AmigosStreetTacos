@@ -28,11 +28,11 @@ export default function Page() {
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
   const subtotal = cart.reduce(
-    (a: any, v: any) => (a = a + v.quantity * v.price),
+    (a: any, v: any) => (a = a + v.quantity * v.item_id),
     0
   ); //adds the sum of price and quantity for each item
   const tax = subtotal * 0.06;
-  const convience = itemCount > 0 ? 0.029 * subtotal + 0.3 : 0;
+  const convience = 0.02 * subtotal;
 
   const amount = (subtotal + tax + convience).toFixed(2);
 
