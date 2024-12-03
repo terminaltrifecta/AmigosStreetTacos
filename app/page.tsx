@@ -12,7 +12,7 @@ export default function Home() {
       <div className="d-grid gap-3">
         <Slideshow />
         <Tab
-          text="Carne Asada Fries. They're f#cking delicious."
+          text="Carne Asada Fries. They're absolutely delicious."
           textRight="true"
           img="/static/assets/home/fries.jpg"
         />

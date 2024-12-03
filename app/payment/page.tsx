@@ -36,7 +36,7 @@ export default function Page() {
 
   const amount = (subtotal + tax + convience).toFixed(2);
 
-useEffect(() => {
+  useEffect(() => {
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -53,8 +53,7 @@ useEffect(() => {
   return (
     <div className="flex justify-center bg-white min-h-[70dvh] p-4">
       <div className="lg:w-[80dvw] space-x-4 space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2">
-
-      {clientSecret ? (
+        {clientSecret ? (
           <Elements stripe={promise} options={options}>
             <CheckoutPage amount={amount} clientSecret={clientSecret} />
           </Elements>
@@ -73,8 +72,6 @@ useEffect(() => {
             height={1080}
           />
         </div>
-
-        
       </div>
     </div>
   );

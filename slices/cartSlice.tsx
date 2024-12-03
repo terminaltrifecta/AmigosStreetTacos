@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface Item {
-  name: string;
-  price: number;
+  item_name: string;
+  item_id: number;
   quantity: number;
-  instructions: string;
+  comments: string;
 }
 
 export interface CartState {

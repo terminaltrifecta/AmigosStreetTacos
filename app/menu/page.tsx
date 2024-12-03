@@ -6,7 +6,6 @@ import ImageOverlay from "../components/ImageOverlay/ImageOverlay";
 
 export default function Menu() {
   return (
-    <React.StrictMode>
       <div className="d-grid">
         <ImageOverlay
           text="Our Menu"
@@ -24,6 +23,5 @@ export default function Menu() {
           />
         </div>
       </div>
-    </React.StrictMode>
   );
 }

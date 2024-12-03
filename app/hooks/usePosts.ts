@@ -1,5 +1,12 @@
 import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 
+export interface itemData {
+  "item_name": string,
+  "item_id": number,
+  "quantity": number,
+  "comments": string 
+}
+
 export interface PostData {
     "customer_first_name": string,
     "customer_last_name": string,
@@ -11,21 +18,7 @@ export interface PostData {
     "location": string,
     "is_pickup": true,
     "status_id": number,
-    "cart": [
-        {
-            "item_name": string,
-            "item_id": number,
-            "quantity": number,
-            "comments": string
-        },
-        {
-          "item_name": string,
-          "item_id": number,
-          "quantity": number,
-          "comments": string
-      },
-    ]
-
+    "cart": itemData[]
 }
 
 async function postData(data: PostData) {
