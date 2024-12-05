@@ -21,6 +21,8 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
 
     function functionAdd() {
 
+      console.log("FUNCTION ADD WAS CALLED")
+
       const cart = useAppSelector((state: RootState) => state.cart);
 
       const postData: PostData = {
@@ -55,20 +57,23 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       return;
     }
 
-    const { error } = await stripe.confirmPayment({
+    const error = await stripe.confirmPayment({
       elements,
       clientSecret,
       confirmParams: {
         return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
       },
+    }).then((e) => {
+      console.log("Yippeee!")
+      functionAdd();
+      return e.error;
     })
 
     if (error) {
       //only gets here when there's an error the customer needs to see
       setErrorMessage(error.message);
     } else {
-      //ui automatically closes with success animation and they're redirected to success url
-      functionAdd();
+      
     }
 
     setLoading(false);
