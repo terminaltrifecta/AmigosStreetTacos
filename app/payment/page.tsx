@@ -40,7 +40,7 @@ export default function Page() {
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
+      body: JSON.stringify({ amount: convertToSubcurrency(amount), cart:cart }),
     })
       .then((res) => res.json())
       .then((data) => {

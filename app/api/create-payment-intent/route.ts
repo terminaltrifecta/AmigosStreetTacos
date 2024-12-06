@@ -8,13 +8,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json(); // Parse JSON from the request body
-    const { amount } = body;
+    const { amount, cart } = body;
 
     // Create a payment intent
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount || 1000, // Default to $10.00
       currency: 'usd',
-      automatic_payment_methods: { enabled: true }
+      automatic_payment_methods: { enabled: true },
     });
 
     // Return the client secret
