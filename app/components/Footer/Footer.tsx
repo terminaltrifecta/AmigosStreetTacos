@@ -15,12 +15,13 @@ function Footer() {
             <p>5823 17 Mile Rd, Sterling Heights, MI 48310</p>
             <p>13245 14 Mile Rd, Sterling Heights, MI 48312</p>
             <p>22428 Greater Mack Ave, St Clair Shores, MI 48080</p>
+            <p>14156 Eureka Rd, Southgate, MI 48195</p>
           </div>
 
           <div className="footercol Hours">
             <h4>Hours</h4>
-            <p>Monday - Saturday: 8AM - 10PM</p>
-            <p>Sunday: 8AM - 8PM</p>
+            <p>Monday - Saturday: 9AM - 10PM</p>
+            <p>Sunday: 9AM - 8PM</p>
           </div>
 
           <div className="footercol">
@@ -33,6 +34,9 @@ function Footer() {
             </Link>
             <Link href="tel:5862187247">
               <p>(586) 218-7247 (St. Clair)</p>
+            </Link>
+            <Link href="tel:5862187247">
+              <p>(734) 225-7222 (Southgate)</p>
             </Link>
           </div>
 

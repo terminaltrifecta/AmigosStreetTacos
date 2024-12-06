@@ -45,6 +45,14 @@ export default function LocationSelector() {
         >
           St Clair Shores
         </div>
+        <div
+          className={location == 3 ? "selectedLocation" : "option"}
+          onClick={() => {
+            dispatch(setLocation(3));
+          }}
+        >
+          Southgate
+        </div>
       </div>
     </div>
   );
