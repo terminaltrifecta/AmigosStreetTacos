@@ -62,10 +62,13 @@ export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature");
 
   let event;
+  let metadata;
   let result = "Webhook called.";
 
   try {
     event = stripe.webhooks.constructEvent(rawBody, sig!, endpointSecret!);
+    const paymentIntent = event.data.object; // This is the PaymentIntent object
+    metadata = paymentIntent.
   } catch (err: any) {
     console.error(err);
     return NextResponse.json({ error: err.message }, { status: 400 })
