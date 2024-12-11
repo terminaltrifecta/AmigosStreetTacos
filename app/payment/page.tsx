@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import usePostMutation from "../hooks/usePosts";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import {
   Elements,
   PaymentElement,
@@ -48,13 +48,18 @@ export default function Page() {
       });
   }, []);
 
-  const options = { clientSecret };
+  const elementOptions:StripeElementsOptions = {
+    clientSecret: clientSecret,
+    appearance: {
+      theme: "flat"
+    }
+  }
 
   return (
     <div className="flex justify-center bg-white min-h-[70dvh] p-4">
       <div className="lg:w-[80dvw] space-x-4 space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2">
         {clientSecret ? (
-          <Elements stripe={promise} options={options}>
+          <Elements stripe={promise} options={elementOptions}>
             <CheckoutPage amount={amount} clientSecret={clientSecret} />
           </Elements>
         ) : (

@@ -4,11 +4,13 @@ import {
   useElements,
   useStripe,
   PaymentElement,
+  AddressElement,
 } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
 import usePostMutation, { PostData } from "../hooks/usePosts";
 import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
+import { StripeAddressElementOptions, StripePaymentElementOptions } from "@stripe/stripe-js";
 
 export default function CheckoutPage({ amount, clientSecret }: any) {
   const stripe = useStripe();
@@ -17,29 +19,15 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [loading, setLoading] = useState(false);
 
-  const { mutate, error } = usePostMutation();
-
-    function functionAdd() {
-
-      console.log("FUNCTION ADD WAS CALLED")
-
-      const cart = useAppSelector((state: RootState) => state.cart);
-
-      const postData: PostData = {
-        customer_first_name: "Aiden",
-        customer_last_name: "Alazo",
-        email: "luvnataliehanna798@gmail.com",
-        phone_number: "5863501415",
-        location_id: 2,
-        time_placed: "2024-11-26T14:30:00Z",
-        time_requested: "2024-11-26T14:30:00Z",
-        location: "POINT (-73.935242 40.730610)",
-        is_pickup: true,
-        status_id: 6,
-        cart: cart
-      };
-      mutate(postData);
-    };
+  const paymentElementOptions:StripePaymentElementOptions= {
+    layout: "accordion",
+    fields:{
+      billingDetails:{
+        name: "never",
+        email: "never"
+      }
+    }
+  };
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -85,7 +73,12 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
         One step from yumminess..
       </div>
 
-      {clientSecret && <PaymentElement />}
+      <div className="flex space-x-4 w-full">
+        <input className="w-1/2 p-3 rounded-xl border border-slate-300 normal-case" placeholder="First Name"/>
+        <input className="w-1/2 p-3 rounded-xl border border-slate-300 normal-case" placeholder="Last Name"/>
+      </div>
+      <input className="p-3 rounded-xl border border-slate-300 normal-case" placeholder="Email Address"/>
+      {clientSecret && <PaymentElement options={paymentElementOptions}/>}
       {errorMessage && <div>{errorMessage}</div>}
 
       <button disabled={!stripe || loading} className="text-amigoswhite text-[1.3rem] font-semibold text-center flex items-center justify-center rounded-2xl max-h-32 transition duration-200 bg-amigosblack hover:text-amigosblack hover:bg-amigoswhite hover:shadow-md ">

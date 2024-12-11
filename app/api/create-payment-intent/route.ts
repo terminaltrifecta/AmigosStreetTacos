@@ -10,6 +10,16 @@ export async function POST(req: NextRequest) {
     const body = await req.json(); // Parse JSON from the request body
     const { amount, cart } = body;
 
+    // load cart data into supabase
+    // { error, id } = supabase.addRow(cart)
+
+    // calculate cart cost from supabase
+    // { cost } = supabase.getCost
+
+    // 
+
+
+
     // Create a payment intent
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount || 1000, // Default to $10.00
