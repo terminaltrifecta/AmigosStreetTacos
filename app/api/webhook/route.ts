@@ -55,13 +55,13 @@ export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature");
 
   let event;
-  let metadata;
+  let uuid;
   let result = "Webhook called.";
 
   try {
     event = stripe.webhooks.constructEvent(rawBody, sig!, endpointSecret!);
     const paymentIntent = event.data.object; // This is the PaymentIntent object
-    metadata = paymentIntent.
+    uuid = paymentIntent.
   } catch (err: any) {
     console.error(err);
     return NextResponse.json({ error: err.message }, { status: 400 })
@@ -71,19 +71,15 @@ export async function POST(req: NextRequest) {
   //this runs if payment goes through ==================================
   if (event.type == "charge.succeeded") {
     //gets entire charge object into the scope of this code
-    const charge = event.data.object;
-    //get UUID from said charge object
-    const cartUUID = charge.metadata.uuid;
 
-    //log the UUID for troubleshooting purposes
-    console.log("Charge metadata:", cartUUID)
+    console.log("Charge metadata:", uuid)
 
     //try getting cart json given a UUID ================================
     try{
       const { data, error } = await supabase
       .from("temporary_orders")
       .select("cart")
-      .eq("id", cartUUID) //find a matching row with the same id as the metadata
+      .eq("id", uuid) //find a matching row with the same id as the metadata
       .single(); //fetch data
 
       //error handling
