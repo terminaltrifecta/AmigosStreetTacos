@@ -4,13 +4,16 @@ import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const decoder = new TextDecoder('utf-8');
+
+
 export const supabase = createClient(SUPABASE_URL!, SUPABASE_ANON_KEY!);
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-11-20.acacia',
 });
 
-const endpointSecret = process.env.WEBHOOK_SECRET;
+const endpointSecret = process.env.NEXT_PUBLIC_WEBHOOK_SECRET;
 
 export interface ItemData {
   item_name: string;
@@ -33,17 +36,22 @@ export interface PostData {
   cart: ItemData[];
 }
 
+
+
+
 export async function POST(req: NextRequest) {
   const rawBody = await req.text();
   const sig = req.headers.get("stripe-signature");
   let event: Stripe.Event;
-  let uuid: string | undefined;
+ // let uuid: string | undefined;
   let result = "Webhook called.";
+
+  const uuid = "6f8c3d16-ea81-4b7e-a324-876e2e1f6e98";
 
   try {
     event = stripe.webhooks.constructEvent(rawBody, sig!, endpointSecret!);
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
-    uuid = paymentIntent.metadata?.uuid;
+    //uuid = paymentIntent.metadata?.uuid;
   } catch (err: unknown) {
     const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
     console.error("Error processing webhook:", errorMessage);
@@ -53,7 +61,6 @@ export async function POST(req: NextRequest) {
   if (event.type === "charge.succeeded") {
     console.log("Charge metadata:", uuid);
 
-    let cartData: PostData | null = null;
 
     try {
       const { data, error } = await supabase
@@ -64,7 +71,7 @@ export async function POST(req: NextRequest) {
       
       if (error) throw new Error(error.message);
 
-      cartData = JSON.parse(data.cart);
+      const cartData = JSON.parse(data);
       console.log("Cart Data:", cartData);
     } catch (error: unknown) {
       const errorMessage = (error instanceof Error) ? error.message : 'Unknown error fetching or parsing cart data';
@@ -72,6 +79,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 
+
+    /*
     try {
       // Delete the row in the temporary_orders table
       const { error } = await supabase
@@ -85,6 +94,7 @@ export async function POST(req: NextRequest) {
       console.error("Error deleting temporary order:", errorMessage);
       return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
+      */
 
     if (cartData) {
       let customer_id: string;
