@@ -124,6 +124,7 @@ export async function POST(req: NextRequest) {
   
       let customer_id: string;
 
+      //if theres a customer error OR no customer data
       if (customerError || !customerData) {
         const { data: insertCustomerData, error: insertCustomerError } = await supabase
           .from('customers')
