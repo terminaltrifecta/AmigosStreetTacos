@@ -23,8 +23,8 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
     layout: "accordion",
     fields:{
       billingDetails:{
-        name: "never",
-        email: "never"
+        name: "auto",
+        email: "auto"
       }
     }
   };
@@ -72,7 +72,7 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       <div className="text-3xl text-center font-bold tracking-wide">
         One step from yumminess..
       </div>
-
+      
       <div className="flex space-x-4 w-full">
         <input className="w-1/2 p-3 rounded-xl border border-slate-300 normal-case" placeholder="First Name"/>
         <input className="w-1/2 p-3 rounded-xl border border-slate-300 normal-case" placeholder="Last Name"/>

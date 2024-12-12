@@ -1,7 +1,7 @@
 import Stripe from 'stripe';
 import { NextRequest, NextResponse } from 'next/server';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY!, {
   apiVersion: '2024-11-20.acacia', // Ensure you're using the correct API version
 });
 
@@ -9,16 +9,6 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json(); // Parse JSON from the request body
     const { amount, cart } = body;
-
-    // load cart data into supabase
-    // { error, id } = supabase.addRow(cart)
-
-    // calculate cart cost from supabase
-    // { cost } = supabase.getCost
-
-    // 
-
-
 
     // Create a payment intent
     const paymentIntent = await stripe.paymentIntents.create({
