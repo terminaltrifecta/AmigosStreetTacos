@@ -35,20 +35,6 @@ export interface PostData {
   cart: ItemData[];
 }
 
-const cart = [{
-  "item_name": "Carne Asada Taco",
-  "item_id": 1,
-  "quantity": 3,
-  "comments": "Garlic on da side!"
-  },
-  {
-  "item_name": "Chicken Taco",
-  "item_id": 2,
-  "quantity": 2,
-  "comments": "errrxtra garlic chile!"
-}]
-
-
 
 export async function POST(req: NextRequest) {
   const rawBody = await req.text();
