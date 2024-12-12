@@ -6,13 +6,15 @@ import { createClient } from "@supabase/supabase-js";
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabase = createClient(SUPABASE_URL!, SUPABASE_ANON_KEY!);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-11-20.acacia', // Ensure you're using the correct API version
 });
 
 const endpointSecret = process.env.WEBHOOK_SECRET;
+
+let cartData: any = null;
 
 export interface ItemData {
   item_name: string;
@@ -43,11 +45,12 @@ export async function POST(req: NextRequest) {
   let event;
   let uuid;
   let result = "Webhook called.";
+  
 
   try {
     event = stripe.webhooks.constructEvent(rawBody, sig!, endpointSecret!);
-    const paymentIntent = event.data.object; // This is the PaymentIntent object
-    uuid = paymentIntent.
+    const paymentIntent = event.data.object as Stripe.PaymentIntent; // This is the PaymentIntent object
+    uuid = paymentIntent.metadata?.uuid; //get the uuid field from the metadata array or whateva
   } catch (err: any) {
     console.error(err);
     return NextResponse.json({ error: err.message }, { status: 400 })
@@ -67,12 +70,13 @@ export async function POST(req: NextRequest) {
       .select("cart")
       .eq("id", uuid) //find a matching row with the same id as the metadata
       .single(); //fetch data
+      cartData = data;
 
       //error handling
       if (error) {
         console.error("error fetching data from supabase:", error.message);
       } else {
-        console.log("Cart Data:", data.cart);
+        console.log("Cart Data:", cartData);
       }
     } 
     //catch errors
@@ -86,7 +90,7 @@ export async function POST(req: NextRequest) {
       const {error} = await supabase
       .from("temporary_orders")
       .delete()
-      .eq("id", cartUUID)
+      .eq("id", uuid)
 
       //more error handling
       if (error) {
@@ -103,43 +107,53 @@ export async function POST(req: NextRequest) {
 
     //populate proper rows ========================================
 
-    const data.cart = JSON.parse(rawBody); //find a way to properly parse data.cart
+    try{
+      cartData = JSON.parse(rawBody); //find a way to properly parse cartData
+    } catch (error: any) { //handle some case where the cart data isnt a proper json
+      console.error("Error parsing cartData:", error.message);
+      return NextResponse.json({ error: "Invalid cart data format"}, {status: 400});
+    }
+    
 
     //check if customer exists
     const { data: customerData, error: customerError } = await supabase
       .from('customers')
       .select('customer_id')
-      .eq('email', data.email)
+      .eq('email', cartData.email)
       .single(); //get first match based on email
   
-    let customer_id: string;
-  
-    if (customerError || !customerData) {
-      //insert a new customer if they dont already exist
-      const { data: insertCustomerData, error: insertCustomerError } = await supabase
-        .from('customers')
-        .insert([
-          {
-            first_name: data.customer_first_name,
-            last_name: data.customer_last_name,
-            email: data.email,
-            phone_number: data.phone_number,
-          },
-        ]);
-  
-      if (insertCustomerError) {
-        console.error('Error inserting new customer:', insertCustomerError.message);
-        return NextResponse.json({ error: 'Failed to insert customer' }, { status: 500 });
+      let customer_id: string;
+
+      if (customerError || !customerData) {
+        const { data: insertCustomerData, error: insertCustomerError } = await supabase
+          .from('customers')
+          .insert([
+            {
+              first_name: cartData.customer_first_name,
+              last_name: cartData.customer_last_name,
+              email: cartData.email,
+              phone_number: cartData.phone_number,
+            },
+          ])
+          .select('customer_id') // Ensure we get customer_id
+          .single();
+      
+        if (insertCustomerError || !insertCustomerData) {
+          console.error(
+            'Error inserting new customer:',
+            insertCustomerError?.message || 'No data returned from Supabase'
+          );
+          return NextResponse.json({ error: 'Failed to insert customer' }, { status: 500 });
+        }
+      
+        customer_id = insertCustomerData.customer_id;
+      } else {
+        customer_id = customerData.customer_id;
       }
-  
-      customer_id = insertCustomerData[0].customer_id;
-    } else {
-      // Customer exists
-      customer_id = customerData.customer_id;
-    }
+      
   
     // Step 2: Insert order data
-    const { location_id, time_placed, time_requested, location, is_pickup, status_id, cart } = data;
+    const { location_id, time_placed, time_requested, location, is_pickup, status_id, cart } = cartData;
   
     const { data: orderResponse, error: orderError } = await supabase
       .from('orders')
@@ -191,7 +205,7 @@ export async function POST(req: NextRequest) {
     //find a way to access the json cart data shit in the scope of this try block (i dont know shitscript)
     //calling the postCartData to send all the relevant info to the tablets. i will need to update my api so theres no redundant code
     try {
-      const response = await postCartData(data!.cart);
+      const response = await postCartData(cartData);
       return NextResponse.json({ success: true, data: response });
     } catch (error:any) {
       console.error('Error handling POST request:', error);
