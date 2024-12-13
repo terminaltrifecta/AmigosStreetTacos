@@ -22,7 +22,6 @@ export interface ItemData {
   comments: string;
 }
 
-
 //interface for the entire order data
 export interface PostData {
   customer_first_name: string;
@@ -46,16 +45,26 @@ export async function POST(req: NextRequest) {
   const rawBody = await req.text();
   const sig = req.headers.get("stripe-signature");
   let event: Stripe.Event;
- // let uuid: string | undefined;
   let result = "Webhook called.";
+  //let uuid: string | undefined;
 
-  //test uuid to see if supabase functionality works
+  //TEST UUID GET RID OF THIS WHEN DOING REAL ORDERS
   const uuid = "6f8c3d16-ea81-4b7e-a324-876e2e1f6e98";
 
+  /*
+
+  note: you need to make sure this block of
+  getting the uuid from the stripe metadata
+  in fact works. because i havent been able to
+  test it with my local shit
+
+  */
+  
   //get uuid FROM payment intent object metadata
   try {
     event = stripe.webhooks.constructEvent(rawBody, sig!, endpointSecret!);
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
+    //uncomment when doing real stripe shit
     //uuid = paymentIntent.metadata?.uuid;
   } catch (err: unknown) {
     const errorMessage = (err instanceof Error) ? err.message : 'Error extrating data from Payment Intent object';
@@ -65,47 +74,20 @@ export async function POST(req: NextRequest) {
 
   
   //if block only runs and handles charge succeeded event from stripe
+  //see if there exists a row in the temporary orders table with a matching uuid value
   if (event.type === "charge.succeeded") {
-    //check the value of the uuid variable (does it exist)
-    console.log("Charge metadata:", uuid);
-    console.log("okay really cool now");
-
     let { data: temporary_orders, error } = await supabase
       .from('temporary_orders')
-      .select('*');
-
-    console.log(temporary_orders);
-
-  //see if there exists a row in the temporary orders table with a matchiing uuid value
-    // try {
-      
-    // let { data: temporary_orders, error } = await supabase
-    //   .from('temporary_orders')
-    //   .select('*')
-    //   .limit(1)
-    //   .single();
-        
-    //   //error handling
-    //   if (error) throw new Error(error.message);
-
-    //   //set global cartData variable equals to cart value of data
-    //   //exclamation mark ensures no null value will be passed
-    //   cartData = JSON.parse(temporary_orders);
-
-    //   //log what the cartData actually is
-    //   console.log("Cart Data:", cartData);
-
-
-    //   //error handling
-    // } catch (error: unknown) {
-    //   const errorMessage = (error instanceof Error) ? error.message : 'Unknown error fetching or parsing cart data';
-    //   console.error("Error fetching or parsing cart data:", errorMessage);
-    //   return NextResponse.json({ error: errorMessage }, { status: 500 });
-    // }
-
+      .select('cart')
+      .eq('id', uuid)
+      .limit(1);
+    cartData = temporary_orders![0].cart as PostData;
+    console.log(cartData);
+    //add error handling here
 
 
     //delete that row in the temporary table with a matching uuid value
+    //dont uncomment until we wanna test row deletion functionality
 
     /*
     try {
@@ -122,126 +104,124 @@ export async function POST(req: NextRequest) {
       console.error("Error deleting temporary order:", errorMessage);
       return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
-      */
+    */
 
-    //make sure that cartData isnt null before proceeding
-    // if (cartData) {
-    //   let customer_id: string;
-
-    //   try {
-    //     //check there exists a customer email which matches the customer email from the temporary orders table
-    //     const { data: customerData, error: customerError } = await supabase
-    //       .from('customers')
-    //       .select('customer_id')
-    //       .eq('email', cartData.email)
-    //       .single();
-
-    //       //if theres an error or the data doesnt exist from the customers table
-    //     if (customerError || !customerData) {
-    //       const { data: insertCustomerData, error: insertCustomerError } = await supabase
-    //       //insert a row with the information from the temporary orders table
-    //         .from('customers')
-    //         .insert([
-    //           {
-    //             first_name: cartData.customer_first_name,
-    //             last_name: cartData.customer_last_name,
-    //             email: cartData.email,
-    //             phone_number: cartData.phone_number,
-    //           },
-    //         ])
-    //         .select('customer_id')
-    //         .single();
-
-    //         //if an error is thrown then handle the error
-    //       if (insertCustomerError || !insertCustomerData) {
-    //         throw new Error('Failed to insert customer');
-    //       }
-
-
-    //       //not sure what these lines are doing
-    //       customer_id = insertCustomerData.customer_id;
-    //     } else {
-    //       customer_id = customerData.customer_id;
-    //     }
-
-    //     //these variables are from the cartData
-    //     const { location_id, time_placed, time_requested, location, is_pickup, status_id, cart } = cartData;
-
-    //     //insert them into the orders table
-    //     const { data: orderResponse, error: orderError } = await supabase
-    //       .from('orders')
-    //       .insert([
-    //         {
-    //           location_id,
-    //           customer_id,
-    //           time_placed,
-    //           time_requested,
-    //           location,
-    //           is_pickup,
-    //           status_id,
-    //         },
-    //       ])
-
-    //       //select order_id for some reason?
-    //       .select('order_id')
-    //       .single();
-
-
-    //     //handle error so code doesnt shit itself
-    //     if (orderError) throw new Error('Failed to insert order');
-
-    //     //uhhhh take the order_id i guess
-    //     const order_id = orderResponse.order_id;
-
-    //     //insert cart items into ordered items table
-    //     for (const item of cart) {
-    //       const { item_id, quantity, comments } = item;
-
-    //       const { error: itemError } = await supabase
-    //         .from('ordered_items')
-    //         .insert([
-    //           {
-    //             order_id,
-    //             item_id,
-    //             quantity,
-    //             comments,
-    //           },
-    //         ]);
-
-    //       //handle error yadda yadda
-    //       if (itemError) {
-    //         console.error('Error inserting item:', itemError.message);
-    //         return NextResponse.json({ error: 'Failed to insert cart item' }, { status: 500 });
-    //       }
-    //     }
-
-    //     // Now post the data to the tablets
-    //     try {
-    //       //wait for promise 200 OK from zorgapi and pass cartData
-    //       const response = await postCartData(cartData);
-    //       //return 200 OK
-    //       return NextResponse.json({ success: true, data: response });
-    //     } catch (error: unknown) {
-    //       //return not OK and code shit itself
-    //       const errorMessage = (error instanceof Error) ? error.message : 'Unknown error posting cart data';
-    //       console.error('Error handling POST request:', errorMessage);
-    //       return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
-    //     }
-    //     //catch more errors
-    //   } catch (error: unknown) {
-    //     const errorMessage = (error instanceof Error) ? error.message : 'Unknown error in customer order process';
-    //     console.error("Error in customer order process:", errorMessage);
-    //     return NextResponse.json({ error: errorMessage }, { status: 500 });
-    //   }
-    // }
+    //executes when uhhh cartData exists and isnt null i guess
+    if (cartData) {
+      let customer_id;
+      try {
+        // Check if there exists a customer email that matches the customer email from the temporary orders table
+        const { data: customerData, error: customerError } = await supabase
+          .from('customers')
+          .select('customer_id')
+          .eq('email', cartData.email)
+          .single();
+    
+        // If there's an error or the data doesn't exist in the customers table
+        if (customerError || !customerData) {
+          const { data: insertCustomerData, error: insertCustomerError } = await supabase
+            .from('customers')
+            .insert([
+              {
+                first_name: cartData.customer_first_name,
+                last_name: cartData.customer_last_name,
+                email: cartData.email,
+                phone_number: cartData.phone_number,
+              },
+            ])
+            .select('customer_id')
+            .single();
+    
+          // If an error is thrown, handle the error
+          if (insertCustomerError || !insertCustomerData) {
+            throw new Error('Failed to insert customer');
+          }
+    
+          // Assign the inserted customer ID
+          customer_id = insertCustomerData.customer_id;
+        } else {
+          customer_id = customerData.customer_id;
+        }
+    
+        // Extract variables from cartData
+        const { location_id, time_placed, time_requested, location, is_pickup, status_id, cart } = cartData;
+    
+        // Insert them into the orders table
+        const { data: orderResponse, error: orderError } = await supabase
+          .from('orders')
+          .insert([
+            {
+              location_id,
+              customer_id,
+              time_placed,
+              time_requested,
+              location,
+              is_pickup,
+              status_id,
+            },
+          ])
+          .select('order_id')
+          .single();
+    
+        // Handle error
+        if (orderError) throw new Error('Failed to insert order');
+    
+        // Take the order_id
+        const order_id = orderResponse.order_id;
+    
+        // Insert cart items into the ordered_items table
+        for (const item of cart) {
+          const { item_id, quantity, comments } = item;
+          const { error: itemError } = await supabase
+            .from('ordered_items')
+            .insert([
+              {
+                order_id,
+                item_id,
+                quantity,
+                comments,
+              },
+            ]);
+    
+          // Handle error for each item
+          if (itemError) {
+            console.error('Error inserting item:', itemError.message);
+            return NextResponse.json({ error: 'Failed to insert cart item' }, { status: 500 });
+          }
+        }
+    
+        // Now post the data to the tablets
+        try {
+          // Wait for promise 200 OK from zorgapi and pass cartData
+          const response = await postCartData(cartData);
+          // Return 200 OK
+          return NextResponse.json({ success: true, data: response });
+        } catch (error: unknown) {
+          // Return not OK and handle error
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error posting cart data';
+          console.error('Error handling POST request:', errorMessage);
+          return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
+        }
+      } catch (error: unknown) {
+        // Catch errors in the overall customer order process
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error in customer order process';
+        console.error('Error in customer order process:', errorMessage);
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
+      }
+    }
+    
     //this is down here in case this api recieves some other event type from stripe
-  } else {
+  }
+  if (event.type === "payment_intent.succeeded" || "payment_intent.created") {
+    console.log(`Event type recieved: ${event.type}`);
+  }
+  else {
     console.warn(`Unhandled event type ${event.type}`);
   }
-
   //200 OK
   return NextResponse.json({ received: true, status: result });
 }
+  
 
 //aysnchronous function to establish connection to POSTing to le api
 async function postCartData(data: PostData): Promise<any> {
