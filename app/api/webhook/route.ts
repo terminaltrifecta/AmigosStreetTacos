@@ -1,12 +1,8 @@
 import Stripe from 'stripe';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from "@supabase/supabase-js";
-import { createServerClient } from '@supabase/ssr';
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-export const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!);
+const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!);
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-11-20.acacia',
@@ -46,26 +42,12 @@ export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature");
   let event: Stripe.Event;
   let result = "Webhook called.";
-  //let uuid: string | undefined;
+  let uuid: string | undefined;
 
-  //TEST UUID GET RID OF THIS WHEN DOING REAL ORDERS
-  const uuid = "6f8c3d16-ea81-4b7e-a324-876e2e1f6e98";
-
-  /*
-
-  note: you need to make sure this block of
-  getting the uuid from the stripe metadata
-  in fact works. because i havent been able to
-  test it with my local shit
-
-  */
-  
-  //get uuid FROM payment intent object metadata
   try {
     event = stripe.webhooks.constructEvent(rawBody, sig!, endpointSecret!);
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
-    //uncomment when doing real stripe shit
-    //uuid = paymentIntent.metadata?.uuid;
+    uuid = paymentIntent.metadata?.uuid;
   } catch (err: unknown) {
     const errorMessage = (err instanceof Error) ? err.message : 'Error extrating data from Payment Intent object';
     console.error("Error extrating data from Payment Intent object:", errorMessage);
@@ -85,31 +67,9 @@ export async function POST(req: NextRequest) {
     console.log(cartData);
     //add error handling here
 
-
-    //delete that row in the temporary table with a matching uuid value
-    //dont uncomment until we wanna test row deletion functionality
-
-    /*
-    try {
-      // Delete the row in the temporary_orders table
-      const { error } = await supabase
-        .from("temporary_orders")
-        .delete()
-        .eq("id", uuid);
-
-        //error handling
-      if (error) throw new Error(error.message);
-    } catch (error: unknown) {
-      const errorMessage = (error instanceof Error) ? error.message : 'Unknown error deleting temporary order';
-      console.error("Error deleting temporary order:", errorMessage);
-      return NextResponse.json({ error: errorMessage }, { status: 500 });
-    }
-    */
-
     //executes when uhhh cartData exists and isnt null i guess
     if (cartData) {
       let customer_id;
-      try {
         // Check if there exists a customer email that matches the customer email from the temporary orders table
         const { data: customerData, error: customerError } = await supabase
           .from('customers')
@@ -123,10 +83,14 @@ export async function POST(req: NextRequest) {
             .from('customers')
             .insert([
               {
-                first_name: cartData.customer_first_name,
-                last_name: cartData.customer_last_name,
-                email: cartData.email,
-                phone_number: cartData.phone_number,
+                first_name: "Eric",
+                last_name: "Mize",
+                email: "Luhrikcy.com",
+                phone_number: "(586)902-5812",
+                // first_name: cartData.customer_first_name,
+                // last_name: cartData.customer_last_name,
+                // email: cartData.email,
+                // phone_number: cartData.phone_number,
               },
             ])
             .select('customer_id')
@@ -189,62 +153,36 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Failed to insert cart item' }, { status: 500 });
           }
         }
-    
-        // Now post the data to the tablets
-        try {
-          // Wait for promise 200 OK from zorgapi and pass cartData
-          const response = await postCartData(cartData);
-          // Return 200 OK
-          return NextResponse.json({ success: true, data: response });
-        } catch (error: unknown) {
-          // Return not OK and handle error
-          const errorMessage = error instanceof Error ? error.message : 'Unknown error posting cart data';
-          console.error('Error handling POST request:', errorMessage);
-          return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
-        }
-      } catch (error: unknown) {
-        // Catch errors in the overall customer order process
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error in customer order process';
-        console.error('Error in customer order process:', errorMessage);
-        return NextResponse.json({ error: errorMessage }, { status: 500 });
-      }
-    }
-    
-    //this is down here in case this api recieves some other event type from stripe
-  }
-  if (event.type === "payment_intent.succeeded" || "payment_intent.created") {
-    console.log(`Event type recieved: ${event.type}`);
-  }
-  else {
-    console.warn(`Unhandled event type ${event.type}`);
-  }
-  //200 OK
-  return NextResponse.json({ received: true, status: result });
-}
+    } 
   
+    //200 OK
+    return NextResponse.json({ received: true, status: result });
 
-//aysnchronous function to establish connection to POSTing to le api
-async function postCartData(data: PostData): Promise<any> {
-  try {
-    const response = await fetch('https://claws-api.onrender.com/api', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    //error handling
-    if (!response.ok) {
-      throw new Error(`Failed to post data. Status: ${response.status}`);
-    }
-
-    return await response.json(); // Return the JSON response from the API
-  } catch (error: unknown) {
-    const errorMessage = (error instanceof Error) ? error.message : 'Unknown error posting cart data';
-    console.error('Error posting cart data:', errorMessage);
-    throw error; // Re-throw the error to handle it further up the chain
+  } else if (event.type === "payment_intent.succeeded" || "payment_intent.created") {
+    console.log(`Event type recieved: ${event.type}`);
+  } else {
+    console.warn(`Unhandled event type ${event.type}`);
   }
 }
 
 export const config = { api: { bodyParser: false } };
+
+//delete that row in the temporary table with a matching uuid value
+//dont uncomment until we wanna test row deletion functionality
+
+/*
+try {
+  // Delete the row in the temporary_orders table
+  const { error } = await supabase
+    .from("temporary_orders")
+    .delete()
+    .eq("id", uuid);
+
+    //error handling
+  if (error) throw new Error(error.message);
+} catch (error: unknown) {
+  const errorMessage = (error instanceof Error) ? error.message : 'Unknown error deleting temporary order';
+  console.error("Error deleting temporary order:", errorMessage);
+  return NextResponse.json({ error: errorMessage }, { status: 500 });
+}
+*/
