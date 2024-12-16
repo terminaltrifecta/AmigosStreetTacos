@@ -19,6 +19,10 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [loading, setLoading] = useState(false);
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+
   const paymentElementOptions:StripePaymentElementOptions= {
     layout: "accordion",
     fields:{
@@ -50,6 +54,12 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       clientSecret,
       confirmParams: {
         return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
+        payment_method_data: {
+          billing_details: {
+            name: firstName+" "+lastName,
+            email: email
+          }
+        }
       },
     })
 
@@ -74,10 +84,10 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       </div>
       
       <div className="flex space-x-4 w-full">
-        <input className="w-1/2 p-3 rounded-xl border border-slate-300 normal-case" placeholder="First Name"/>
-        <input className="w-1/2 p-3 rounded-xl border border-slate-300 normal-case" placeholder="Last Name"/>
+        <input onChange={(e) => {setFirstName(e.target.value)}} className="w-1/2 p-3 rounded-xl border border-slate-300 normal-case" placeholder="First Name"/>
+        <input onChange={(e) => {setLastName(e.target.value)}}className="w-1/2 p-3 rounded-xl border border-slate-300 normal-case" placeholder="Last Name"/>
       </div>
-      <input className="p-3 rounded-xl border border-slate-300 normal-case" placeholder="Email Address"/>
+      <input onChange={(e) => {setEmail(e.target.value)}} className="p-3 rounded-xl border border-slate-300 normal-case" placeholder="Email Address"/>
       {clientSecret && <PaymentElement options={paymentElementOptions}/>}
       {errorMessage && <div>{errorMessage}</div>}
 

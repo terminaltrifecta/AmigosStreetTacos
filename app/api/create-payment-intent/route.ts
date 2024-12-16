@@ -45,7 +45,9 @@ export async function POST(req: NextRequest) {
     const { data, error } = await supabase
       .from('temporary_orders')
       .insert([
-        { cart: cart },
+        { cart: cart,
+          time_created: new Date()
+         },
       ])
       .select()
       .single()
