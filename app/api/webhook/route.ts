@@ -21,23 +21,28 @@ export async function POST(req: NextRequest) {
   let event: Stripe.Event;
   let result = "Webhook called.";
   let uuid: string | undefined;
+  let firstName: string | undefined;
+  let lastName: string | undefined;
+  let email: string | undefined;
 
   try {
     event = stripe.webhooks.constructEvent(rawBody, sig!, endpointSecret!);
-    const paymentIntent = event.data.object as Stripe.PaymentIntent;
-    uuid = paymentIntent.metadata?.id;
+    const charge = event.data.object as Stripe.Charge;
+    uuid = charge.metadata?.id;
+    ({firstName, lastName} = formatName(charge.billing_details.name!));
+    email = charge.billing_details.email!;
+
   } catch (err: unknown) {
     const errorMessage = (err instanceof Error) ? err.message : 'Error extrating data from Payment Intent object';
     console.error("Error extrating data from Payment Intent object:", errorMessage);
     return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 
-  
   if (event.type === "charge.succeeded") {
     //gets the json from the uuid of the charge
     try {
       const cart = await fetchAndFormatCart(uuid);
-      const customer = await getCustomer("gmandwee@bruh.outlook");
+      const customer = await getCustomer(firstName, lastName, email);
 
       const packageData: PostData = {
         customer_first_name: customer.first_name,
@@ -73,7 +78,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function getCustomer(email: string): Promise<CustomerData> {
+async function getCustomer(firstName:string, lastName:string, email: string): Promise<CustomerData> {
   // Initialize variable for customerData
   let customerData: CustomerData | null = null;
   
@@ -108,8 +113,8 @@ async function getCustomer(email: string): Promise<CustomerData> {
     const { data: newCustomerData, error: newCustomerError } = await supabase
       .from('customers')
       .insert([{
-        first_name: "Eric",
-        last_name: "Mize",
+        first_name: firstName,
+        last_name: lastName,
         email: email,  // Use the provided email
         phone_number: 5869025812,  // You can change this as needed
       }])
@@ -233,6 +238,20 @@ async function sendCartData(postData: PostData) {
     // Handle unexpected errors
     return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
   }
+}
+
+function formatName(fullName: string) {
+  // Trim and normalize whitespace
+  const cleanedName = fullName.trim().replace(/\s+/g, ' ');
+
+  // Split into first and last name
+  const [first, last] = cleanedName.split(' ');
+
+  // Return the formatted names as an object
+  return {
+      firstName: first.toLowerCase(),
+      lastName: last.toLowerCase()
+  };
 }
 
 export const config = { api: { bodyParser: false } };
