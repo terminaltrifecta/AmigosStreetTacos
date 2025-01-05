@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from "@supabase/supabase-js";
 import { PostData, ItemData, CustomerData } from '@/app/interfaces';
 
-const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!);
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-11-20.acacia',
@@ -234,7 +234,17 @@ async function sendCartData(postData: PostData) {
       return NextResponse.json({ error: 'Failed to insert cart items' }, { status: 500 });
     }
 
-    // Step 4: Return success response
+    // Step 4: Send post data to the API
+
+    const response = await fetch('https://claws-api.onrender.com/api', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postData),
+    });
+    
+    // Step 5: Return success response
     return NextResponse.json({ message: 'Order and cart items inserted successfully' }, { status: 200 });
 
   } catch (error) {
