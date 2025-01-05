@@ -10,6 +10,7 @@ interface Item {
   item_name: string;
   item_id: number;
   quantity: number;
+  price: number;
   comments: string;
 }
 
@@ -27,11 +28,10 @@ export default function CartViewer() {
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
   const subtotal = cart.reduce(
-    (a: any, v: any) => (a = a + v.quantity * v.item_id),
+    (a: any, v: any) => (a = a + v.quantity * v.price),
     0
   ); //adds the sum of price and quantity for each item
   const tax = subtotal * 0.06;
-  const convience = 0.02 * subtotal;
 
   return (
     <Container className="p-4">
@@ -42,9 +42,9 @@ export default function CartViewer() {
       ) : (
         cart.map((item: Item) => (
           <CartItem
-            key={item.item_name}
+          key={item.item_name}
             item_name={item.item_name}
-            item_id={item.item_id}
+            price={item.price}
             quantity={item.quantity}
             comments={item.comments}
           />
@@ -55,9 +55,8 @@ export default function CartViewer() {
       <div className="whiteBorder p-4">
         <div className="">Subtotal: ${subtotal.toFixed(2)}</div>
         <div className="">Tax: ${tax.toFixed(2)}</div>
-        <div className="">Convience Fee: ${convience.toFixed(2)}</div>
         <div className="fs-3">
-          Total: ${(subtotal + tax + convience).toFixed(2)}
+          Total: ${(subtotal + tax).toFixed(2)}
         </div>
 
         <br />

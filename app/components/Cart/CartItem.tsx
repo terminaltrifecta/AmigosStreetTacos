@@ -8,13 +8,13 @@ import "./cart.css";
 // Define the interface for the props that CartItem will receive
 interface CartItemProps {
   item_name: string; // Name of the item
-  item_id: number; // Price of the item
+  price: number; // Price of the item
   quantity: number; // Quantity of the item in the cart
   comments: string;
 }
 
 // The CartItem functional component takes CartItemProps as props
-export default function CartItem({ item_name: item_name, item_id: item_id, quantity, comments: comments }: CartItemProps) {
+export default function CartItem({ item_name: item_name, price: price, quantity, comments: comments }: CartItemProps) {
   const dispatch = useAppDispatch();
 
   return (
@@ -25,7 +25,7 @@ export default function CartItem({ item_name: item_name, item_id: item_id, quant
           {/* Display the name of the item as the card title */}
           <div className="cardTitle fw-light">
             {" "}
-            ${(item_id * quantity).toFixed(2)}
+            ${(price * quantity).toFixed(2)}
           </div>
         </div>
         <div className="d-flex">

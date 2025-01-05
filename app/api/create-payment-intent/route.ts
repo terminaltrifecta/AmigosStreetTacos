@@ -34,11 +34,12 @@ export interface PostData {
 //create cartData variable of type PostData
 let cartData: PostData;
 let uuid: string;
+let amount: number;
 
 export async function POST(req: NextRequest) {
 
   const body = await req.json(); // Parse JSON from the request body
-  const { amount, cart } = body;
+  const { cart } = body;
 
   //store the temporary cart data
   try {
@@ -57,11 +58,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 
-  //create the payment intent  
+  // Calculate the order amount from the cart
   try {
+    amount = await calculateCartPrice(cart);
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
 
+  // Create a PaymentIntent with the order amount and currency
+  try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount || 1000, // Default to $10.00
+      amount: amount,
       currency: 'usd',
       metadata: {id: uuid, name: "gyatlirizz"},
       automatic_payment_methods: { enabled: true },
@@ -72,6 +79,42 @@ export async function POST(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
+}
+
+export async function calculateCartPrice(cart: ItemData[]) {
+  // Calculate the order amount from the cart
+
+  let amount = 0;
+  for (const item of cart) {
+    const price = await getPrice(item.item_id);
+    amount += item.quantity * price;
+  }
+
+  if (amount <= 0) {
+    throw new Error('Invalid cart total');
+  } else {
+    return amount;
+  }
+
+}
+
+export async function getPrice(itemId: number) {
+  // Fetch the price of an item from the database
+
+  const { data, error } = await supabase
+      .from('items')
+      .select("price")
+      .eq('item_id', itemId)
+      .single();
+
+  if (error) {
+    throw new Error(`Error fetching item price: ${error.message}`);
+  } else if (!data) {
+    throw new Error(`Item not found: ${itemId}`);
+  } else {
+    return data.price * 100; // Convert to cents
+  }
+
 }
 
 export function OPTIONS() {

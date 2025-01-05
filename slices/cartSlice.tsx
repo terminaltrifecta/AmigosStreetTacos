@@ -6,6 +6,7 @@ export interface Item {
   item_id: number;
   quantity: number;
   comments: string;
+  price: number;
 }
 
 export interface CartState {

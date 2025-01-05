@@ -28,13 +28,18 @@ export async function POST(req: NextRequest) {
   try {
     event = stripe.webhooks.constructEvent(rawBody, sig!, endpointSecret!);
     const charge = event.data.object as Stripe.Charge;
+
+    if (!charge.billing_details || !charge.billing_details.name) {
+      throw new Error('Billing details or name is missing');
+    }
+
     uuid = charge.metadata?.id;
-    ({firstName, lastName} = formatName(charge.billing_details.name!));
+    ({ firstName, lastName } = formatName(charge.billing_details.name));
     email = charge.billing_details.email!;
 
   } catch (err: unknown) {
-    const errorMessage = (err instanceof Error) ? err.message : 'Error extrating data from Payment Intent object';
-    console.error("Error extrating data from Payment Intent object:", errorMessage);
+    const errorMessage = (err instanceof Error) ? err.message : 'Error extracting data from Payment Intent object';
+    console.error("Error extracting data from Payment Intent object:", errorMessage);
     return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 
@@ -70,7 +75,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true, status: result });
 
   } else if (event.type === "payment_intent.succeeded" || "payment_intent.created") {
-    console.log(`Event type recieved: ${event.type}`);
+    console.log(`Event type received: ${event.type}`);
     return NextResponse.json({ message: "Event type not handled" }, { status: 200 });
   } else {
     console.warn(`Unhandled event type ${event.type}`);
@@ -241,6 +246,10 @@ async function sendCartData(postData: PostData) {
 }
 
 function formatName(fullName: string) {
+  if (!fullName) {
+    throw new Error('Full name is missing');
+  }
+
   // Trim and normalize whitespace
   const cleanedName = fullName.trim().replace(/\s+/g, ' ');
 

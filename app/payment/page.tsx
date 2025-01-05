@@ -28,19 +28,18 @@ export default function Page() {
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
   const subtotal = cart.reduce(
-    (a: any, v: any) => (a = a + v.quantity * v.item_id),
+    (a: any, v: any) => (a = a + v.quantity * v.price),
     0
   ); //adds the sum of price and quantity for each item
   const tax = subtotal * 0.06;
-  const convience = 0.02 * subtotal;
 
-  const amount = (subtotal + tax + convience).toFixed(2);
+  const amount = (subtotal + tax).toFixed(2);
 
   useEffect(() => {
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: convertToSubcurrency(amount), cart:cart }),
+      body: JSON.stringify({ cart:cart }),
     })
       .then((res) => res.json())
       .then((data) => {
