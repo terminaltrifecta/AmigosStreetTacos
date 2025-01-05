@@ -17,7 +17,7 @@ interface Popup {
 function AccordionMenuOrder() {
   const menuItems = [
     {
-      header: "Breakfast - $5",
+      header: "Breakfast - $7",
       items: [
         {
           item_name: "Chorizo, Egg, Cheese, and Veggie Burrito (Contains Pork)",
@@ -58,7 +58,7 @@ function AccordionMenuOrder() {
       ],
     },
     {
-      header: "Bowls - $10",
+      header: "Bowls - $12",
       items: [
         {
           item_name: "Grilled Chicken",
@@ -98,7 +98,7 @@ function AccordionMenuOrder() {
       ],
     },
     {
-      header: "Quesadillas - $10",
+      header: "Quesadillas - $11",
       items: [
         {
           item_name: "Chicken Quesadilla",
@@ -124,7 +124,7 @@ function AccordionMenuOrder() {
       ],
     },
     {
-      header: "Burritos - $10",
+      header: "Burritos - $11",
       items: [
         {
           item_name: "California",
@@ -172,7 +172,6 @@ function AccordionMenuOrder() {
     },
     {
       header: "Tacos - $3.00",
-
       items: [
         {
           item_name: "Chicken",
@@ -219,7 +218,7 @@ function AccordionMenuOrder() {
       ],
     },
     {
-      header: "Gourmet Items - $3.75",
+      header: "Gourmet Tacos - $3.75",
       items: [
         {
           item_name: "Meatlovers Taco",
