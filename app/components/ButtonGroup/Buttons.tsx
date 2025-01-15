@@ -3,7 +3,7 @@ import "./Buttons.css";
 
 function Buttons({ color, children }: any) {
   return (
-    <Link id="aref" href="/order">
+    <Link id="aref" href="/menu">
       <button id="buttonParent" className={color}>
         <div className="d-flex align-items-center justify-content-center p-4">
           {children}

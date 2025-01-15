@@ -1,7 +1,7 @@
 import Stripe from 'stripe';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from "@supabase/supabase-js";
-import { PostData, ItemData, CustomerData } from '@/app/interfaces';
+import { PostData, OrderedItemData, CustomerData } from '@/app/interfaces';
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
@@ -141,7 +141,7 @@ async function getCustomer(firstName:string, lastName:string, email: string): Pr
 }
 
 
-async function fetchAndFormatCart(uuid: string): Promise<ItemData[]> {
+async function fetchAndFormatCart(uuid: string): Promise<OrderedItemData[]> {
   try {
     // Step 1: Fetch data from Supabase
     let { data, error } = await supabase
@@ -165,7 +165,7 @@ async function fetchAndFormatCart(uuid: string): Promise<ItemData[]> {
     }
 
     // Step 2: Map data to the ItemData format
-    const cart: ItemData[] = rawCart.map((item: ItemData) => ({
+    const cart: OrderedItemData[] = rawCart.map((item: OrderedItemData) => ({
       item_id: item.item_id,
       comments: item.comments || '', // Ensure comments is an empty string if null
       quantity: item.quantity,

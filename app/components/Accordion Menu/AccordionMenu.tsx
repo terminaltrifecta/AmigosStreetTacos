@@ -2,12 +2,14 @@
 
 import { useAppDispatch } from "@/lib/hooks";
 import { addToCart } from "@/slices/cartSlice";
-import React from "react";
+import React, { useEffect } from "react";
 import { Accordion, Button, Dropdown, ListGroup } from "react-bootstrap";
 import { useState } from "react";
 import { CheckCircle } from "react-bootstrap-icons"; // Importing Bootstrap icon
 import { CartPlus, PlusCircle } from "iconoir-react";
 import "../Accordion Menu/AccordionMenu.css";
+import { supabase } from "@/app/supabase";
+import { MenuItemData, OrderedItemData } from "@/app/interfaces";
 
 interface Popup {
   id: number;
@@ -15,193 +17,10 @@ interface Popup {
 }
 
 function AccordionMenuOrder() {
-  const menuItems = [
-    {
-      header: "Breakfast - $7",
-      items: [
-        {
-          item_name: "Chorizo, Egg, Cheese, and Veggie Burrito (Contains Pork)",
-          item_id: 280, 
-          quantity: 1,
-          comments: "",
-        },
-        {
-          item_name: "Bacon, Egg, Cheddar, and Hash Brown Burrito",
-          item_id: 281, 
-          quantity: 1,
-          comments: "",
-        },
-        {
-          item_name: "3 Eggs, Carne Asada, Pico, and Cheese Burrito",
-          item_id: 282, 
-          quantity: 1,
-          comments: "",
-        },
-        {
-          item_name: "Two Tacos, Egg, Chorizo, Queso, Beans and Cilantro (Tacos, Pork)",
-          item_id: 283, 
-          quantity: 1,
-          comments: "",
-        },
-        {
-          item_name: "Huevos Rancheros, 3 Eggs, Veggies (Tacos)",
-          item_id: 284, 
-          quantity: 1,
-          comments: "",
-        },
-      ],
-    },
-    {
-      header: "Bowls - $12",
-      items: [
-        {
-          item_name: "Grilled Chicken",
-          item_id: 295, 
-          quantity: 1,
-          comments: "",
-        },
-        {
-          item_name: "Grilled Vegetables",
-          item_id: 296, 
-          quantity: 1,
-          comments: "",
-        },
-        { item_name: "Chicken Mole", item_id: 297, quantity: 1, comments: "" },
-        { item_name: "Carne Asada", item_id: 298, quantity: 1, comments: "" },
-        {
-          item_name: "Chicken Fajitas",
-          item_id: 299, 
-          quantity: 1,
-          comments: "",
-        },
-      ],
-    },
-    {
-      header: "Quesadillas - $11",
-      items: [
-        {
-          item_name: "Chicken Quesadilla",
-          item_id: 291, 
-          quantity: 1,
-          comments: "",
-        },
-        {
-          item_name: "California Quesadilla",
-          item_id: 290, 
-          quantity: 1,
-          comments: "",
-        },
-        {
-          item_name: "BBQ Chicken Quesadilla",
-          item_id: 292, 
-          quantity: 1,
-          comments: "",
-        },
-      ],
-    },
-    {
-      header: "Burritos - $11",
-      items: [
-        { item_name: "California", item_id: 285, quantity: 1, comments: "" },
-        {
-          item_name: "Chicken Fajitas",
-          item_id: 286, 
-          quantity: 1,
-          comments: "",
-        },
-        { item_name: "Chicken Mole", item_id: 297, quantity: 1, comments: "" },
-        {
-          item_name: "Grilled Vegetables",
-          item_id: 288, 
-          quantity: 1,
-          comments: "",
-        },
-        { item_name: "Carne Asada", item_id: 287, quantity: 1, comments: "" },
-        { item_name: "Beef & Cheese", item_id: 289, quantity: 1, comments: "" },
-      ],
-    },
-    {
-      header: "Tacos - $3.00",
-      items: [
-        { item_name: "Chicken", item_id: 2, quantity: 1, comments: "" },
-        { item_name: "Carne Asada", item_id: 1, quantity: 1, comments: "" },
-        { item_name: "Ground Beef", item_id: 309, quantity: 1, comments: "" },
-        {
-          item_name: "Carnitas (Pork)",
-          item_id: 311, 
-          quantity: 1,
-          comments: "",
-        },
-        {
-          item_name: "Suadero (Beef Steak)",
-          item_id: 312, 
-          quantity: 1,
-          comments: "",
-        },
-        { item_name: "Chorizo (Pork)", item_id: 313, quantity: 1, comments: "" },
-      ],
-    },
-    {
-      header: "Gourmet Tacos - $3.75",
-      items: [
-        {
-          item_name: "Meatlovers Taco",
-          item_id: 301, 
-          quantity: 1,
-          comments: "",
-        },
-        { item_name: "Taco Ranchero", item_id: 302, quantity: 1, comments: "" },
-        { item_name: "Taco Loco", item_id: 304, quantity: 1, comments: "" },
-        { item_name: "Veggie Taco", item_id: 306, quantity: 1, comments: "" },
-        {
-          item_name: "Taco Campechano",
-          item_id: 305, 
-          quantity: 1,
-          comments: "",
-        },
-        {
-          item_name: "Quesadilla Rachera",
-          item_id: 303, 
-          quantity: 1,
-          comments: "",
-        },
-      ],
-    },
-    {
-      header: "Amigos Specials",
-      items: [
-        { item_name: "Shrimp Tostada", item_id: 314, quantity: 1, comments: "" },
-        { item_name: "Shrimp Tacos", item_id: 315, quantity: 1, comments: "" },
-        { item_name: "Birria Tacos", item_id: 316, quantity: 1, comments: "" },
-        { item_name: "Asada Fries", item_id: 323, quantity: 1, comments: "" },
-        { item_name: "Taco Salad", item_id: 300, quantity: 1, comments: "" },
-        {
-          item_name: "Chicken Enchiladas",
-          item_id: 324, quantity: 1, comments: "" },
-        { item_name: "Combo Dinner", item_id: 325, quantity: 1, comments: "" },
-        { item_name: "Tamales Dinner", item_id: 326, quantity: 1, comments: "" },
-        { item_name: "Taco Dinner", item_id: 327, quantity: 1, comments: "" },
-        { item_name: "Choriqueso", item_id: 330, quantity: 1, comments: "" },
-        { item_name: "Crunch Wrap", item_id: 318, quantity: 1, comments: "" },
-        { item_name: "Chicken Tostada", item_id: 322, quantity: 1, comments: "" },
-        {
-          item_name: "Tamales (Sold Individually, Pork or Chicken)",
-          item_id: 335, 
-          quantity: 1,
-          comments: "",
-        },
-        { item_name: "Nachos Supreme", item_id: 317, quantity: 1, comments: "" },
-        { item_name: "Mangonada", item_id: 347, quantity: 1, comments: "" },
-        {
-          item_name: "Spicy Street Corn (With Hot Cheetos)",
-          item_id: 345, 
-          quantity: 1,
-          comments: "",
-        },
-        { item_name: "Street Corn", item_id: 345, quantity: 1, comments: "" },
-      ],
-    },
-  ];
+  
+  // State to store menu items and categories
+  const [menuItems, setMenuItems] = useState<MenuItemData[]>([]); 
+  const [categories, setCategories] = useState<any[]>([]);
 
   const dispatch = useAppDispatch();
   const [popups, setPopups] = useState<Popup[]>([]);
@@ -213,22 +32,21 @@ function AccordionMenuOrder() {
     }
   };
 
-  const playSound = (soundUrl: string) => {
-    const audio = new Audio(soundUrl);
-    audio.play();
-  };
+  function handleAddToCart (item: MenuItemData) {
 
-  const handleAddToCart = (item: {
-    item_name: string;
-    item_id: number;
-    quantity: number;
-    comments: string;
-  }) => {
-    dispatch(addToCart(item));
+    // Converts from MenuItemData to OrderedItemData
+    const orderedItem: OrderedItemData = {
+      item_name: item.name,
+      item_id: item.item_id,
+      quantity: 1,
+      comments: "",
+    };
+
+    dispatch(addToCart(orderedItem));
 
     const newPopup: Popup = {
       id: Date.now(),
-      message: `${item.item_name} added to cart!`,
+      message: `${item.name} added to cart!`,
     };
 
     setPopups((prevPopups) => [...prevPopups, newPopup]);
@@ -243,27 +61,67 @@ function AccordionMenuOrder() {
     }, 3000);
   };
 
+  async function initializeMenu() {
+    // Fetches menu categories
+    try {
+      const { data, error } = await supabase
+        .from('category')
+        .select('*');
+      if (error || !data) {
+        throw new Error('Failed to fetch menu categories');
+      } else {
+        setCategories(data);
+      } 
+    } catch (err) {
+      console.error(err);
+      throw new Error('Failed to fetch menu categories');
+    }
+
+    // Fetches menu items
+    try {
+      const { data, error } = await supabase
+        .from('items')
+        .select('*');
+      if (error || !data) {
+        throw new Error('Failed to fetch menu items');
+      } else {
+        setMenuItems(data);
+      }
+    } catch (err) {
+      console.error(err);
+      throw new Error('Failed to fetch menu items');
+    }
+  }
+
+  // Fetches menu items on component mount
+  useEffect(() => {
+    initializeMenu();
+  }, []);
+
   return (
     <>
       <Accordion>
-        {menuItems.map((section, index) => (
-          <Accordion.Item eventKey={`${index + 1}`} key={section.header}>
+        {categories.map((category, index) => (
+          <Accordion.Item eventKey={`${index + 1}`} key={category.name}>
             <Accordion.Header>
-              <h4>{section.header}</h4>
+              <h4>{category.name}</h4>
             </Accordion.Header>
             <Accordion.Body>
               <ListGroup variant="flush">
-                {section.items.map((item) => (
+                {menuItems
+                  .filter((item) => item.category_id === category.category_id)
+                  .map((item) => (
                   <ListGroup.Item
+                    key={item.item_id}
                     className="d-flex justify-content-between align-items-center"
                   >
-                    <span>{item.item_name}</span>
-
+                    <span>{item.name + " " + item.price}</span>
+                    <span>{item.ingredients}</span>
                     <div className="icon" onClick={() => handleAddToCart(item)}>
-                      <PlusCircle width={24} height={24} strokeWidth={2} />
+                    <PlusCircle width={24} height={24} strokeWidth={2} />
                     </div>
                   </ListGroup.Item>
-                ))}
+                  ))}
               </ListGroup>
             </Accordion.Body>
           </Accordion.Item>

@@ -1,10 +1,21 @@
 //interface for each item in the cart
-export interface ItemData {
+export interface OrderedItemData {
     item_name: string;
     item_id: number;
     quantity: number;
     comments: string;
   }
+
+//interface for items table in supabase
+export interface MenuItemData {
+    item_id: number;
+    franchise_id: number;
+    name: string;
+    price: number;
+    ingredients: any; // or a more specific type if known
+    status_id: number;
+    category_id: number;
+}
   
 //interface for the entire order data
 export interface PostData {
@@ -18,7 +29,7 @@ export interface PostData {
     location: string | null;
     is_pickup: boolean;
     status_id: number;
-    cart: ItemData[];
+    cart: OrderedItemData[];
     customer_id: number;
 }
 
