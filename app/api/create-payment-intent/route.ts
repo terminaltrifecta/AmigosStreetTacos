@@ -1,6 +1,7 @@
 import Stripe from 'stripe';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { v4 as uuidv4 } from 'uuid';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-11-20.acacia',
@@ -39,6 +40,8 @@ let amount: number;
 export async function POST(req: NextRequest) {
   let body;
   
+  console.log("POST");
+
   // Parse JSON from the request body
   try {
     body = await req.json();
@@ -48,12 +51,15 @@ export async function POST(req: NextRequest) {
 
   const { cart } = body;
 
+  // Add an idempotency key to the request body
+  const idempotencyKey = req.headers.get('Idempotency-Key') || uuidv4();
+
   // Store the temporary cart data
   try {
     const { data, error } = await supabase
       .from('temporary_orders')
       .insert([
-        { cart, time_created: new Date() },
+        { cart, time_created: new Date(), idempotency_key: idempotencyKey },
       ])
       .select()
       .single();

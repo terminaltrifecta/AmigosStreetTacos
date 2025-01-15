@@ -183,23 +183,22 @@ async function sendCartData(postData: PostData) {
   try {
     // Step 1: Validate input
     if (!postData.cart || postData.cart.length === 0) {
+      console.error('Cart is empty');
       return NextResponse.json({ error: 'Cart is empty' }, { status: 400 });
     }
 
     // Step 2: Create a new order
     const { data: orderData, error: orderError } = await supabase
       .from('orders')
-      .insert([
-        {
-          location_id: postData.location_id,
-          customer_id: postData.customer_id,
-          time_placed: postData.time_placed,
-          time_requested: postData.time_requested,
-          location: postData.location,
-          is_pickup: postData.is_pickup,
-          status_id: postData.status_id,
-        },
-      ])
+      .insert([{
+        location_id: postData.location_id,
+        customer_id: postData.customer_id,
+        time_placed: postData.time_placed,
+        time_requested: postData.time_requested,
+        location: postData.location,
+        is_pickup: postData.is_pickup,
+        status_id: postData.status_id,
+      }])
       .select('order_id')
       .single();
 
@@ -207,6 +206,8 @@ async function sendCartData(postData: PostData) {
       console.error('Error creating order:', orderError.message);
       return NextResponse.json({ error: 'Failed to create new order' }, { status: 500 });
     }
+
+    console.log('Order created successfully:', orderData);
 
     // Step 3: Insert cart items into the ordered_items table
     const itemsToInsert = postData.cart.map((item) => ({
@@ -234,8 +235,9 @@ async function sendCartData(postData: PostData) {
       return NextResponse.json({ error: 'Failed to insert cart items' }, { status: 500 });
     }
 
-    // Step 4: Send post data to the API
+    console.log('Cart items inserted successfully');
 
+    // Step 4: Send post data to the API
     const response = await fetch('https://claws-api.onrender.com/api', {
       method: 'POST',
       headers: {
@@ -243,7 +245,14 @@ async function sendCartData(postData: PostData) {
       },
       body: JSON.stringify(postData),
     });
-    
+
+    if (!response.ok) {
+      console.error('Error sending post data to API:', response.statusText);
+      return NextResponse.json({ error: 'Failed to send post data to API' }, { status: 500 });
+    }
+
+    console.log('Post data sent to API successfully');
+
     // Step 5: Return success response
     return NextResponse.json({ message: 'Order and cart items inserted successfully' }, { status: 200 });
 

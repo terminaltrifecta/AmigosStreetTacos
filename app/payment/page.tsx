@@ -36,15 +36,23 @@ export default function Page() {
   const amount = (subtotal + tax).toFixed(2);
 
   useEffect(() => {
+    let isMounted = true;
+    console.log("useffect");
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart:cart }),
+      body: JSON.stringify({ cart: cart }),
     })
       .then((res) => res.json())
       .then((data) => {
-        setClientSecret(data.clientSecret);
+        if (isMounted) {
+          setClientSecret(data.clientSecret);
+        }
       });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const elementOptions:StripeElementsOptions = {

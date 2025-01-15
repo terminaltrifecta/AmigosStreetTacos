@@ -42,7 +42,7 @@ export default function CartViewer() {
       ) : (
         cart.map((item: Item) => (
           <CartItem
-          key={item.item_name}
+            key={item.item_name}
             item_name={item.item_name}
             price={item.price}
             quantity={item.quantity}
