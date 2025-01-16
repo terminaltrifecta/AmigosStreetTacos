@@ -2,6 +2,7 @@
 export interface OrderedItemData {
     item_name: string;
     item_id: number;
+    price: number,
     quantity: number;
     comments: string;
   }

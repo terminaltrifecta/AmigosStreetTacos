@@ -164,12 +164,13 @@ async function fetchAndFormatCart(uuid: string): Promise<OrderedItemData[]> {
       throw new Error('Cart data is not an array');
     }
 
-    // Step 2: Map data to the ItemData format
+    // Step 2: Format the cart data
     const cart: OrderedItemData[] = rawCart.map((item: OrderedItemData) => ({
       item_id: item.item_id,
       comments: item.comments || '', // Ensure comments is an empty string if null
       quantity: item.quantity,
       item_name: item.item_name,
+      price: item.price, // Include the price property
     }));
 
     return cart;

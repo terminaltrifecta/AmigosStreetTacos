@@ -3,10 +3,10 @@
 import { useAppDispatch } from "@/lib/hooks";
 import { addToCart } from "@/slices/cartSlice";
 import React, { useEffect } from "react";
-import { Accordion, Button, Dropdown, ListGroup } from "react-bootstrap";
+import { Accordion, ListGroup } from "react-bootstrap";
 import { useState } from "react";
 import { CheckCircle } from "react-bootstrap-icons"; // Importing Bootstrap icon
-import { CartPlus, PlusCircle } from "iconoir-react";
+import { PlusCircle } from "iconoir-react";
 import "../Accordion Menu/AccordionMenu.css";
 import { supabase } from "@/app/supabase";
 import { MenuItemData, OrderedItemData } from "@/app/interfaces";
@@ -38,6 +38,7 @@ function AccordionMenuOrder() {
     const orderedItem: OrderedItemData = {
       item_name: item.name,
       item_id: item.item_id,
+      price: item.price,
       quantity: 1,
       comments: "",
     };
