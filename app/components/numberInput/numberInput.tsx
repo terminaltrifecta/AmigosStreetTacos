@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/esm/Button";
-import "./numberInput.css";
+import React, { useEffect, useState } from 'react';
 
-export default function NumberInput({ decrease, increase, value }: any) {
+const NumberInput = ({ value, decrease, increase }: any) => {
   const [localValue, setLocalValue] = useState(value);
 
   useEffect(() => {
@@ -10,21 +8,26 @@ export default function NumberInput({ decrease, increase, value }: any) {
   }, [value]);
 
   return (
-    <div className="numberContainer">
-      <button className="numButton" id="decrement" onClick={decrease}>
+    <div className="flex items-center border-2 border-[#e2d3c0] rounded-full w-full">
+      <button
+        className="bg-white text-red-500 hover:text-black px-6 py-4 rounded-l-full"
+        id="decrement"
+        onClick={decrease}
+      >
         -
       </button>
-      <input
-        type="number"
-        min={1}
-        max={50}
-        step={1}
-        value={localValue}
-        readOnly
-      />
-      <button className="numButton" id="increment" onClick={increase}>
+      <div
+        className="text-center text-lg font-bold bg-white text-black py-4 w-full h-full appearance-textfield"
+      >{value}</div>
+      <button
+        className="bg-white text-red-500 hover:text-black px-6 py-4 rounded-r-full"
+        id="increment"
+        onClick={increase}
+      >
         +
       </button>
     </div>
   );
-}
+};
+
+export default NumberInput;

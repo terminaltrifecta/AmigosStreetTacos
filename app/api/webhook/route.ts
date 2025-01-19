@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from "@supabase/supabase-js";
 import { PostData, OrderedItemData, CustomerData } from '@/app/interfaces';
 
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-11-20.acacia',
@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
     //gets the json from the uuid of the charge
     try {
       const cart = await fetchAndFormatCart(uuid);
+
       const customer = await getCustomer(firstName, lastName, email);
 
       const packageData: PostData = {
@@ -171,6 +172,7 @@ async function fetchAndFormatCart(uuid: string): Promise<OrderedItemData[]> {
       quantity: item.quantity,
       item_name: item.item_name,
       price: item.price, // Include the price property
+      modifications: item.modifications || [], // Ensure modifications is an empty array if null
     }));
 
     return cart;
@@ -218,7 +220,7 @@ async function sendCartData(postData: PostData) {
       comments: item.comments || '',
     }));
 
-    const { error: itemsError } = await supabase.from('ordered_items').insert(itemsToInsert);
+    const { data: insertedItems , error: itemsError } = await supabase.from('ordered_items').insert(itemsToInsert).select('ordered_item_id');
 
     if (itemsError) {
       console.error('Error inserting cart items:', itemsError.message);
@@ -238,21 +240,19 @@ async function sendCartData(postData: PostData) {
 
     console.log('Cart items inserted successfully');
 
-    // Step 4: Send post data to the API
-    const response = await fetch('https://claws-api.onrender.com/api', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postData),
-    });
+    // Step 4: Insert modifications into the modified_ordered_items table
+    const modificationsToInsert = postData.cart
+      .flatMap((item, i) => item.modifications.map((mod) => ({
+        ordered_item_id: insertedItems[i].ordered_item_id,
+        modification_id: mod,
+      })));
 
-    if (!response.ok) {
-      console.error('Error sending post data to API:', response.statusText);
-      return NextResponse.json({ error: 'Failed to send post data to API' }, { status: 500 });
+    const { error: modsError } = await supabase.from('modified_ordered_items').insert(modificationsToInsert);
+
+    if (modsError) {
+      console.error('Error inserting modifications:', modsError.message);
+      return NextResponse.json({ error: 'Failed to insert modifications' }, { status: 500 });
     }
-
-    console.log('Post data sent to API successfully');
 
     // Step 5: Return success response
     return NextResponse.json({ message: 'Order and cart items inserted successfully' }, { status: 200 });

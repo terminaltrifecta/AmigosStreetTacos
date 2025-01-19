@@ -4,8 +4,19 @@ export interface OrderedItemData {
     item_id: number;
     price: number,
     quantity: number;
+    modifications: number[];
     comments: string;
-  }
+}
+
+//interface for each modification in the cart
+export interface ModificationData {
+    modification_id: number;
+    modification: string;
+    location_id: number;
+    price: number;
+    category_id: number;
+    item_id: number;
+}
 
 //interface for items table in supabase
 export interface MenuItemData {

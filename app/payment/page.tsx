@@ -1,15 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import usePostMutation from "../hooks/usePosts";
 import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import {
-  Elements,
-  PaymentElement,
-  useElements,
-  useStripe,
+  Elements
 } from "@stripe/react-stripe-js";
-import convertToSubcurrency from "@/lib/convertToSubcrrency";
 import CheckoutPage from "../components/CheckoutPage";
 import Image from "next/image";
 import { useAppSelector } from "@/lib/hooks";

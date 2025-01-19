@@ -7,10 +7,7 @@ import {
   AddressElement,
 } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
-import usePostMutation, { PostData } from "../hooks/usePosts";
-import { useAppSelector } from "@/lib/hooks";
-import { RootState } from "@/lib/store";
-import { StripeAddressElementOptions, StripePaymentElementOptions } from "@stripe/stripe-js";
+import { StripePaymentElementOptions } from "@stripe/stripe-js";
 
 export default function CheckoutPage({ amount, clientSecret }: any) {
   const stripe = useStripe();

@@ -6,10 +6,14 @@ import React, { useEffect } from "react";
 import { Accordion, ListGroup } from "react-bootstrap";
 import { useState } from "react";
 import { CheckCircle, Icon2Square } from "react-bootstrap-icons"; // Importing Bootstrap icon
-import { PlusCircle } from "iconoir-react";
+import { CartAlt, PlusCircle } from "iconoir-react";
 import "../Accordion Menu/AccordionMenu.css";
 import { supabase } from "@/app/supabase";
-import { MenuItemData, OrderedItemData } from "@/app/interfaces";
+import {
+  MenuItemData,
+  ModificationData,
+  OrderedItemData,
+} from "@/app/interfaces";
 import Modal from "../Modal";
 import NumberInput from "../numberInput/numberInput";
 
@@ -22,9 +26,15 @@ function AccordionMenuOrder() {
   // State to store menu items and categories
   const [menuItems, setMenuItems] = useState<MenuItemData[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
+  const [modifications, setModifications] = useState<ModificationData[]>([]);
 
+  //current item state for modal
   const [selectedItem, setSelectedItem] = useState<MenuItemData | null>(null);
+  const [price, setPrice] = useState(0);
+  const [selectedModifications, setSelectedModifications] = useState<number[]>([]);
   const [quantity, setQuantity] = useState(1);
+  const [instructions, setInstructions] = useState("");
+
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const [popups, setPopups] = useState<Popup[]>([]);
@@ -37,8 +47,12 @@ function AccordionMenuOrder() {
   };
 
   function openModifications(item: MenuItemData) {
-    setOpen(true);
     setSelectedItem(item);
+    setPrice(item.price);
+    setQuantity(1);
+    setInstructions("");
+    setSelectedModifications([]);
+    setOpen(true);
   }
 
   function handleAddToCart(item: MenuItemData) {
@@ -46,12 +60,14 @@ function AccordionMenuOrder() {
     const orderedItem: OrderedItemData = {
       item_name: item.name,
       item_id: item.item_id,
-      price: item.price,
-      quantity: 1,
-      comments: "",
+      price: price,
+      quantity: quantity,
+      comments: instructions,
+      modifications: selectedModifications,
     };
 
     dispatch(addToCart(orderedItem));
+    setOpen(false);
 
     const newPopup: Popup = {
       id: Date.now(),
@@ -69,6 +85,20 @@ function AccordionMenuOrder() {
       );
     }, 3000);
   }
+
+  const handleModificationChange = (modification: ModificationData) => {
+
+    if (selectedModifications.includes(modification.modification_id)) {
+      setPrice(price - modification.price/100);
+      setSelectedModifications(selectedModifications.filter((modId) => modId !== modification.modification_id));
+    } else {
+      setPrice(price + modification.price/100);
+      setSelectedModifications((prevSelectedMods) => [
+      ...prevSelectedMods,
+      modification.modification_id,
+      ]);
+    }
+  };
 
   async function initializeMenu() {
     // Fetches menu categories
@@ -95,6 +125,23 @@ function AccordionMenuOrder() {
     } catch (err) {
       console.error(err);
       throw new Error("Failed to fetch menu items");
+    }
+
+    // Fetches modifications
+    try {
+      const { data, error } = await supabase
+        .from("modifications")
+        .select("*")
+        .eq("location_id", 2);
+      if (error || !data) {
+        throw new Error("Failed to fetch modifications");
+      } else {
+        setModifications(data);
+        console.log(data);
+      }
+    } catch (err) {
+      console.error(err);
+      throw new Error("Failed to fetch modifications");
     }
   }
 
@@ -136,34 +183,81 @@ function AccordionMenuOrder() {
       </Accordion>
 
       <Modal open={open} onClose={() => setOpen(false)}>
-        <div className="text-center w-56">
-          <div className="mx-auto my-4 w-48">
-            <h3 className="text-lg font-black text-gray-800">
-              {selectedItem?.name}
-            </h3>
-            <p className="text-sm text-gray-500">Add modifications</p>
+        <div className="text-center flex flex-col items-center w-56 lg:w-96">
+          <div className="my-4 space-y-2">
+            <div className="">
+              <div className="text-lg font-black text-gray-800">
+                {selectedItem?.name}
+              </div>
+              <div className="text-sm text-gray-500">
+                {"$" + price.toFixed(2)}
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              {modifications
+                .filter(
+                  (modification) =>
+                    modification.category_id === selectedItem?.category_id ||
+                    modification.item_id === selectedItem?.item_id
+                )
+                .map((modification) => (
+                  <div
+                    key={modification.modification_id}
+                    className="flex space-x-2"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedModifications.includes(
+                        modification.modification_id
+                      )}
+                      onChange={() =>
+                        handleModificationChange(modification)
+                      }
+                    />
+                    <div className="text-gray-500">
+                      {modification.modification}
+                    </div>
+                    <div>${(modification.price / 100).toFixed(2)}</div>
+                  </div>
+                ))}
+            </div>
+
             <NumberInput
               value={quantity}
               increase={() => {
                 setQuantity(quantity + 1);
-                console.log("increased!!");
               }}
               decrease={() => {
                 if (quantity > 1) {
                   setQuantity(quantity - 1);
                 }
-                console.log("decreased!!");
+              }}
+            />
+            <input
+              placeholder={"Custom Instructions"}
+              value={instructions}
+              className="input p-2 border-2 rounded-md w-full"
+              type="text"
+              onChange={(event: any) => {
+                setInstructions(event.target.value);
               }}
             />
           </div>
-          <div className="flex gap-4">
-            <button className="btn btn-danger w-full">Delete</button>
-            <button
+          <div className="flex gap-4 w-full">
+            <div
+              className="btn btn-danger w-full flex"
+              onClick={() => handleAddToCart(selectedItem as MenuItemData)}
+            >
+              <div className="normal-case">Add</div>
+            </div>
+
+            <div
               className="btn btn-light w-full"
               onClick={() => setOpen(false)}
             >
-              Cancel
-            </button>
+              <div className="normal-case">Cancel</div>
+            </div>
           </div>
         </div>
       </Modal>

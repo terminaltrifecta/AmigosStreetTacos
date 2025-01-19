@@ -39,7 +39,6 @@ let amount: number;
 
 export async function POST(req: NextRequest) {
   let body;
-  
   console.log("POST");
 
   // Parse JSON from the request body
