@@ -190,7 +190,7 @@ function AccordionMenuOrder() {
                 {selectedItem?.name}
               </div>
               <div className="text-sm text-gray-500">
-                {"$" + price.toFixed(2)}
+                {"$" + (price*quantity).toFixed(2)}
               </div>
             </div>
 

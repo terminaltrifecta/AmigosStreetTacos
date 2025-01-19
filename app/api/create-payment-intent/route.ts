@@ -2,20 +2,13 @@ import Stripe from 'stripe';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid';
+import { OrderedItemData } from '@/app/interfaces';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-11-20.acacia',
 });
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
-
-// Interface for each item in the cart
-export interface ItemData {
-  item_name: string;
-  item_id: number;
-  quantity: number;
-  comments: string;
-}
 
 // Interface for the entire order data
 export interface PostData {
@@ -29,7 +22,7 @@ export interface PostData {
   location: string;
   is_pickup: boolean;
   status_id: number;
-  cart: ItemData[];
+  cart: OrderedItemData[];
 }
 
 // Create cartData variable of type PostData
@@ -97,15 +90,63 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function calculateCartPrice(cart: ItemData[]) {
-  let amount = 5;
+export async function calculateCartPrice(cart: OrderedItemData[]) {
+  let amount = 5; // Base amount
 
-  
   try {
+    // Fetch all item prices and modifications in a single query
+    const itemIds = cart.map(item => item.item_id);
+    const { data: itemsData, error: itemsError } = await supabase
+      .from('items')
+      .select('item_id, price')
+      .in('item_id', itemIds);
+
+    if (itemsError) {
+      throw new Error(`Supabase error fetching item prices: ${itemsError.message}`);
+    }
+
+    if (!itemsData || itemsData.length === 0) {
+      throw new Error('No items found for the given item IDs');
+    }
+
+    // Create a map of item prices for quick lookup
+    const itemPriceMap = new Map(itemsData.map(item => [item.item_id, item.price]));
+
+    // Fetch all modification prices in a single query
+    const modificationIds = cart.flatMap(item => item.modifications || []);
+    const { data: modificationsData, error: modificationsError } = await supabase
+      .from('modifications')
+      .select('modification_id, price')
+      .in('modification_id', modificationIds);
+
+    if (modificationsError) {
+      throw new Error(`Supabase error fetching modification prices: ${modificationsError.message}`);
+    }
+
+    if (!modificationsData || modificationsData.length === 0) {
+      throw new Error('No modifications found for the given modification IDs');
+    }
+
+    // Create a map of modification prices for quick lookup
+    const modificationPriceMap = new Map(modificationsData.map(mod => [mod.modification_id, mod.price]));
+
+    // Calculate the total amount including modifications
     for (const item of cart) {
-      const price = await getPrice(item.item_id);
-      console.log(`Item: ${item.item_name}, ID: ${item.item_id}, Quantity: ${item.quantity}, Price: ${price}`);
+      const price = itemPriceMap.get(item.item_id);
+      if (price === undefined) {
+      throw new Error(`Price not found for item ID: ${item.item_id}`);
+      }
       amount += item.quantity * price;
+
+      if (item.modifications) {
+      for (const modId of item.modifications) {
+        const modPrice = modificationPriceMap.get(modId);
+        if (modPrice === undefined) {
+        throw new Error(`Price not found for modification ID: ${modId}`);
+        }
+        amount += item.quantity * modPrice;
+      }
+      }
     }
 
     console.log(`Total calculated amount (in cents): ${amount}`);
@@ -118,31 +159,6 @@ export async function calculateCartPrice(cart: ItemData[]) {
   } catch (err: any) {
     console.error('Error calculating cart price:', err.message);
     throw new Error(`Error in calculateCartPrice: ${err.message}`);
-  }
-}
-
-export async function getPrice(itemId: number) {
-  // Fetch the price of an item from the database
-  try {
-    const { data, error } = await supabase
-      .from('items')
-      .select('price')
-      .eq('item_id', itemId)
-      .single();
-
-    if (error) {
-      throw new Error(`Supabase error fetching item price: ${error.message}`);
-    }
-
-    if (!data) {
-      throw new Error(`Item not found: ${itemId}`);
-    }
-
-    console.log('Fetched price (in cents):', data.price * 100);
-    return data.price * 100; // Convert to cents
-  } catch (err: any) {
-    console.error(`Error fetching price for item ${itemId}:`, err.message);
-    throw new Error(`Error in getPrice for itemId ${itemId}: ${err.message}`);
   }
 }
 
