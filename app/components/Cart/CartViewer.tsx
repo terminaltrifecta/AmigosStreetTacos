@@ -1,24 +1,25 @@
 import React, { useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import CartItem from "./CartItem";
 import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 import Link from "next/link";
-import { supabase } from "@/app/supabase";
-
-interface Item {
-  item_name: string;
-  item_id: number;
-  quantity: number;
-  price: number;
-  comments: string;
-}
+import { OrderedItemData } from "@/app/interfaces";
 
 async function cartSend() {
-
   const locationsData = [
-    { location_name: "Location 1", address: "Address 1", franchise_id: 1, location: "POINT(10, 20)" },
-    { location_name: "Location 2", address: "Address 2", franchise_id: 2, location: "POINT(30, 40)" },
+    {
+      location_name: "Location 1",
+      address: "Address 1",
+      franchise_id: 1,
+      location: "POINT(10, 20)",
+    },
+    {
+      location_name: "Location 2",
+      address: "Address 2",
+      franchise_id: 2,
+      location: "POINT(30, 40)",
+    },
     // ... more locations
   ];
 }
@@ -40,13 +41,15 @@ export default function CartViewer() {
       {cart.length === 0 ? (
         <p>The cart is empty.</p>
       ) : (
-        cart.map((item: Item) => (
+        cart.map((item: OrderedItemData, i: number) => (
           <CartItem
             key={item.item_name}
             item_name={item.item_name}
+            item_index={i}
             price={item.price}
             quantity={item.quantity}
             comments={item.comments}
+            modifications={item.modifications}
           />
         ))
       )}
@@ -55,9 +58,7 @@ export default function CartViewer() {
       <div className="whiteBorder p-4">
         <div className="">Subtotal: ${subtotal.toFixed(2)}</div>
         <div className="">Tax: ${tax.toFixed(2)}</div>
-        <div className="fs-3">
-          Total: ${(subtotal + tax).toFixed(2)}
-        </div>
+        <div className="fs-3">Total: ${(subtotal + tax).toFixed(2)}</div>
 
         <br />
         <Link id="aref" href="/payment">

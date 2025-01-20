@@ -1,5 +1,5 @@
 import { OrderedItemData } from "@/app/interfaces";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface CartState {
   value: OrderedItemData[];
@@ -54,10 +54,28 @@ export const cartSlice = createSlice({
           : cartItem
       );
     },
+    removeModification: (
+      state: any,
+      {
+        payload,
+      }: PayloadAction<{ itemIndex: number; modificationIndex: number }>
+    ) => {
+      const { itemIndex, modificationIndex } = payload;
+      const cartItem = state[itemIndex];
+
+      if (cartItem && cartItem.modifications) {
+        cartItem.modifications.splice(modificationIndex, 1);
+      }
+    },
   },
 });
 
-export const { addToCart, removeFromCart, setQuantity, setInstructions } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  setQuantity,
+  setInstructions,
+  removeModification,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

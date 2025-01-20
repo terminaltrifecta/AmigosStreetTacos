@@ -1,12 +1,29 @@
-'use client'
+"use client";
 
 import Image from "next/image";
 import styles from "./page.module.css";
 import Slideshow from "./components/Slideshow/Slideshow";
 import Tab from "./components/Tab/Tab";
 import CardTab from "./components/CardTab/CardTab";
+import { useEffect } from "react";
+import { initializeMenu } from "./utils/menuUtils";
+import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import { RootState } from "@/lib/store";
 
 export default function Home() {
+  const menu = useAppSelector((state: RootState) => state.menu);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (
+      menu.categories.length === 0 ||
+      menu.menuItems.length === 0 ||
+      menu.modifications.length === 0
+    ) {
+      initializeMenu(dispatch);
+    }
+  }, []);
+
   return (
     <>
       <div className="d-grid gap-3">

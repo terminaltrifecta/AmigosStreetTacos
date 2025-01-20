@@ -1,8 +1,8 @@
 "use client";
 
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addToCart } from "@/slices/cartSlice";
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { Accordion, ListGroup } from "react-bootstrap";
 import { useState } from "react";
 import { CheckCircle, Icon2Square } from "react-bootstrap-icons"; // Importing Bootstrap icon
@@ -16,13 +16,19 @@ import {
 } from "@/app/interfaces";
 import Modal from "../Modal";
 import NumberInput from "../numberInput/numberInput";
+import { RootState } from "@/lib/store";
+import { initializeMenu } from "@/app/utils/menuUtils";
 
 interface Popup {
   id: number;
   message: string;
 }
 
-function AccordionMenuOrder() {
+export default function AccordionMenuOrder() {
+  // Redux state and dispatch
+  const dispatch = useAppDispatch();
+  const menu = useAppSelector((state: RootState) => state.menu);
+
   // State to store menu items and categories
   const [menuItems, setMenuItems] = useState<MenuItemData[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
@@ -31,12 +37,13 @@ function AccordionMenuOrder() {
   //current item state for modal
   const [selectedItem, setSelectedItem] = useState<MenuItemData | null>(null);
   const [price, setPrice] = useState(0);
-  const [selectedModifications, setSelectedModifications] = useState<number[]>([]);
+  const [selectedModifications, setSelectedModifications] = useState<number[]>(
+    []
+  );
   const [quantity, setQuantity] = useState(1);
   const [instructions, setInstructions] = useState("");
 
   const [open, setOpen] = useState(false);
-  const dispatch = useAppDispatch();
   const [popups, setPopups] = useState<Popup[]>([]);
 
   // Function to trigger haptic feedback
@@ -87,68 +94,35 @@ function AccordionMenuOrder() {
   }
 
   const handleModificationChange = (modification: ModificationData) => {
-
     if (selectedModifications.includes(modification.modification_id)) {
-      setPrice(price - modification.price/100);
-      setSelectedModifications(selectedModifications.filter((modId) => modId !== modification.modification_id));
+      setPrice(price - modification.price / 100);
+      setSelectedModifications(
+        selectedModifications.filter(
+          (modId) => modId !== modification.modification_id
+        )
+      );
     } else {
-      setPrice(price + modification.price/100);
+      setPrice(price + modification.price / 100);
       setSelectedModifications((prevSelectedMods) => [
-      ...prevSelectedMods,
-      modification.modification_id,
+        ...prevSelectedMods,
+        modification.modification_id,
       ]);
     }
   };
 
-  async function initializeMenu() {
-    // Fetches menu categories
-    try {
-      const { data, error } = await supabase.from("category").select("*");
-      if (error || !data) {
-        throw new Error("Failed to fetch menu categories");
-      } else {
-        setCategories(data);
-      }
-    } catch (err) {
-      console.error(err);
-      throw new Error("Failed to fetch menu categories");
-    }
-
-    // Fetches menu items
-    try {
-      const { data, error } = await supabase.from("items").select("*");
-      if (error || !data) {
-        throw new Error("Failed to fetch menu items");
-      } else {
-        setMenuItems(data);
-      }
-    } catch (err) {
-      console.error(err);
-      throw new Error("Failed to fetch menu items");
-    }
-
-    // Fetches modifications
-    try {
-      const { data, error } = await supabase
-        .from("modifications")
-        .select("*")
-        .eq("location_id", 2);
-      if (error || !data) {
-        throw new Error("Failed to fetch modifications");
-      } else {
-        setModifications(data);
-        console.log(data);
-      }
-    } catch (err) {
-      console.error(err);
-      throw new Error("Failed to fetch modifications");
-    }
-  }
-
-  // Fetches menu items on component mount
   useEffect(() => {
-    initializeMenu();
-  }, []);
+    if (
+      menu.categories.length === 0 ||
+      menu.menuItems.length === 0 ||
+      menu.modifications.length === 0
+    ) {
+      initializeMenu(dispatch);
+    } else {
+      setCategories(menu.categories);
+      setMenuItems(menu.menuItems);
+      setModifications(menu.modifications);
+    }
+  }, [menu]);
 
   return (
     <>
@@ -190,7 +164,7 @@ function AccordionMenuOrder() {
                 {selectedItem?.name}
               </div>
               <div className="text-sm text-gray-500">
-                {"$" + (price*quantity).toFixed(2)}
+                {"$" + (price * quantity).toFixed(2)}
               </div>
             </div>
 
@@ -204,16 +178,14 @@ function AccordionMenuOrder() {
                 .map((modification) => (
                   <div
                     key={modification.modification_id}
-                    className="flex space-x-2"
+                    className="flex space-x-2 cursor-pointer"
+                    onClick={() => handleModificationChange(modification)}
                   >
                     <input
                       type="checkbox"
                       checked={selectedModifications.includes(
                         modification.modification_id
                       )}
-                      onChange={() =>
-                        handleModificationChange(modification)
-                      }
                     />
                     <div className="text-gray-500">
                       {modification.modification}
@@ -322,5 +294,3 @@ function AccordionMenuOrder() {
     </>
   );
 }
-
-export default AccordionMenuOrder;

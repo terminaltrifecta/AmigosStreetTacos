@@ -28,6 +28,13 @@ export interface MenuItemData {
     status_id: number;
     category_id: number;
 }
+
+//interface for the categories table in supabase
+export interface CategoryData {
+    category_id: number;
+    name: string;
+    location_id: number;
+}
   
 //interface for the entire order data
 export interface PostData {
