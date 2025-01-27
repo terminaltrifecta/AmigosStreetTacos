@@ -7,6 +7,7 @@ import { ModificationData } from "../interfaces";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 
+
 export async function initializeMenu(dispatch: Dispatch) {
     
     // Fetches menu categories
@@ -50,9 +51,4 @@ export async function initializeMenu(dispatch: Dispatch) {
       console.error(err);
       throw new Error("Failed to fetch modifications");
     }
-}
-
-export function getModification(modification_id: number) {
-    const modifications = useSelector((state: RootState) => state.menu.modifications);    
-    return modifications.find((mod: ModificationData) => mod.modification_id === modification_id) as ModificationData | undefined;
 }

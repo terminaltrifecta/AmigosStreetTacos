@@ -8,8 +8,7 @@ import {
 import React from "react";
 import NumberInput from "../numberInput/numberInput";
 import { Xmark } from "iconoir-react";
-import { OrderedItemData } from "@/app/interfaces";
-import { getModification } from "@/app/utils/menuUtils";
+import { ModificationData, OrderedItemData } from "@/app/interfaces";
 
 // The CartItem functional component takes CartItemProps as props
 export default function CartItem({
@@ -71,10 +70,10 @@ export default function CartItem({
       </div>
 
       <div className="">
-        {modifications.map((modification_id: number, i: number) => (
+        {modifications.map((modification: ModificationData, i: number) => (
           <div className="flex space-x-2">
             <div className="text-gray-500">
-              {getModification(modification_id)?.modification}
+              {modification.modification}
             </div>
             <div className="flex h-full align-middle cursor-pointer" 
               onClick={() => {

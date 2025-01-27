@@ -26,7 +26,7 @@ async function cartSend() {
 
 export default function CartViewer() {
   const cart = useAppSelector((state: RootState) => state.cart);
-
+ 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
   const subtotal = cart.reduce(
     (a: any, v: any) => (a = a + v.quantity * v.price),

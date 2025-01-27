@@ -37,7 +37,7 @@ export default function AccordionMenuOrder() {
   //current item state for modal
   const [selectedItem, setSelectedItem] = useState<MenuItemData | null>(null);
   const [price, setPrice] = useState(0);
-  const [selectedModifications, setSelectedModifications] = useState<number[]>(
+  const [selectedModifications, setSelectedModifications] = useState<ModificationData[]>(
     []
   );
   const [quantity, setQuantity] = useState(1);
@@ -94,18 +94,18 @@ export default function AccordionMenuOrder() {
   }
 
   const handleModificationChange = (modification: ModificationData) => {
-    if (selectedModifications.includes(modification.modification_id)) {
+    if (selectedModifications.includes(modification)) {
       setPrice(price - modification.price / 100);
       setSelectedModifications(
         selectedModifications.filter(
-          (modId) => modId !== modification.modification_id
+          (modId) => modId !== modification
         )
       );
     } else {
       setPrice(price + modification.price / 100);
       setSelectedModifications((prevSelectedMods) => [
         ...prevSelectedMods,
-        modification.modification_id,
+        modification,
       ]);
     }
   };
@@ -184,7 +184,7 @@ export default function AccordionMenuOrder() {
                     <input
                       type="checkbox"
                       checked={selectedModifications.includes(
-                        modification.modification_id
+                        modification
                       )}
                     />
                     <div className="text-gray-500">

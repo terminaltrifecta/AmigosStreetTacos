@@ -64,7 +64,9 @@ export const cartSlice = createSlice({
       const cartItem = state[itemIndex];
 
       if (cartItem && cartItem.modifications) {
-        cartItem.modifications.splice(modificationIndex, 1);
+        cartItem.modifications = cartItem.modifications.filter(
+          (_: any, index: number) => index !== modificationIndex
+        );
       }
     },
   },

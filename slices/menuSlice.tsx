@@ -25,6 +25,7 @@ export const menuSlice = createSlice({
     setModifications: (state: MenuState, { payload }: PayloadAction<ModificationData[]>) => {
       state.modifications = payload;
     },
+    
   },
 });
 

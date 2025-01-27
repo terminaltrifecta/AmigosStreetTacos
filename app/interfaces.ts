@@ -4,7 +4,7 @@ export interface OrderedItemData {
     item_id: number;
     price: number,
     quantity: number;
-    modifications: number[];
+    modifications: ModificationData[];
     comments: string;
 }
 

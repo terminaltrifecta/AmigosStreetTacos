@@ -244,7 +244,7 @@ async function sendCartData(postData: PostData) {
     const modificationsToInsert = postData.cart
       .flatMap((item, i) => item.modifications.map((mod) => ({
         ordered_item_id: insertedItems[i].ordered_item_id,
-        modification_id: mod,
+        modification_id: mod.modification_id,
       })));
 
     const { error: modsError } = await supabase.from('modified_ordered_items').insert(modificationsToInsert);

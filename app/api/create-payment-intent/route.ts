@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
   // Create a PaymentIntent with the order amount and currency
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount,
+      amount: amount,
       currency: 'usd',
       metadata: { id: uuid, name: 'gyatlirizz' },
       automatic_payment_methods: { enabled: true },
@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function calculateCartPrice(cart: OrderedItemData[]) {
-  let amount = 5; // Base amount
+  let amount = 0; // Base amount
 
   try {
     // Fetch all item prices and modifications in a single query
@@ -113,7 +113,7 @@ export async function calculateCartPrice(cart: OrderedItemData[]) {
     const itemPriceMap = new Map(itemsData.map(item => [item.item_id, item.price]));
 
     // Fetch all modification prices in a single query
-    const modificationIds = cart.flatMap(item => item.modifications || []);
+    const modificationIds = cart.flatMap(item => item.modifications || []).map(mod => mod.modification_id);
     const { data: modificationsData, error: modificationsError } = await supabase
       .from('modifications')
       .select('modification_id, price')
@@ -130,32 +130,27 @@ export async function calculateCartPrice(cart: OrderedItemData[]) {
     // Create a map of modification prices for quick lookup
     const modificationPriceMap = new Map(modificationsData.map(mod => [mod.modification_id, mod.price]));
 
-    // Calculate the total amount including modifications
+    // Calculate the total amount
     for (const item of cart) {
       const price = itemPriceMap.get(item.item_id);
       if (price === undefined) {
-      throw new Error(`Price not found for item ID: ${item.item_id}`);
+        throw new Error(`Price not found for item ID: ${item.item_id}`);
       }
-      amount += item.quantity * price;
+      amount += item.quantity * price * 100;
 
       if (item.modifications) {
-      for (const modId of item.modifications) {
-        const modPrice = modificationPriceMap.get(modId);
-        if (modPrice === undefined) {
-        throw new Error(`Price not found for modification ID: ${modId}`);
+        for (const mod of item.modifications) {
+          const modPrice = modificationPriceMap.get(mod.modification_id);
+          if (modPrice === undefined) {
+            throw new Error(`Price not found for modification ID: ${mod.modification_id}`);
+          }
+          amount += modPrice * item.quantity;
         }
-        amount += item.quantity * modPrice;
       }
-      }
+      
     }
 
-    console.log(`Total calculated amount (in cents): ${amount}`);
-
-    if (amount <= 0) {
-      throw new Error('Invalid cart total: Check item prices or quantities');
-    }
-
-    return amount;
+    return Math.ceil(amount * 1.06);
   } catch (err: any) {
     console.error('Error calculating cart price:', err.message);
     throw new Error(`Error in calculateCartPrice: ${err.message}`);
