@@ -41,10 +41,10 @@ export interface PostData {
     customer_first_name: string;
     customer_last_name: string;
     email: string;
-    phone_number: number;
+    phone_number: number | null;
     location_id: number;
     time_placed: Date;
-    time_requested: Date | null;
+time_requested: number | null;
     location: string | null;
     is_pickup: boolean;
     status_id: number;

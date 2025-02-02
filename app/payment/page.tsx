@@ -20,6 +20,8 @@ export default function Page() {
   const [clientSecret, setClientSecret] = useState("");
 
   const cart = useAppSelector((state: RootState) => state.cart);
+  const time = useAppSelector((state: RootState) => state.time);
+  const location = useAppSelector((state: RootState) => state.location);
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
   const subtotal = cart.reduce(
@@ -36,7 +38,7 @@ export default function Page() {
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart: cart }),
+      body: JSON.stringify({ cart: cart, time: time, location: location }),
     })
       .then((res) => res.json())
       .then((data) => {

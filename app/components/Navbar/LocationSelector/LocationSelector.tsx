@@ -24,12 +24,12 @@ export default function LocationSelector() {
         <div
           className={location == 0 ? "selectedLocation" : "option"}
           onClick={() => {
-            dispatch(setLocation(0));
+            dispatch(setLocation(2));
           }}
         >
           17 Mile Rd, Sterling Heights
         </div>
-        <div
+        {/* <div
           className={location == 1 ? "selectedLocation" : "option"}
           onClick={() => {
             dispatch(setLocation(1));
@@ -44,7 +44,7 @@ export default function LocationSelector() {
           }}
         >
           St Clair Shores
-        </div>
+        </div> 
         <div
           className={location == 3 ? "selectedLocation" : "option"}
           onClick={() => {
@@ -53,6 +53,7 @@ export default function LocationSelector() {
         >
           Southgate
         </div>
+        */}
       </div>
     </div>
   );

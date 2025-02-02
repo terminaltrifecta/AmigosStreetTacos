@@ -18,6 +18,7 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [selectedTime, setSelectedTime] = useState(20);
   const [email, setEmail] = useState("");
 
   const paymentElementOptions:StripePaymentElementOptions= {
@@ -50,14 +51,15 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
+        return_url: `http://www.localhost:3000/payment-processed?amount=${amount}`,
         payment_method_data: {
           billing_details: {
             name: firstName+" "+lastName,
-            email: email
+            email: email,
           }
         }
       },
+      
     })
 
     if (error) {

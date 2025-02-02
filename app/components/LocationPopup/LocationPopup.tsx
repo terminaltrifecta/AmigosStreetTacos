@@ -25,19 +25,25 @@ const LocationPopup: React.FC<LocationPopupProps> = ({ show, onClose }) => {
       centered
     >
       <Modal.Header>
-        <Modal.Title>Select Your Location</Modal.Title>
+        <Modal.Title>Select Location</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Please select the location you're ordering for:</p>
-        <div className="d-flex justify-content-around">
-          
-          <button id="buttonParent" className="red" onClick={() => handleLocationSelect(0)}>
-            <div className="d-flex align-items-center justify-content-center p-2">
-              17 Mile Rd
-            </div>
-          </button>
+        <div className="space-y-2 flex flex-col">
+          <div className="font-light text-sm">
+            Note: Only 17 Mile is available for online ordering at the moment!
+          </div>
+          <div className="d-flex justify-content-around">
+            <button
+              id="buttonParent"
+              className="red"
+            onClick={() => handleLocationSelect(2)}
+            >
+              <div className="d-flex align-items-center justify-content-center p-2">
+                17 Mile Rd
+              </div>
+            </button>
 
-          <button id="buttonParent" className="red" onClick={() => handleLocationSelect(1)}>
+            {/* <button id="buttonParent" className="red" onClick={() => handleLocationSelect(1)}>
             <div className="d-flex align-items-center justify-content-center p-2">
               14 Mile Rd
             </div>
@@ -47,8 +53,8 @@ const LocationPopup: React.FC<LocationPopupProps> = ({ show, onClose }) => {
             <div className="d-flex align-items-center justify-content-center p-2">
               St Clair Shores
             </div>
-          </button>
-
+          </button> */}
+          </div>
         </div>
       </Modal.Body>
     </Modal>

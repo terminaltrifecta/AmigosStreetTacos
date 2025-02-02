@@ -2,6 +2,7 @@ import Stripe from 'stripe';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from "@supabase/supabase-js";
 import { PostData, OrderedItemData, CustomerData } from '@/app/interfaces';
+import { addMinutes } from "date-fns";
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
 
@@ -46,7 +47,7 @@ export async function POST(req: NextRequest) {
   if (event.type === "charge.succeeded") {
     //gets the json from the uuid of the charge
     try {
-      const cart = await fetchAndFormatCart(uuid);
+      const {cart, timeRequested, location} = await fetchAndFormatCart(uuid);
 
       const customer = await getCustomer(firstName, lastName, email);
 
@@ -54,10 +55,10 @@ export async function POST(req: NextRequest) {
         customer_first_name: customer.first_name,
         customer_last_name: customer.last_name,
         email: customer.email,
-        phone_number: customer.phone_number,
-        location_id: 3,
+        phone_number: null,
+        location_id: location,
         time_placed: new Date(),
-        time_requested: null,
+        time_requested: timeRequested,
         location: null,
         is_pickup: true,
         status_id: 1,
@@ -122,7 +123,7 @@ async function getCustomer(firstName:string, lastName:string, email: string): Pr
         first_name: firstName,
         last_name: lastName,
         email: email,  // Use the provided email
-        phone_number: 5869025812,  // You can change this as needed
+        phone_number: null,  // You can change this as needed
       }])
       .select('*')
       .single();
@@ -141,13 +142,12 @@ async function getCustomer(firstName:string, lastName:string, email: string): Pr
   }
 }
 
-
-async function fetchAndFormatCart(uuid: string): Promise<OrderedItemData[]> {
+async function fetchAndFormatCart(uuid: string): Promise<{ cart: OrderedItemData[], timeRequested: number, location: number }> {
   try {
     // Step 1: Fetch data from Supabase
     let { data, error } = await supabase
       .from('temporary_orders')
-      .select('cart')
+      .select('*')
       .eq('id', uuid)
       .limit(1);
 
@@ -175,7 +175,10 @@ async function fetchAndFormatCart(uuid: string): Promise<OrderedItemData[]> {
       modifications: item.modifications || [], // Ensure modifications is an empty array if null
     }));
 
-    return cart;
+    // Step 3: Caclulate the time requested
+    const timeRequested = data[0].time_requested;
+
+    return {cart, timeRequested, location: data[0].location_id};
   } catch (err) {
     console.error(err);
     throw new Error('Failed to fetch and format cart data');
