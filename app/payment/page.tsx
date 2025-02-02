@@ -21,6 +21,7 @@ export default function Page() {
 
   const cart = useAppSelector((state: RootState) => state.cart);
   const time = useAppSelector((state: RootState) => state.time);
+  const hours = useAppSelector((state: RootState) => state.menu.hours);
   const location = useAppSelector((state: RootState) => state.location);
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
@@ -38,7 +39,7 @@ export default function Page() {
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart: cart, time: time, location: location }),
+      body: JSON.stringify({ cart: cart, time: time, location: location, hours: hours }),
     })
       .then((res) => res.json())
       .then((data) => {

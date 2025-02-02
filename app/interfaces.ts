@@ -60,3 +60,20 @@ export interface CustomerData {
     points: number,
     phone_number: number
 }
+
+export interface LocationHoursData {
+    monday_open: string | null
+    monday_close: string | null
+    tuesday_open: string | null
+    tuesday_close: string | null
+    wednesday_open: string | null
+    wednesday_close: string | null
+    thursday_open: string | null
+    thursday_close: string | null
+    friday_open: string | null
+    friday_close: string | null
+    saturday_open: string | null
+    saturday_close: string | null
+    sunday_open: string | null
+    sunday_close: string | null
+}

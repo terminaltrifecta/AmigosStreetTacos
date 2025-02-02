@@ -17,7 +17,7 @@ import {
 import Modal from "../Modal";
 import NumberInput from "../numberInput/numberInput";
 import { RootState } from "@/lib/store";
-import { initializeMenu } from "@/app/utils/menuUtils";
+import { initializeMenu, isClosed } from "@/app/utils/menuUtils";
 
 interface Popup {
   id: number;
@@ -28,6 +28,7 @@ export default function AccordionMenuOrder() {
   // Redux state and dispatch
   const dispatch = useAppDispatch();
   const menu = useAppSelector((state: RootState) => state.menu);
+  const location = useAppSelector((state: RootState) => state.location);
 
   // State to store menu items and categories
   const [menuItems, setMenuItems] = useState<MenuItemData[]>([]);
@@ -37,9 +38,9 @@ export default function AccordionMenuOrder() {
   //current item state for modal
   const [selectedItem, setSelectedItem] = useState<MenuItemData | null>(null);
   const [price, setPrice] = useState(0);
-  const [selectedModifications, setSelectedModifications] = useState<ModificationData[]>(
-    []
-  );
+  const [selectedModifications, setSelectedModifications] = useState<
+    ModificationData[]
+  >([]);
   const [quantity, setQuantity] = useState(1);
   const [instructions, setInstructions] = useState("");
 
@@ -97,9 +98,7 @@ export default function AccordionMenuOrder() {
     if (selectedModifications.includes(modification)) {
       setPrice(price - modification.price / 100);
       setSelectedModifications(
-        selectedModifications.filter(
-          (modId) => modId !== modification
-        )
+        selectedModifications.filter((modId) => modId !== modification)
       );
     } else {
       setPrice(price + modification.price / 100);
@@ -112,17 +111,18 @@ export default function AccordionMenuOrder() {
 
   useEffect(() => {
     if (
-      menu.categories.length === 0 ||
-      menu.menuItems.length === 0 ||
-      menu.modifications.length === 0
+      (menu.categories.length === 0 ||
+        menu.menuItems.length === 0 ||
+        menu.modifications.length === 0) &&
+      location !== -1
     ) {
-      initializeMenu(dispatch);
+      initializeMenu(dispatch, location);
     } else {
       setCategories(menu.categories);
       setMenuItems(menu.menuItems);
       setModifications(menu.modifications);
     }
-  }, [menu]);
+  }, [menu, location]);
 
   return (
     <>
@@ -183,9 +183,7 @@ export default function AccordionMenuOrder() {
                   >
                     <input
                       type="checkbox"
-                      checked={selectedModifications.includes(
-                        modification
-                      )}
+                      checked={selectedModifications.includes(modification)}
                     />
                     <div className="text-gray-500">
                       {modification.modification}

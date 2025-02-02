@@ -7,7 +7,7 @@ export interface LocationState {
 
 export const locationSlice = createSlice({
   name: "Location",
-  initialState: -1,
+  initialState: 2,
   reducers: {
     setLocation: (state:any, {payload}) => {
       return payload;

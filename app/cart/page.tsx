@@ -1,16 +1,24 @@
 "use client";
 
 import "bootstrap/dist/css/bootstrap.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RootState } from "@/lib/store";
 import { useAppSelector } from "@/lib/hooks";
 import CartItem from "../components/Cart/CartItem";
 import { OrderedItemData } from "../interfaces";
 import Dropdown from "../components/Dropdown";
 import Link from "next/link";
+import { isClosed } from "../utils/menuUtils";
 
 export default function Cart() {
+  const [closed, setClosed] = useState(true);
+
   const cart = useAppSelector((state: RootState) => state.cart);
+  const hours = useAppSelector((state: RootState) => state.menu.hours);
+  
+  useEffect(() => {
+    setClosed(isClosed(new Date(), hours));
+  }, [hours])
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
   const subtotal = cart.reduce(
@@ -42,7 +50,9 @@ export default function Cart() {
       <br />
       <div className="whiteBorder p-4 space-y-4">
         <div className="priceContainer">
-          <div className="text-sm text-slate-500">Subtotal: ${subtotal.toFixed(2)}</div>
+          <div className="text-sm text-slate-500">
+            Subtotal: ${subtotal.toFixed(2)}
+          </div>
           <div className="text-sm text-slate-500">Tax: ${tax.toFixed(2)}</div>
           <div className="text-lg">Total: ${(subtotal + tax).toFixed(2)}</div>
         </div>
@@ -50,11 +60,15 @@ export default function Cart() {
         <div className="buttonContainer flex flex-col space-y-4">
           <Dropdown />
           <Link id="aref" href="/payment">
-            <button id="buttonParent" className="bigRed">
-              <div className="d-flex align-items-center justify-content-center p-4">
+            {closed ? (
+              <button disabled id="buttonParent" className="bigRed uppercase">
+                Restaurant closed
+              </button>
+            ) : (
+              <button id="buttonParent" className="bigRed uppercase">
                 Checkout
-              </div>
-            </button>
+              </button>
+            )}
           </Link>
         </div>
       </div>

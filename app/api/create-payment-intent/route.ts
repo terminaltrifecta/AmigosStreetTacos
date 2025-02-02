@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { v4 as uuidv4 } from "uuid";
 import { OrderedItemData } from "@/app/interfaces";
+import { isClosed } from "@/app/utils/menuUtils";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-11-20.acacia",
@@ -13,23 +14,6 @@ const supabase = createClient(
   process.env.SUPABASE_SECRET_KEY!
 );
 
-// Interface for the entire order data
-export interface PostData {
-  customer_first_name: string;
-  customer_last_name: string;
-  email: string;
-  phone_number: string;
-  location_id: number;
-  time_placed: string;
-  time_requested: string;
-  location: string;
-  is_pickup: boolean;
-  status_id: number;
-  cart: OrderedItemData[];
-}
-
-// Create cartData variable of type PostData
-let cartData: PostData;
 let uuid: string;
 let amount: number;
 
@@ -47,7 +31,24 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { cart, time, location } = body;
+  const { cart, time, location, hours } = body;
+
+  // Step 2: Check if the restaurant is open
+  try {
+    const requestedTime = new Date(time); // Convert the requested time to a Date object
+    if (isClosed(requestedTime, hours)) {
+      return NextResponse.json(
+        { error: "The restaurant is currently closed. Please try again during opening hours." },
+        { status: 400 }
+      );
+    }
+  } catch (err: any) {
+    console.error("Error checking restaurant hours:", err.message);
+    return NextResponse.json(
+      { error: `Failed to check restaurant hours: ${err.message}` },
+      { status: 500 }
+    );
+  }
 
   // Store the temporary cart data
   try {
@@ -87,7 +88,7 @@ export async function POST(req: NextRequest) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
       currency: "usd",
-      metadata: { id: uuid, name: "gyatlirizz" },
+      metadata: {id: uuid},
       automatic_payment_methods: { enabled: true },
     });
     console.log("PaymentIntent created successfully:", paymentIntent.id);
