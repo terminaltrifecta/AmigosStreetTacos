@@ -14,7 +14,9 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
 }
 
-const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!, {
+  stripeAccount: "acct_1QsWjfFNnWO2txyN"
+});
 
 export default function Page() {
   const [clientSecret, setClientSecret] = useState("");
