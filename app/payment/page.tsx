@@ -23,7 +23,7 @@ const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!, {
   stripeAccount: process.env.NEXT_PUBLIC_CONNECTED_ACCOUNT_ID!
 });
 
-function Page() {
+export default function PaymentPage() {
   const [clientSecret, setClientSecret] = useState("");
 
   const cart = useAppSelector((state: RootState) => state.cart);
@@ -92,8 +92,4 @@ function Page() {
       </div>
     </div>
   );
-}
-
-export default function PaymentPage() {
-  return <div>Payment Page</div>;
 }
