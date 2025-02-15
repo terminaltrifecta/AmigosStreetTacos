@@ -71,7 +71,7 @@ export default function CartItem({
 
       <div className="">
         {modifications.map((modification: ModificationData, i: number) => (
-          <div className="flex space-x-2">
+          <div key={i} className="flex space-x-2">
             <div className="text-gray-500">
               {modification.modification}
             </div>

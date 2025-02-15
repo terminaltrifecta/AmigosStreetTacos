@@ -9,6 +9,7 @@ import Buttons from "../ButtonGroup/Buttons";
 import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 import LocationSelector from "./LocationSelector/LocationSelector";
+import Image from "next/image";
 
 export default function Navbar() {
   const [clicked, setClicked] = useState(false);
@@ -37,7 +38,7 @@ export default function Navbar() {
           setSelected("home");
         }}
       >
-        <img src="\static\assets\amigoslogo.png" className="img-fluid" alt="" />
+        <Image src="/static/assets/amigoslogo.png" className="img-fluid" alt="Logo" width={100} height={100} />
       </Link>
       <div>
         <ul id="navbar" className={clicked ? "active" : ""}>

@@ -22,7 +22,7 @@ export default function Home() {
     ) {
       initializeMenu(dispatch, 2);
     }
-  }, []);
+  }, [dispatch, menu.categories.length, menu.menuItems.length, menu.modifications.length]);
 
   return (
     <>

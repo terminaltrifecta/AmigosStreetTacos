@@ -7,7 +7,7 @@ import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 import LocationPopup from "../components/LocationPopup/LocationPopup";
 
-export default function Menu() {  
+export default function MenuPage() {  
 
   const location = useAppSelector((state: RootState) => state.location);
   const [showLocationPopup, setShowLocationPopup] = useState(false);
@@ -19,7 +19,7 @@ export default function Menu() {
       console.log(location);
       setShowLocationPopup(true);
     }
-  }, []);
+  }, [location]);
 
 
   return (

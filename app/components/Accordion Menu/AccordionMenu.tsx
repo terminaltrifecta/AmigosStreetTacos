@@ -122,7 +122,7 @@ export default function AccordionMenuOrder() {
       setMenuItems(menu.menuItems);
       setModifications(menu.modifications);
     }
-  }, [menu, location]);
+  }, [menu, location, dispatch]);
 
   return (
     <>

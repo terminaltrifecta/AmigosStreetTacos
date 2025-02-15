@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";  // added runtime export
+
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
@@ -6,7 +9,7 @@ import { OrderedItemData } from "@/app/interfaces";
 import { isClosed } from "@/app/utils/menuUtils";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-11-20.acacia",
+  apiVersion: "2025-01-27.acacia",
 });
 
 const supabase = createClient(
@@ -16,6 +19,11 @@ const supabase = createClient(
 
 let uuid: string;
 let amount: number;
+
+export async function GET() {
+  // Return 405 for GET requests
+  return new NextResponse(null, { status: 405, statusText: "Method Not Allowed" });
+}
 
 export async function POST(req: NextRequest) {
   let body;
@@ -106,7 +114,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function calculateCartPrice(cart: OrderedItemData[]) {
+async function calculateCartPrice(cart: OrderedItemData[]) {
   let amount = 0; // Base amount
 
   try {

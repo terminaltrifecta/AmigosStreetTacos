@@ -2,11 +2,12 @@
 
 import "bootstrap/dist/css/bootstrap.css";
 import "./ImageOverlay.css";
+import Image from "next/image";
 
 function ImageOverlay({img, text}: any) {
   return (
     <div className="container-image">
-      <img
+      <Image
         className="MenuImage"
         src={img}
         alt={text}

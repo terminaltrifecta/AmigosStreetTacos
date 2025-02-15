@@ -18,7 +18,7 @@ const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!, {
   stripeAccount: "acct_1QsWjfFNnWO2txyN"
 });
 
-export default function Page() {
+function Page() {
   const [clientSecret, setClientSecret] = useState("");
 
   const cart = useAppSelector((state: RootState) => state.cart);
@@ -53,7 +53,7 @@ export default function Page() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [cart, hours, location, time]);
 
   const elementOptions:StripeElementsOptions = {
     clientSecret: clientSecret,
@@ -87,4 +87,8 @@ export default function Page() {
       </div>
     </div>
   );
+}
+
+export default function PaymentPage() {
+  return <div>Payment Page</div>;
 }

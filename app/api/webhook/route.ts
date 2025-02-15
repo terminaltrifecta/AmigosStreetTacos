@@ -7,7 +7,7 @@ import { addMinutes } from "date-fns";
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2024-11-20.acacia',
+  apiVersion: '2025-01-27.acacia',
 });
 
 const endpointSecret = process.env.WEBHOOK_SECRET;
@@ -83,6 +83,15 @@ export async function POST(req: NextRequest) {
     console.warn(`Unhandled event type ${event.type}`);
     return NextResponse.json({ message: "Event type not handled" }, { status: 200 });
   }
+}
+
+export function OPTIONS() {
+  // ...CORS handling...
+  return NextResponse.json({}, { status: 200, headers: { Allow: "POST, OPTIONS" } });
+}
+
+export async function GET() {
+  return NextResponse.json({ message: "GET successful" });
 }
 
 async function getCustomer(firstName:string, lastName:string, email: string): Promise<CustomerData> {
@@ -286,4 +295,4 @@ function formatName(fullName: string) {
   };
 }
 
-export const config = { api: { bodyParser: false } };
+export const runtime = "edge";
