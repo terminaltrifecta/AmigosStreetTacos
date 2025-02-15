@@ -84,15 +84,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export function OPTIONS() {
-  // ...CORS handling...
-  return NextResponse.json({}, { status: 200, headers: { Allow: "POST, OPTIONS" } });
-}
-
-export async function GET() {
-  return NextResponse.json({ message: "GET successful" });
-}
-
 async function getCustomer(firstName:string, lastName:string, email: string): Promise<CustomerData> {
   // Initialize variable for customerData
   let customerData: CustomerData | null = null;
@@ -293,7 +284,3 @@ function formatName(fullName: string) {
       lastName: last.toLowerCase()
   };
 }
-
-export const runtime = "edge";
-
-export const dynamic = "force-dynamic";
