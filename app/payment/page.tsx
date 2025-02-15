@@ -15,12 +15,12 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
 }
 
-if (process.env.CONNECTED_ACCOUNT_ID === undefined) {
-  throw new Error("CONNECTED_ACCOUNT_ID is not defined")
+if (process.env.NEXT_PUBLIC_CONNECTED_ACCOUNT_ID === undefined) {
+  throw new Error("NEXT_PUBLIC_CONNECTED_ACCOUNT_ID is not defined")
 }
 
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!, {
-  stripeAccount: process.env.CONNECTED_ACCOUNT_ID!
+  stripeAccount: process.env.NEXT_PUBLIC_CONNECTED_ACCOUNT_ID!
 });
 
 function Page() {
