@@ -130,7 +130,7 @@ export default function AccordionMenuOrder() {
         {categories.map((category, index) => (
           <Accordion.Item eventKey={`${index + 1}`} key={category.name}>
             <Accordion.Header>
-              <h4>{category.name}</h4>
+              <div className="text-xl font-bold">{category.name}</div>
             </Accordion.Header>
             <Accordion.Body>
               <ListGroup variant="flush">
