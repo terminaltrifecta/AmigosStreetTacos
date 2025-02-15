@@ -9,7 +9,7 @@ import { OrderedItemData } from "@/app/interfaces";
 import { isClosed } from "@/app/utils/menuUtils";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-01-27.acacia",
+  apiVersion: "2024-11-20.acacia",
 });
 
 const supabase = createClient(

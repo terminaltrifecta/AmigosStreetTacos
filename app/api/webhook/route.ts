@@ -7,7 +7,7 @@ import { addMinutes } from "date-fns";
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2025-01-27.acacia',
+  apiVersion: '2024-11-20.acacia',
 });
 
 const endpointSecret = process.env.WEBHOOK_SECRET;
