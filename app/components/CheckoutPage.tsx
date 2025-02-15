@@ -20,11 +20,16 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
   const [lastName, setLastName] = useState("");
   const [selectedTime, setSelectedTime] = useState(20);
   const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+  });
 
-  const paymentElementOptions:StripePaymentElementOptions= {
+  const paymentElementOptions: StripePaymentElementOptions = {
     layout: "accordion",
-    fields:{
-      billingDetails:{
+    fields: {
+      billingDetails: {
         name: "auto",
         email: "auto"
       }
@@ -35,7 +40,31 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
     event.preventDefault();
     setLoading(true);
 
+    // Validate form fields
+    const newErrors = {
+      firstName: firstName.trim() === "",
+      lastName: lastName.trim() === "",
+      email: email.trim() === "" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
+    };
+
+    setErrors(newErrors);
+
+    // Check for errors using the current newErrors object
+    if (newErrors.firstName || newErrors.lastName || newErrors.email) {
+      const errorMessages = [];
+      if (newErrors.firstName) errorMessages.push("First name is required");
+      if (newErrors.lastName) errorMessages.push("Last name is required");
+      if (newErrors.email) {
+        errorMessages.push(email.trim() === "" ? "Email is required" : "Invalid email format");
+      }
+      
+      setErrorMessage(errorMessages.join(" • "));
+      setLoading(false);
+      return;
+    }
+
     if (!stripe || !elements) {
+      setLoading(false);
       return;
     }
 
@@ -54,19 +83,15 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
         return_url: `http://www.localhost:3000/payment-processed?amount=${amount}`,
         payment_method_data: {
           billing_details: {
-            name: firstName+" "+lastName,
+            name: firstName + " " + lastName,
             email: email,
           }
         }
       },
-      
     })
 
     if (error) {
-      //only gets here when there's an error the customer needs to see
       setErrorMessage(error.message);
-    } else {
-      
     }
 
     setLoading(false);
@@ -77,22 +102,57 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       onSubmit={handleSubmit}
       className="grid h-fit space-y-4 p-4 rounded-2xl bg-amigoswhite"
     >
-
       <div className="text-3xl text-center font-bold tracking-wide">
         One step from yumminess..
       </div>
       
       <div className="flex space-x-4 w-full">
-        <input onChange={(e) => {setFirstName(e.target.value)}} className="w-1/2 p-3 rounded-xl border border-slate-300 normal-case" placeholder="First Name"/>
-        <input onChange={(e) => {setLastName(e.target.value)}}className="w-1/2 p-3 rounded-xl border border-slate-300 normal-case" placeholder="Last Name"/>
+        <input 
+          onChange={(e) => {
+            setFirstName(e.target.value);
+            setErrors(prev => ({ ...prev, firstName: false }));
+          }}
+          className={`w-1/2 p-3 rounded-xl border-1 ${
+            errors.firstName ? 'border-red-500 bg-red-100' : 'border-slate-300'
+          } normal-case`} 
+          placeholder="First Name"
+        />
+        <input 
+          onChange={(e) => {
+            setLastName(e.target.value);
+            setErrors(prev => ({ ...prev, lastName: false }));
+          }}
+          className={`w-1/2 p-3 rounded-xl border-1 ${
+            errors.lastName ? 'border-red-500 bg-red-100' : 'border-slate-300'
+          } normal-case`} 
+          placeholder="Last Name"
+        />
       </div>
-      <input onChange={(e) => {setEmail(e.target.value)}} className="p-3 rounded-xl border border-slate-300 normal-case" placeholder="Email Address"/>
+      <input 
+        onChange={(e) => {
+          setEmail(e.target.value);
+          setErrors(prev => ({ ...prev, email: false }));
+        }}
+        className={`p-3 rounded-xl border-1 ${
+          errors.email ? ' border-red-500 bg-red-100' : 'border-slate-300'
+        } normal-case`} 
+        placeholder="Email Address"
+      />
       {clientSecret && <PaymentElement options={paymentElementOptions}/>}
-      {errorMessage && <div>{errorMessage}</div>}
+      {errorMessage && (
+        <div className="text-red-500 text-sm">
+          {errorMessage.split(" • ").map((message, index) => (
+            <div key={index}>• {message}</div>
+          ))}
+        </div>
+      )}
 
-      <button disabled={!stripe || loading} className="text-amigoswhite text-[1.3rem] font-semibold text-center flex items-center justify-center rounded-2xl max-h-32 transition duration-200 bg-amigosblack hover:text-amigosblack hover:bg-amigoswhite hover:shadow-md ">
+      <button 
+        disabled={!stripe || loading} 
+        className="text-amigoswhite text-[1.3rem] font-semibold text-center flex items-center justify-center rounded-2xl max-h-32 transition duration-200 bg-amigosblack hover:text-amigosblack hover:bg-amigoswhite hover:shadow-md"
+      >
         <div className="flex items-center justify-center p-4">
-        {loading ? "Processing ..." : `Pay $${amount}`}
+          {loading ? "Processing ..." : `Pay $${amount}`}
         </div>
       </button>
     </form>
