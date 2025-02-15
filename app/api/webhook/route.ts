@@ -2,7 +2,6 @@ import Stripe from 'stripe';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from "@supabase/supabase-js";
 import { PostData, OrderedItemData, CustomerData } from '@/app/interfaces';
-import { addMinutes } from "date-fns";
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
 

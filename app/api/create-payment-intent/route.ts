@@ -4,7 +4,6 @@ export const runtime = "nodejs";  // added runtime export
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { v4 as uuidv4 } from "uuid";
 import { OrderedItemData } from "@/app/interfaces";
 import { isClosed } from "@/app/utils/menuUtils";
 
@@ -42,21 +41,21 @@ export async function POST(req: NextRequest) {
   const { cart, time, location, hours } = body;
 
   // Step 2: Check if the restaurant is open
-  try {
-    const requestedTime = new Date(time); // Convert the requested time to a Date object
-    if (isClosed(requestedTime, hours)) {
-      return NextResponse.json(
-        { error: "The restaurant is currently closed. Please try again during opening hours." },
-        { status: 400 }
-      );
-    }
-  } catch (err: any) {
-    console.error("Error checking restaurant hours:", err.message);
-    return NextResponse.json(
-      { error: `Failed to check restaurant hours: ${err.message}` },
-      { status: 500 }
-    );
-  }
+  // try {
+  //   const requestedTime = new Date();
+  //   if (isClosed(requestedTime, hours)) {
+  //     return NextResponse.json(
+  //       { error: "The restaurant is currently closed. Please try again during opening hours." },
+  //       { status: 400 }
+  //     );
+  //   }
+  // } catch (err: any) {
+  //   console.error("Error checking restaurant hours:", err.message);
+  //   return NextResponse.json(
+  //     { error: `Failed to check restaurant hours: ${err.message}` },
+  //     { status: 500 }
+  //   );
+  // }
 
   // Store the temporary cart data
   try {
