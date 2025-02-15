@@ -216,7 +216,7 @@ export default function AccordionMenuOrder() {
           </div>
           <div className="flex gap-4 w-full">
             <div
-              className="btn btn-danger w-full flex"
+              className="btn btn-danger w-full"
               onClick={() => handleAddToCart(selectedItem as MenuItemData)}
             >
               <div className="normal-case">Add</div>
