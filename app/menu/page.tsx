@@ -24,7 +24,7 @@ export default function MenuPage() {
 
   return (
     <div className="d-grid">
-      <ImageOverlay text="Our Menu" img="\static\assets/about/amigosgrub.jpg" />
+      <ImageOverlay text="Our Menu" img="/static/assets/about/amigosgrub.jpg" />
       <div className="p-4">
         <LocationPopup show={showLocationPopup} onClose={() => {setShowLocationPopup(false)}} />
         <AccordionMenu/>

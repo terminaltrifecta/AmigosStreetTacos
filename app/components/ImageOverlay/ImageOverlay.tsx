@@ -9,6 +9,8 @@ function ImageOverlay({img, text}: any) {
     <div className="container-image">
       <Image
         className="MenuImage"
+        width={1920}
+        height={1080}
         src={img}
         alt={text}
       />

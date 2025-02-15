@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
       application_fee_amount: Math.floor(0.02*amount)
     },
     {
-      stripeAccount: process.env.NEXT_PUBLIC_CONNECTED_ACCOUNT_ID!
+      stripeAccount: "acct_1QsWjfFNnWO2txyN"
     });
     console.log("PaymentIntent created successfully:", paymentIntent.id);
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });
