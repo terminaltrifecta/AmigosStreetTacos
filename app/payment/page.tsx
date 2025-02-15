@@ -10,12 +10,17 @@ import Image from "next/image";
 import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 
+//ensures environmental variables are defined
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
 }
 
+if (process.env.CONNECTED_ACCOUNT_ID === undefined) {
+  throw new Error("CONNECTED_ACCOUNT_ID is not defined")
+}
+
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!, {
-  stripeAccount: "acct_1QsWjfFNnWO2txyN"
+  stripeAccount: process.env.CONNECTED_ACCOUNT_ID!
 });
 
 function Page() {
