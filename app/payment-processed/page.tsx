@@ -1,15 +1,16 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function PaymentSuccess() {
+function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const amount = searchParams.get("amount");
   const redirect_status = searchParams.get("redirect_status");
 
   if (!redirect_status) {
     return (
-      <div className=" max-w-6xl mx-auto p-10 text-center border m-10 rounded-md flex flex-col items-center space-y-4">
+      <div className="max-w-6xl mx-auto p-10 text-center border m-10 rounded-md flex flex-col items-center space-y-4">
         Uh-oh something went wrong. Please try again.
       </div>
     );
@@ -37,5 +38,13 @@ export default function PaymentSuccess() {
         </>
       )}
     </div>
+  );
+}
+
+export default function PaymentSuccess() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }
