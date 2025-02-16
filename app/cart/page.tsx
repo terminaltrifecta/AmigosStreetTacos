@@ -71,6 +71,7 @@ export default function Cart() {
             )}
           </Link>
         </div>
+        <div className="text-xl">Proceed to checkout ONLY if you're picking up from 17 Mile Road</div>
       </div>
       <br />
     </div>

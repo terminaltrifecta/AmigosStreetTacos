@@ -126,6 +126,7 @@ export default function AccordionMenuOrder() {
 
   return (
     <>
+      <div className="text-2xl font-bold pb-4">ONLINE ORDERING IS CURRENTLY ONLY AVAILABLE FOR THE 17 MILE LOCATION!</div>
       <Accordion>
         {categories.map((category, index) => (
           <Accordion.Item eventKey={`${index + 1}`} key={category.name}>
