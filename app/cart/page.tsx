@@ -9,15 +9,18 @@ import { OrderedItemData } from "../interfaces";
 import Dropdown from "../components/Dropdown";
 import Link from "next/link";
 import { isClosed } from "../utils/menuUtils";
+import LastMinuteAddOnsModal from "../components/LastMinuteAddOnsModal";
 
 export default function Cart() {
   const [closed, setClosed] = useState(true);
+  const [showAddOnsModal, setShowAddOnsModal] = useState(false);
 
   const cart = useAppSelector((state: RootState) => state.cart);
   const hours = useAppSelector((state: RootState) => state.menu.hours);
   
   useEffect(() => {
     setClosed(isClosed(new Date(), hours));
+    setClosed(false);
   }, [hours])
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
@@ -59,18 +62,22 @@ export default function Cart() {
 
         <div className="buttonContainer flex flex-col space-y-4">
           <Dropdown />
-          <Link id="aref" href="/payment">
+          
             {closed ? (
               <button disabled id="buttonParent" className="bigRed uppercase">
                 Restaurant closed
               </button>
             ) : (
-              <button id="buttonParent" className="bigRed uppercase">
+              <button id="buttonParent" className="bigRed uppercase" onClick={() => setShowAddOnsModal(true)}>
                 Checkout
               </button>
             )}
-          </Link>
+          
         </div>
+        <LastMinuteAddOnsModal
+          open={showAddOnsModal}
+          onClose={() => setShowAddOnsModal(false)}
+        />
         <div className="text-xl">Proceed to checkout ONLY if you are picking up from 17 Mile Road</div>
       </div>
       <br />

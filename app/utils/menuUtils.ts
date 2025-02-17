@@ -1,4 +1,3 @@
-import { useAppDispatch } from "@/lib/hooks";
 import {
   setCategories,
   setHours,
@@ -8,11 +7,9 @@ import {
 import { supabase } from "../supabase";
 
 import { Dispatch } from "redux";
-import { LocationHoursData, ModificationData } from "../interfaces";
+import { LocationHoursData } from "../interfaces";
 import { formatInTimeZone } from "date-fns-tz";
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/store";
-import { isAfter, isBefore, isEqual, subMinutes } from "date-fns";
+import { isAfter, isBefore, isEqual } from "date-fns";
 
 export async function initializeMenu(dispatch: Dispatch, location_id: number) {
   // Fetches menu categories

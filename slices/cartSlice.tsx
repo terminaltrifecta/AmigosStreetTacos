@@ -64,9 +64,11 @@ export const cartSlice = createSlice({
       const cartItem = state[itemIndex];
 
       if (cartItem && cartItem.modifications) {
+        const removedModification = cartItem.modifications[modificationIndex];
         cartItem.modifications = cartItem.modifications.filter(
           (_: any, index: number) => index !== modificationIndex
         );
+        cartItem.price -= removedModification.price*0.01; // Subtract modification price (in cents)
       }
     },
   },
