@@ -1,0 +1,10 @@
+[lcl-host]
+realm-apid = 'development'
+
+[org]
+apid = 'zorgo-dd0c59'
+
+[service]
+apid = 'amigosstreettacos'
+category = 'javascript'
+cert-style = 'acme'

@@ -1,0 +1,32 @@
+.map{
+    height: 60vh;
+}
+
+.iframe p {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    justify-content: center;
+}
+
+.iframe { 
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 4rem;
+    max-height: 75vh;
+    width: auto;
+}
+
+iframe {
+    border: 0.5rem solid var(---white);
+    border-radius: 1rem;
+    width: 100%;
+}
+
+.bg{
+    background-image: url("/static/assets/whitebackground2.png");
+    background-color: var(--white);
+    background-blend-mode: multiply;
+}

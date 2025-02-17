@@ -1,0 +1,56 @@
+.locationButton {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.menuOptions {
+    top: 12vh;
+    left: 100vw;
+    background-color: var(---white);
+    border-radius: 1rem;
+    width: clamp(20%, 300px, 70%);
+    z-index: 11;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: fixed;
+    right: -55%;
+    transition: 0.25s ease-in-out;
+}
+
+.open {
+    left: calc(100vw - clamp(20%, 300px, 70%) - 2rem);
+}
+
+.option {
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.8rem;
+    transition: ease-in 0.125s;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color: var(---black);
+    color: var(---white);
+}
+
+.selectedLocation {
+    cursor: pointer;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.8rem;
+    transition: ease-in 0.125s;
+    background-color: var(---red);
+    color: var(---white);
+}
+
+.backdrop {
+    transition: ease-in-out 0.25s;
+    z-index: 10;
+    background-color: var(---black);
+    position:absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 10vh;
+    left: 0;
+    opacity: 0.5
+}

@@ -1,0 +1,69 @@
+:root {
+    ---red: #dc3c2e;
+    ---yellow: #e3cc4d;
+    ---white: #fff6eb;
+    ---black: #140a02;
+}
+
+#aref {
+    text-decoration: none;
+}
+
+#buttonParent {
+    color: var(---white);
+    font-size: 1.3rem;
+    font-weight: 600; 
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 1rem;
+    border-color: rgba(0,0,0,0);
+    height: 6vh;
+    transition: 0.25s ease-in-out;
+    text-decoration: none;
+}
+
+#buttonParent:hover {
+    background-color: var(---black);
+}
+
+#buttonParent.red {
+    background-color: var(---red);
+}
+
+#buttonParent.black {
+    background-color: var(---black);
+}
+
+#buttonParent.bigRed {
+    background-color: var(---red);
+    width: 100%;
+    height:10vh;
+    font-size: 2rem;
+    border: 0;
+    color: var(---white);
+    border-color: var(---black);
+}
+
+#buttonParent.bigRed:disabled {
+    background-color: var(---black);
+}
+
+#buttonParent.black:hover {
+    background-color: var(---white);
+    color: var(---black);
+    border-color: var(---black);
+}
+
+#buttonParent.red:hover {
+    background-color: var(---white);
+    color: var(---red);
+    border-color: var(---red);
+}
+
+#buttonParent.bigRed:hover:not(:disabled) {
+    background-color: var(---white);
+    color: var(---red);
+    border-color: var(---red);
+}

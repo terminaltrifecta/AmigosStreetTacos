@@ -1,0 +1,26 @@
+.MenuImage{
+  position: relative;
+  height: 100%; 
+  width: 100%;
+  text-align: center;
+  object-fit: cover;
+}
+
+.container-image{
+    position: relative;
+    width: 100%;
+    max-height: 85vh;
+    text-align: center;
+  }
+
+ /* @font-face {
+    font-family: Monoton !important;
+    src: url(fonts/Monoton-Regular) !important;
+} */
+
+.bottom-centered-text{
+    font-size: 10vw;
+    color: rgba(255,255,255,0.7);
+    -webkit-text-stroke: var(---white) 0.3vw;
+    transform: translate(0%, -200%);
+}
