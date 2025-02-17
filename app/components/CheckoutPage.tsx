@@ -80,7 +80,7 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `https://amgiosstreettacos.net/payment-processed?amount=${amount}`,
+        return_url: `https://www.amigosstreettacos.net/payment-processed?amount=${amount}`,
         payment_method_data: {
           billing_details: {
             name: firstName + " " + lastName,
