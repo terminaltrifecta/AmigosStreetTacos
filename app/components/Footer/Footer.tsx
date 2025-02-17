@@ -66,6 +66,10 @@ function Footer() {
             ©️{new Date().getFullYear()} Amigos Street Tacos. All Rights
             Reserved.
           </p>
+
+          <Link href="/terms" className="finePrintLink">
+              <p>Terms of Use | Privacy Policy</p>
+            </Link>
         </div>
       </div>
     </div>
