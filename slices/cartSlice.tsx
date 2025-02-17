@@ -9,16 +9,19 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState: [],
   reducers: {
-    addToCart: (state: any, { payload }) => {
+    addToCart: (state: any, { payload }: PayloadAction<OrderedItemData>) => {
       const existingItem = state.find(
         (cartItem: OrderedItemData) =>
           cartItem.item_name == payload.item_name &&
-          cartItem.comments == payload.comments
+          cartItem.comments == payload.comments &&
+          cartItem.modifications == payload.modifications
       );
       if (existingItem) {
         return state.map((cartItem: OrderedItemData) =>
-          cartItem.item_name == payload.item_name
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          cartItem.item_name == payload.item_name &&
+          cartItem.comments == payload.comments &&
+          cartItem.modifications == payload.modifications
+            ? { ...cartItem, quantity: cartItem.quantity + cartItem.quantity }
             : cartItem
         );
       } else {
