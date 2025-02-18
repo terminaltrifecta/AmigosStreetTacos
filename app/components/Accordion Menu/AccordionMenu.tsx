@@ -10,6 +10,7 @@ import { CartAlt, PlusCircle } from "iconoir-react";
 import "../Accordion Menu/AccordionMenu.css";
 import { supabase } from "@/app/supabase";
 import {
+  CategoryData,
   MenuItemData,
   ModificationData,
   OrderedItemData,
@@ -29,11 +30,6 @@ export default function AccordionMenuOrder() {
   const dispatch = useAppDispatch();
   const menu = useAppSelector((state: RootState) => state.menu);
   const location = useAppSelector((state: RootState) => state.location);
-
-  // State to store menu items and categories
-  const [menuItems, setMenuItems] = useState<MenuItemData[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [modifications, setModifications] = useState<ModificationData[]>([]);
 
   //current item state for modal
   const [selectedItem, setSelectedItem] = useState<MenuItemData | null>(null);
@@ -109,35 +105,19 @@ export default function AccordionMenuOrder() {
     }
   };
 
-  useEffect(() => {
-    if (
-      (menu.categories.length === 0 ||
-        menu.menuItems.length === 0 ||
-        menu.modifications.length === 0) &&
-      location !== -1
-    ) {
-      initializeMenu(dispatch, location);
-    } else {
-      setCategories(menu.categories);
-      setMenuItems(menu.menuItems);
-      setModifications(menu.modifications);
-    }
-  }, [menu, location, dispatch]);
-
   return (
     <>
-      <div className="text-2xl font-bold pb-4">ONLINE ORDERING IS CURRENTLY ONLY AVAILABLE FOR THE 17 MILE LOCATION!</div>
       <Accordion>
-        {categories.map((category, index) => (
+        {menu.categories.map((category: CategoryData, index) => (
           <Accordion.Item eventKey={`${index + 1}`} key={category.name}>
             <Accordion.Header>
               <div className="text-xl font-bold">{category.name}</div>
             </Accordion.Header>
             <Accordion.Body>
               <ListGroup variant="flush">
-                {menuItems
-                  .filter((item) => item.category_id === category.category_id)
-                  .map((item) => (
+                {menu.menuItems
+                  .filter((item: MenuItemData) => item.category_id === category.category_id)
+                  .map((item: MenuItemData) => (
                     <ListGroup.Item
                       key={item.item_id}
                       className="d-flex justify-content-between align-items-center"
@@ -170,13 +150,13 @@ export default function AccordionMenuOrder() {
             </div>
 
             <div className="space-y-1">
-              {modifications
+              {menu.modifications
                 .filter(
-                  (modification) =>
+                  (modification: ModificationData) =>
                     modification.category_id === selectedItem?.category_id ||
                     modification.item_id === selectedItem?.item_id
                 )
-                .map((modification) => (
+                .map((modification: ModificationData) => (
                   <div
                     key={modification.modification_id}
                     className="flex space-x-2 cursor-pointer"

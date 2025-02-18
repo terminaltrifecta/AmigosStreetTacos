@@ -1,20 +1,30 @@
+import { LocationData } from "@/app/interfaces";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface LocationState {
-  value: string;
+  selectedLocation: number | null;
+  locations: LocationData[];
 }
+
+const initialState: LocationState = {
+  selectedLocation: null,
+  locations: [],
+};
 
 export const locationSlice = createSlice({
   name: "Location",
-  initialState: 2,
+  initialState,
   reducers: {
-    setLocation: (state:any, {payload}) => {
-      return payload;
-    }
+    setLocation: (state: LocationState, action: PayloadAction<number>) => {
+      state.selectedLocation = action.payload;
+    },
+    setLocations: (state: LocationState, action: PayloadAction<LocationData[]>) => {
+      state.locations = action.payload;
+    },
   },
 });
 
-export const { setLocation } = locationSlice.actions;
+export const { setLocation, setLocations } = locationSlice.actions;
 
 export default locationSlice.reducer;

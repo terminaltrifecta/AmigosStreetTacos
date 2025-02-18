@@ -25,7 +25,7 @@ export default function PaymentPage() {
   const cart = useAppSelector((state: RootState) => state.cart);
   const time = useAppSelector((state: RootState) => state.time);
   const hours = useAppSelector((state: RootState) => state.menu.hours);
-  const location = useAppSelector((state: RootState) => state.location);
+  const location = useAppSelector((state: RootState) => state.location.selectedLocation);
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
   const subtotal = cart.reduce(

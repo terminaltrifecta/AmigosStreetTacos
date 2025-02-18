@@ -15,10 +15,17 @@ export default function Cart() {
 
   const cart = useAppSelector((state: RootState) => state.cart);
   const hours = useAppSelector((state: RootState) => state.menu.hours);
-  
+  const locationState = useAppSelector((state: RootState) => state.location);
+
   useEffect(() => {
-    setClosed(isClosed(new Date(), hours));
-  }, [hours])
+    const location = locationState.locations.find(
+      (loc) => loc.location_id === locationState.selectedLocation
+    );
+
+    setClosed(
+      isClosed(new Date(), hours) || (location ? location.force_close : true)
+    );
+  }, [hours]);
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
   const subtotal = cart.reduce(
@@ -71,7 +78,6 @@ export default function Cart() {
             )}
           </Link>
         </div>
-        <div className="text-xl">Proceed to checkout ONLY if you are picking up from 17 Mile Road</div>
       </div>
       <br />
     </div>

@@ -1,4 +1,3 @@
-import { useAppDispatch } from "@/lib/hooks";
 import {
   setCategories,
   setHours,
@@ -8,14 +7,18 @@ import {
 import { supabase } from "../supabase";
 
 import { Dispatch } from "redux";
-import { LocationHoursData, ModificationData } from "../interfaces";
+import {
+  LocationData,
+  LocationHoursData,
+  ModificationData,
+} from "../interfaces";
 import { formatInTimeZone } from "date-fns-tz";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/lib/store";
 import { isAfter, isBefore, isEqual, subMinutes } from "date-fns";
+import { setLocations, LocationState } from "@/slices/locationSlice";
 
-export async function initializeMenu(dispatch: Dispatch, location_id: number) {
-  // Fetches menu categories
+export async function initializeMenu(dispatch: Dispatch) {
   try {
     const { data, error } = await supabase.from("category").select("*");
     if (error || !data) {
@@ -57,23 +60,47 @@ export async function initializeMenu(dispatch: Dispatch, location_id: number) {
     throw new Error("Failed to fetch modifications");
   }
 
-  // Fetches hours of operation
+  // Fetches locations
   try {
     const { data, error } = await supabase
       .from("locations")
-      .select(
-        "monday_open, monday_close, tuesday_open, tuesday_close, wednesday_open, wednesday_close, thursday_open, thursday_close, friday_open, friday_close, saturday_open, saturday_close, sunday_open, sunday_close"
-      )
-      .eq("location_id", location_id)
-      .single();
+      .select("*")
+      .eq("franchise_id", 1); //franchise id of amigos street tacos
     if (error || !data) {
-      throw new Error("Failed to fetch hours of operation");
+      throw new Error("Failed to fetch locations");
     } else {
-      dispatch(setHours(data));
+      console.log("dispatched locations!");
+      dispatch(setLocations(data));
     }
   } catch (err) {
     console.error(err);
-    throw new Error("Failed to fetch hours of operation");
+    throw new Error("Failed to fetch locations");
+  }
+}
+
+export async function initializeHours(dispatch: Dispatch, locations: LocationData[], location_id: number | null) {
+  const location = locations.find((loc) => loc.location_id === location_id);
+  if (!location) {
+    throw new Error("Location not found in Redux store");
+  } else {
+    // Extract hours from location object
+    const hoursData: LocationHoursData = {
+      monday_open: location.monday_open,
+      monday_close: location.monday_close,
+      tuesday_open: location.tuesday_open,
+      tuesday_close: location.tuesday_close,
+      wednesday_open: location.wednesday_open,
+      wednesday_close: location.wednesday_close,
+      thursday_open: location.thursday_open,
+      thursday_close: location.thursday_close,
+      friday_open: location.friday_open,
+      friday_close: location.friday_close,
+      saturday_open: location.saturday_open,
+      saturday_close: location.saturday_close,
+      sunday_open: location.sunday_open,
+      sunday_close: location.sunday_close,
+    };
+    dispatch(setHours(hoursData));
   }
 }
 

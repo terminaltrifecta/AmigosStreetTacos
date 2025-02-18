@@ -1,7 +1,11 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import { useAppDispatch } from "@/lib/hooks";
 import { setLocation } from "@/slices/locationSlice";
+import { initializeHours } from "@/app/utils/menuUtils";
+import { RootState } from "@/lib/store";
+import { LocationData } from "@/app/interfaces";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/lib/hooks";
 
 interface LocationPopupProps {
   show: boolean;
@@ -9,10 +13,12 @@ interface LocationPopupProps {
 }
 
 const LocationPopup: React.FC<LocationPopupProps> = ({ show, onClose }) => {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
+  const locationState = useAppSelector((state: RootState) => state.location);
 
   const handleLocationSelect = (location: number) => {
     dispatch(setLocation(location));
+    initializeHours(dispatch, locationState.locations, location);
     onClose();
   };
 
@@ -29,31 +35,23 @@ const LocationPopup: React.FC<LocationPopupProps> = ({ show, onClose }) => {
       </Modal.Header>
       <Modal.Body>
         <div className="space-y-2 flex flex-col">
-          <div className="font-light text-sm">
-            Note: Only 17 Mile is available for online ordering at the moment!
-          </div>
           <div className="d-flex justify-content-around">
-            <button
-              id="buttonParent"
-              className="red"
-            onClick={() => handleLocationSelect(2)}
-            >
-              <div className="d-flex align-items-center justify-content-center p-2">
-                17 Mile Rd
-              </div>
-            </button>
-
-            {/* <button id="buttonParent" className="red" onClick={() => handleLocationSelect(1)}>
-            <div className="d-flex align-items-center justify-content-center p-2">
-              14 Mile Rd
-            </div>
-          </button>
-
-          <button id="buttonParent" className="red" onClick={() => handleLocationSelect(2)}>
-            <div className="d-flex align-items-center justify-content-center p-2">
-              St Clair Shores
-            </div>
-          </button> */}
+            {locationState.locations.map(
+              (location: LocationData, index: number) => {
+                return (
+                  <button
+                    key={index}
+                    id="buttonParent"
+                    className="red"
+                    onClick={() => handleLocationSelect(location.location_id)}
+                  >
+                    <div className="d-flex align-items-center justify-content-center p-2">
+                      {location.location_name}
+                    </div>
+                  </button>
+                );
+              }
+            )}
           </div>
         </div>
       </Modal.Body>
