@@ -134,11 +134,5 @@ export function isClosed(time: Date, hours: LocationHoursData): boolean {
     isAfter(dateInEst, openTime) || isEqual(dateInEst, openTime);
   const isBeforeClose = isBefore(dateInEst, closeTime);
 
-  console.log("Time:" + dateInEst);
-  console.log("Opentime: " + openTime);
-  console.log("Closetime: " + closeTime);
-  console.log("isAfterOpen: " + isAfterOpen);
-  console.log("isBeforeClose: " + isBeforeClose);
-
   return !(isAfterOpen && isBeforeClose);
 }

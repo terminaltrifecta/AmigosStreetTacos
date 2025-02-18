@@ -57,6 +57,15 @@ export async function POST(req: NextRequest) {
   //   );
   // }
 
+  // Check if the cart is empty
+  if (cart.length == 0) {
+    console.log("Cart is empty, payment intent was not created.");
+    return NextResponse.json(
+      {},
+      {status: 200}
+    )
+  }
+
   // Store the temporary cart data
   try {
     const { data, error } = await supabase
