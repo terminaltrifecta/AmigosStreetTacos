@@ -8,6 +8,8 @@ import {
 } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
+import { useAppSelector } from "@/lib/hooks";
+import { RootState } from "@/lib/store";
 
 export default function CheckoutPage({ amount, clientSecret }: any) {
   const stripe = useStripe();
@@ -25,6 +27,12 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
     lastName: false,
     email: false,
   });
+
+  //retrieves location info
+  const locationState = useAppSelector((state: RootState) => state.location);
+  const location = locationState.locations.find(
+    (loc) => loc.location_id === locationState.selectedLocation
+  );
 
   const paymentElementOptions: StripePaymentElementOptions = {
     layout: "accordion",
@@ -146,6 +154,10 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
           ))}
         </div>
       )}
+
+      <div className="text-lg">
+        This order will be placed at the {location?.location_name} location. If you'd like to change this, go back to the menu and refresh the site.
+      </div>
 
       <button 
         disabled={!stripe || loading} 

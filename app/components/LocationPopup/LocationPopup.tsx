@@ -6,6 +6,7 @@ import { RootState } from "@/lib/store";
 import { LocationData } from "@/app/interfaces";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/lib/hooks";
+import { MapPin } from "iconoir-react";
 
 interface LocationPopupProps {
   show: boolean;
@@ -31,11 +32,12 @@ const LocationPopup: React.FC<LocationPopupProps> = ({ show, onClose }) => {
       centered
     >
       <Modal.Header>
-        <Modal.Title>Select Location</Modal.Title>
+        <div className="font-bold text-2xl text-center w-full">Select Location</div>
+        <MapPin className="cart" width={32} height={32} strokeWidth={2} />
+        
       </Modal.Header>
       <Modal.Body>
-        <div className="space-y-2 flex flex-col">
-          <div className="d-flex justify-content-around">
+          <div className="flex flex-col space-y-2">
             {locationState.locations.map(
               (location: LocationData, index: number) => {
                 return (
@@ -45,7 +47,7 @@ const LocationPopup: React.FC<LocationPopupProps> = ({ show, onClose }) => {
                     className="red"
                     onClick={() => handleLocationSelect(location.location_id)}
                   >
-                    <div className="d-flex align-items-center justify-content-center p-2">
+                    <div className="align-items-center justify-content-center p-2 text-sm lg:text-lg">
                       {location.location_name}
                     </div>
                   </button>
@@ -53,7 +55,6 @@ const LocationPopup: React.FC<LocationPopupProps> = ({ show, onClose }) => {
               }
             )}
           </div>
-        </div>
       </Modal.Body>
     </Modal>
   );
