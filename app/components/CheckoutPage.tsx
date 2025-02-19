@@ -156,7 +156,7 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       )}
 
       <div className="text-lg">
-        This order will be placed at the {location?.location_name} location. If you'd like to change this, go back to the menu and refresh the site.
+        This order will be placed at the {location?.location_name} location. If you would like to change this, go back to the menu and refresh the site.
       </div>
 
       <button 
