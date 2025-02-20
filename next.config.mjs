@@ -9,3 +9,4 @@ const withAutoCert = autoCert({
 const nextConfig = {};
 
 export default withAutoCert(nextConfig);
+
