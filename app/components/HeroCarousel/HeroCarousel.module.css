@@ -1,0 +1,163 @@
+/* Desktop hero height: 85vh */
+.heroContainer {
+    position: relative;
+    width: 100%;
+    height: 85vh;
+    overflow: hidden;
+    background-color: #1a1a1a;
+}
+
+/* Curtain Elements now use a gentle yellow */
+.curtainLeft,
+.curtainCenter,
+.curtainRight {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: #f7e59c;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.curtainLeft {
+    left: 0;
+    width: 33.33%;
+}
+
+.curtainCenter {
+    left: 33.33%;
+    width: 33.33%;
+}
+
+.curtainRight {
+    left: 66.66%;
+    width: 33.33%;
+}
+
+.carouselContainer {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel {
+    width: 100%;
+    height: 100%;
+}
+
+/* Carousel items match the heroContainer height */
+.carouselItem {
+    position: relative;
+    width: 100%;
+    height: 85vh !important;
+}
+
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carouselImage {
+    object-fit: cover;
+    object-position: 50% 80%;
+}
+
+/* Caption styling for non-mobile devices */
+.carouselCaption {
+    position: absolute;
+    bottom: 20%;
+    left: 5%;
+    right: 5%;
+    text-align: left; /* Explicitly set left alignment */
+    padding: 0;
+    border-radius: 0;
+    max-width: 600px; /* Keep a reasonable max-width */
+    animation: captionSlideIn 0.8s ease-out;
+    box-shadow: none;
+}
+
+@keyframes captionSlideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.carouselCaption h3 {
+    margin: 0;
+    /* color: #140a02;  If you prefer dark brown color, uncomment and comment rgba */
+    color: rgba(255, 255, 255, 0.7); /* Semi-transparent white color */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+    font-size: 11vw; /* Base font size */
+    -webkit-text-stroke: 0.35vw white;
+    word-break: break-word;
+    text-align: left; /* Ensure left text align inside h3 as well */
+}
+
+/* Arrow and indicator styling */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(100%);
+    width: 2rem;
+    height: 2rem;
+}
+
+.carousel-indicators {
+    bottom: 2rem;
+}
+
+.carousel-indicators li {
+    background-color: #fff;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .heroContainer,
+    .carouselItem {
+        height: 52vh !important;
+    }
+
+    .carouselCaption {
+        bottom: 8%;
+        left: 5%;
+        right: 5%;
+        max-width: 90%;
+        padding: 0;
+        text-align: left; /* Ensure left align in mobile captions */
+    }
+
+    .carouselCaption h3 {
+        font-size: 8vw; /* **Smaller on Mobile**: Reduced from 14vw to 10vw */
+        -webkit-text-stroke: 0.5vw white; /* Slightly thinner stroke for smaller text */
+        text-align: left; /* Ensure left align in mobile h3 */
+    }
+}
+
+/* Large desktop screens */
+@media (min-width: 992px) {
+    .carouselCaption {
+        left: 5%;
+        right: auto;
+        margin: 0;
+        text-align: left; /* Ensure left align in large screen captions */
+        max-width: 80%;
+        bottom: 15%;
+    }
+
+    .carouselCaption h3 {
+        font-size: 5vw; /* **Bigger on Large Screens**: Increased from 4.5vw to 5vw */
+        -webkit-text-stroke: 0.3vw white; /* Slightly thicker stroke for larger text */
+        max-width: 80%;
+        overflow-wrap: break-word;
+        text-align: left; /* Ensure left align in large screen h3 */
+    }
+}
