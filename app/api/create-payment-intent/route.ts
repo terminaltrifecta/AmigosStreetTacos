@@ -16,7 +16,7 @@ const supabase = createClient(
   process.env.SUPABASE_SECRET_KEY!
 );
 
-let uuid: string;
+let order_id: number;
 let amount: number;
 
 export async function GET() {
@@ -71,14 +71,14 @@ export async function POST(req: NextRequest) {
     const { data, error } = await supabase
       .from("temporary_orders")
       .insert([
-        { cart, time_created: new Date(), time_requested: time, location_id: location},
+        { cart: cart, location_id: location, time_requested: time},
       ])
       .select()
       .single();
 
     if (error) throw new Error(error.message);
-    console.log("Temporary order created with UUID:", data.id);
-    uuid = data.id;
+    console.log("Temporary order created with ID:", data.temporary_order_id);
+    order_id = data.temporary_order_id;
   } catch (err: any) {
     console.error("Supabase insert error:", err.message);
     return NextResponse.json(
@@ -104,12 +104,12 @@ export async function POST(req: NextRequest) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
       currency: "usd",
-      metadata: {id: uuid},
+      metadata: {id: order_id},
       automatic_payment_methods: { enabled: true },
       application_fee_amount: Math.floor(0.02*amount)
     },
     {
-      stripeAccount: "acct_1QpgSq2Krm1KS5Gy"
+      stripeAccount: process.env.NEXT_PUBLIC_STRIPE_ACCOUNT
     });
     console.log("PaymentIntent created successfully:", paymentIntent.id);
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });

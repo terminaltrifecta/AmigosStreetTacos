@@ -20,7 +20,10 @@ import { setLocations, LocationState } from "@/slices/locationSlice";
 
 export async function initializeMenu(dispatch: Dispatch) {
   try {
-    const { data, error } = await supabase.from("category").select("*");
+    const { data, error } = await supabase
+      .from("category")
+      .select("*")
+      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!);
     if (error || !data) {
       throw new Error("Failed to fetch menu categories");
     } else {
@@ -33,7 +36,10 @@ export async function initializeMenu(dispatch: Dispatch) {
 
   // Fetches menu items
   try {
-    const { data, error } = await supabase.from("items").select("*");
+    const { data, error } = await supabase
+      .from("items")
+      .select("*")
+      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!);
     if (error || !data) {
       throw new Error("Failed to fetch menu items");
     } else {
@@ -65,7 +71,7 @@ export async function initializeMenu(dispatch: Dispatch) {
     const { data, error } = await supabase
       .from("locations")
       .select("*")
-      .eq("franchise_id", 1); //franchise id of amigos street tacos
+      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!)
     if (error || !data) {
       throw new Error("Failed to fetch locations");
     } else {
@@ -78,7 +84,11 @@ export async function initializeMenu(dispatch: Dispatch) {
   }
 }
 
-export async function initializeHours(dispatch: Dispatch, locations: LocationData[], location_id: number | null) {
+export async function initializeHours(
+  dispatch: Dispatch,
+  locations: LocationData[],
+  location_id: number | null
+) {
   const location = locations.find((loc) => loc.location_id === location_id);
   if (!location) {
     throw new Error("Location not found in Redux store");

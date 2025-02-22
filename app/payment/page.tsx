@@ -16,7 +16,7 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
 }
 
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!, {
-  stripeAccount: "acct_1QpgSq2Krm1KS5Gy"
+  stripeAccount: process.env.NEXT_PUBLIC_STRIPE_ACCOUNT
 });
 
 export default function PaymentPage() {

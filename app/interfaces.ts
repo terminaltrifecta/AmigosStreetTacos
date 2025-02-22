@@ -45,7 +45,6 @@ export interface PostData {
   email: string;
   phone_number: number | null;
   location_id: number;
-  time_placed: Date;
   time_requested: number | null;
   location: string | null;
   is_pickup: boolean;
