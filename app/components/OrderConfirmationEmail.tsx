@@ -150,9 +150,9 @@ function OrderConfirmationEmail({
                 <p style={itemDetailStyle}>
                   <strong style={brandStyle}>Modifications:</strong>
                   <ul>
-                    {item.modifications.map((mod: ModificationData) => {
+                    {item.modifications.map((mod: ModificationData, index) => {
                       return (
-                        <li className="">
+                        <li key={index} className="">
                           <p style={itemDetailStyle}>
                             <strong style={brandStyle}>Modification:</strong>{" "}
                             {mod.modification}

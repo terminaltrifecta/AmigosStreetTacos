@@ -84,11 +84,12 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       return;
     }
 
+    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'http://localhost:3000';
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://www.localhost:3000/payment-processed?amount=${amount}`,
+        return_url: `${baseUrl}/payment-processed?amount=${amount}`,
         payment_method_data: {
           billing_details: {
             name: firstName + " " + lastName,
