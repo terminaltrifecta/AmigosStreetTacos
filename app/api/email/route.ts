@@ -2,7 +2,10 @@ import { Resend } from "resend";
 import { NextResponse } from "next/server";
 import OrderConfirmationEmail from "@/app/components/OrderConfirmationEmail";
 import { createClient } from "@supabase/supabase-js";
-import { OrderedItemData } from "@/app/interfaces";
+import { ModificationData, OrderedItemData } from "@/app/interfaces";
+import { calculateCartPrice } from "@/app/utils/menuUtils";
+import { format } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const supabase = createClient(
@@ -26,7 +29,6 @@ export async function POST(req: Request) {
       to,
       customerName,
       locationID,
-      orderItems,
       readyTime,
       paymentStatus,
     });
@@ -40,7 +42,6 @@ export async function POST(req: Request) {
 
     const franchiseId = process.env.NEXT_PUBLIC_FRANCHISE_ID;
 
-    console.log("Fetching franchise data from Supabase");
     const { data: franchiseData, error: franchiseError } = await supabase
       .from("franchise")
       .select("name")
@@ -56,9 +57,7 @@ export async function POST(req: Request) {
     }
 
     const restaurantName = franchiseData?.name || "Franchise Name Not Found";
-    console.log("Franchise name fetched:", restaurantName);
 
-    console.log("Fetching location data from Supabase");
     const { data: locationData, error: locationError } = await supabase
       .from("locations")
       .select("location_name")
@@ -77,6 +76,11 @@ export async function POST(req: Request) {
       locationData?.location_name || "Location Name Not Found";
     console.log("Location name fetched:", locationName);
 
+    const total = await calculateCartPrice(orderItems);
+
+    const formattedTime = formatInTimeZone(readyTime, 'America/New_York', "hh:mm a MM/dd/yyyy");
+    console.log("formattedTime", formattedTime);
+
     console.log("Sending email using Resend");
     const data = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
@@ -88,7 +92,8 @@ export async function POST(req: Request) {
         locationName: locationName,
         paymentStatus: paymentStatus,
         orderItems: orderItems,
-        readyTime: readyTime,
+        readyTime: formattedTime,
+        total: total
       }),
     });
 

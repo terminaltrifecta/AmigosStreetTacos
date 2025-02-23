@@ -71,8 +71,9 @@ export async function POST(req: NextRequest) {
         customer_id: customer.customer_id,
       };
 
-      const response: any = await sendCartData(packageData);
-      const readyTime = response.message ? response.readyTime : null;
+      const response = await sendCartData(packageData);
+
+      const readyTime = addMinutes(new Date(), timeRequested);
 
       // Send email confirmation
       const emailResponse = await sendEmail(
@@ -344,7 +345,7 @@ async function sendEmail(
   lastName: string,
   email: string,
   cart: OrderedItemData[],
-  readyTime: string,
+  readyTime: Date,
   location: number,
   status: string,
 ) {
