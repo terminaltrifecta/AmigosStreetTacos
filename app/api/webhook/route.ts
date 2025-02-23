@@ -81,7 +81,8 @@ export async function POST(req: NextRequest) {
         email,
         cart,
         readyTime,
-        location
+        location,
+        "Successful"
       );
     } catch (err: any) {
       console.error("Unexpected error:", err); // Log the entire error object
@@ -344,36 +345,24 @@ async function sendEmail(
   email: string,
   cart: OrderedItemData[],
   readyTime: string,
-  location: number
+  location: number,
+  status: string,
 ) {
   try {
-    const { data: franchiseData, error: franchiseError } = await supabase
-      .from("franchise")
-      .select("name")
-      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID)
-      .single();
-
-    const { data: locationData, error: locationError } = await supabase
-      .from("locations")
-      .select("location_name")
-      .eq("location_id", location)
-      .single();
-
-    const paymentStatus = "Payment Successful"; // Hardcoded for now, but can be dynamic
-
-    await fetch("/api/email", {
+    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'http://localhost:3000';
+    await fetch(`${baseUrl}/api/email`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+
       body: JSON.stringify({
         to: email,
-        customerName: `${firstName} ${lastName}`,
-        restaurantName: franchiseData?.name,
-        locationName: locationData?.location_name,
+        customerName: firstName + " " + lastName,
+        locationID: location,
         orderItems: cart,
         readyTime: readyTime,
-        paymentStatus: paymentStatus,
+        paymentStatus: status,
       }),
     });
   } catch (emailError) {
