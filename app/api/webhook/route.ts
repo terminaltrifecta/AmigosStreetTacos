@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { PostData, OrderedItemData, CustomerData } from "@/app/interfaces";
 import { addMinutes } from "date-fns";
+import { Json } from "@/database.types";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,9 +15,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY! as string, {
 });
 
 const endpointSecret = process.env.WEBHOOK_SECRET!;
-
-//create cartData variable to host json
-let rawCartData;
 
 //function is called upon recieving webhook from stripe
 export async function POST(req: NextRequest) {
@@ -74,31 +72,17 @@ export async function POST(req: NextRequest) {
       };
 
       const response: any = await sendCartData(packageData);
-      const readyTime = response.message ? response.readyTime : undefined;
+      const readyTime = response.message ? response.readyTime : null;
 
       // Send email confirmation
-      try {
-        const restaurantName = process.env.NEXT_PUBLIC_FRANCHISE_ID; // Or fetch from database if needed
-        const paymentStatus = "Payment Successful"; // Hardcoded for now, but can be dynamic
-
-        await fetch("/api/email", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            to: email,
-            customerName: `${firstName} ${lastName}`,
-            restaurantName: restaurantName,
-            locationName: location,
-            orderItems: cart,
-            readyTime: readyTime,
-            paymentStatus: paymentStatus,
-          }),
-        });
-      } catch (emailError) {
-        console.error("Error sending email:", emailError);
-      }
+      const emailResponse = await sendEmail(
+        firstName,
+        lastName,
+        email,
+        cart,
+        readyTime,
+        location
+      );
     } catch (err: any) {
       console.error("Unexpected error:", err); // Log the entire error object
       return NextResponse.json(
@@ -351,6 +335,49 @@ async function sendCartData(postData: PostData) {
       { error: "An unexpected error occurred" },
       { status: 500 }
     );
+  }
+}
+
+async function sendEmail(
+  firstName: string,
+  lastName: string,
+  email: string,
+  cart: OrderedItemData[],
+  readyTime: string,
+  location: number
+) {
+  try {
+    const { data: franchiseData, error: franchiseError } = await supabase
+      .from("franchise")
+      .select("name")
+      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID)
+      .single();
+
+    const { data: locationData, error: locationError } = await supabase
+      .from("locations")
+      .select("location_name")
+      .eq("location_id", location)
+      .single();
+
+    const paymentStatus = "Payment Successful"; // Hardcoded for now, but can be dynamic
+
+    await fetch("/api/email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        to: email,
+        customerName: `${firstName} ${lastName}`,
+        restaurantName: franchiseData?.name,
+        locationName: locationData?.location_name,
+        orderItems: cart,
+        readyTime: readyTime,
+        paymentStatus: paymentStatus,
+      }),
+    });
+  } catch (emailError) {
+    console.error("Error sending email:", emailError);
   }
 }
 

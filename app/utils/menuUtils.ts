@@ -23,7 +23,7 @@ export async function initializeMenu(dispatch: Dispatch) {
     const { data, error } = await supabase
       .from("category")
       .select("*")
-      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!);
+      //.eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!);
     if (error || !data) {
       throw new Error("Failed to fetch menu categories");
     } else {
