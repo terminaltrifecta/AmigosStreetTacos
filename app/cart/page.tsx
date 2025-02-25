@@ -9,12 +9,14 @@ import { OrderedItemData } from "../interfaces";
 import Dropdown from "../components/Dropdown";
 import Link from "next/link";
 import { isClosed } from "../utils/menuUtils";
+import LastMinuteAddOnsModal from "../components/LastMinuteAddOnsModal";
 
 export default function Cart() {
   const [closed, setClosed] = useState(true);
 
   const cart = useAppSelector((state: RootState) => state.cart);
   const hours = useAppSelector((state: RootState) => state.menu.hours);
+  const [showAddOnsModal, setShowAddOnsModal] = useState(false);
   const locationState = useAppSelector((state: RootState) => state.location);
 
   useEffect(() => {
@@ -66,19 +68,22 @@ export default function Cart() {
         </div>
 
         <div className="buttonContainer flex flex-col space-y-4">
-          <Dropdown />
-          <Link id="aref" href="/payment">
+          <Dropdown />    
             {closed ? (
               <button disabled id="buttonParent" className="bigRed uppercase">
                 Restaurant closed
               </button>
             ) : (
-              <button id="buttonParent" className="bigRed uppercase">
+              <button id="buttonParent" className="bigRed uppercase" onClick={() => setShowAddOnsModal(true)}>
                 Checkout
               </button>
             )}
-          </Link>
+          
         </div>
+        <LastMinuteAddOnsModal
+          open={showAddOnsModal}
+          onClose={() => setShowAddOnsModal(false)}
+        />
       </div>
       <br />
     </div>
