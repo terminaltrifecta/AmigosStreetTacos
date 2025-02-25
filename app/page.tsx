@@ -20,7 +20,7 @@ export default function Home() {
       menu.menuItems.length === 0 ||
       menu.modifications.length === 0
     ) {
-      initializeMenu(dispatch, 2);
+      initializeMenu(dispatch);
     }
   }, [dispatch, menu.categories.length, menu.menuItems.length, menu.modifications.length]);
 
