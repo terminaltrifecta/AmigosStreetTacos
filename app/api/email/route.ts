@@ -83,7 +83,7 @@ export async function POST(req: Request) {
 
     console.log("Sending email using Resend");
     const data = await resend.emails.send({
-      from: "Amigos Street Tacos <onboarding@resend.dev>",
+      from: "Amigos Street Tacos <confirmation@zorgotech.com>",
       to: to,
       subject: "Order Confirmation",
       react: OrderConfirmationEmail({

@@ -1,8 +1,24 @@
-import React from "react";
 import { ModificationData, OrderedItemData } from "@/app/interfaces";
-import Image from "next/image"; // Import Image component
+import {
+  Body,
+  Button,
+  Column,
+  Container,
+  Head,
+  Heading,
+  Hr,
+  Html,
+  Img,
+  Link,
+  Preview,
+  Row,
+  Section,
+  Tailwind,
+  Text,
+} from "@react-email/components";
+import * as React from "react";
 
-interface OrderConfirmationEmailProps {
+interface VercelInviteUserEmailProps {
   customerName: string;
   restaurantName: string;
   locationName: string;
@@ -12,185 +28,117 @@ interface OrderConfirmationEmailProps {
   total: number;
 }
 
-function OrderConfirmationEmail({
+const baseUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "https://localhost:3000";
+
+export const VercelInviteUserEmail = ({
   customerName,
   restaurantName,
   locationName,
   paymentStatus,
   orderItems,
   readyTime,
-  total
-}: OrderConfirmationEmailProps) {
-  const colors = {
-    amigosred: "#dc3c2e",
-    amigosyellow: "#e3cc4d",
-    amigoswhite: "#fff6eb",
-    amigosblack: "#140a02",
-  };
-
-  const containerStyle = {
-    maxWidth: "680px",
-    margin: "20px auto",
-    padding: "25px",
-    borderRadius: "8px",
-    fontFamily: "Arial, sans-serif",
-    color: colors.amigosblack,
-    backgroundColor: "#ffffff",
-    border: "2px solid " + colors.amigosblack,
-  };
-  const headerStyle = {
-    fontSize: "28px",
-    fontWeight: "bold",
-    marginBottom: "20px",
-    textAlign: "left" as "left",
-    color: colors.amigosblack,
-    paddingBottom: "8px",
-    borderBottom: "2px solid " + colors.amigosyellow,
-    letterSpacing: "0.2px",
-  };
-  const greetingStyle = {
-    fontSize: "15px",
-    marginBottom: "15px",
-    color: colors.amigosblack,
-    fontWeight: "normal",
-    lineHeight: "1.4",
-  };
-  const sectionStyle = {
-    marginBottom: "20px",
-  };
-  const sectionTitleStyle = {
-    fontWeight: "bold",
-    fontSize: "14px",
-    marginBottom: "8px",
-    color: colors.amigosblack,
-    textTransform: "uppercase" as "uppercase",
-    letterSpacing: "0.6px",
-  };
-  const orderDetailListStyle = {
-    listStyleType: "none",
-    padding: 0,
-  };
-  const orderDetailItemStyle = {
-    marginBottom: "12px",
-    borderRadius: "4px",
-    padding: "10px",
-    backgroundColor: colors.amigoswhite,
-    border: "2px solid " + colors.amigosyellow,
-  };
-  const footerStyle = {
-    marginTop: "25px",
-    textAlign: "left" as "left",
-    color: "#777",
-    fontSize: "12px",
-    fontStyle: "italic" as "italic",
-  };
-  const brandStyle = {
-    fontWeight: "bold",
-    color: colors.amigosblack,
-  };
-  const itemDetailStyle = {
-    marginBottom: "6px",
-    fontSize: "13px",
-    lineHeight: "1.3",
-  };
-  const paymentStatusStyle = {
-    color: paymentStatus === "Successful" ? "green" : "red",
-    fontWeight: "bold",
-    fontSize: "14px",
-    textAlign: "left" as "left",
-    marginTop: "6px",
-  };
+  total,
+}: VercelInviteUserEmailProps) => {
+  const previewText = `Order at ${restaurantName} was successful!`;
 
   return (
-    <div style={containerStyle}>
-      <div style={headerStyle}>
-        {paymentStatus == "Successful"
-          ? "Order Confirmed"
-          : "Error Confirming Order"}
-      </div>
+    <Html>
+      <Head />
+      <Preview>{previewText}</Preview>
+      <Tailwind>
+        <Body className="bg-white my-auto mx-auto font-sans px-2 text-center">
+          <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] max-w-[465px]">
+            <Section className="mt-[32px]">
+              <Img
+                src={`${baseUrl}/static/assets/amigoslogo.png`}
+                width="100"
+                height="80"
+                alt="Amigos Street Tacos"
+                className="my-0 mx-auto"
+              />
+            </Section>
+            <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
+              We have recieved your order for <strong>{restaurantName}</strong>{" "}
+              at <strong>{locationName}</strong>
+            </Heading>
+            <Text className="text-black text-[14px] leading-[24px]">
+              Hello {customerName}.
+            </Text>
+            <Section>
+              {orderItems.map((item, index) => (
+                <Section key={index} className="m-2 border-2 border-black">
+                  <Text className="m-0">
+                    {item.quantity} x <strong>{item.item_name}</strong> - $
+                    {(item.price * item.quantity).toFixed(2)}{" "}
+                  </Text>
+                  {item.comments && (
+                    <Text className="m-0">
+                      <em>{item.comments}</em>
+                    </Text>
+                  )}
+                  <Section>
+                    {item.modifications.map((modification, index) => (
+                      <Row key={index}>
+                        <Text className="m-0">
+                          {modification.modification}
+                          {modification.price > 0 &&
+                            " - $" + (modification.price / 100).toFixed(2)}
+                        </Text>
+                      </Row>
+                    ))}
+                  </Section>
+                  <Hr className="border border-solid border-[#eaeaea]  mx-0 w-full" />
+                </Section>
+              ))}
+            </Section>
 
-      <div style={sectionStyle}>
-        <p style={greetingStyle}>
-          Dear <span style={brandStyle}>{customerName}</span>,
-        </p>
-        <p style={greetingStyle}>
-          We have recieved your order for{" "}
-          <span style={brandStyle}>{restaurantName}</span> at {locationName}.
-        </p>
-      </div>
+            <Section className="">
+              <Text className="text-lg m-0">
+                Subtotal: ${(total / 100).toFixed(2)}
+              </Text>
+              <Text className="text-lg m-0">
+                Tax: ${((total / 100) * 0.06).toFixed(2)}
+              </Text>
+              <Text className="text-lg m-0">
+                <strong>Total:</strong> ${((total * 1.06) / 100).toFixed(2)}
+              </Text>
+            </Section>
 
-      <div style={sectionStyle}>
-        <p style={sectionTitleStyle}>Payment Status</p>
-        <p style={paymentStatusStyle}>{paymentStatus}</p>
-      </div>
+            <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
 
-      <div style={sectionStyle}>
-        <p style={sectionTitleStyle}>Order Details</p>
-        <ul style={orderDetailListStyle}>
-          {orderItems.map((item, index) => (
-            <li key={index} style={orderDetailItemStyle}>
-              <p style={itemDetailStyle}>
-                <strong style={brandStyle}>Item:</strong> {item.item_name}
-              </p>
-              <p style={itemDetailStyle}>
-                <strong style={brandStyle}>Quantity:</strong> {item.quantity}
-              </p>
-              <p style={itemDetailStyle}>
-                <strong style={brandStyle}>Price:</strong> $
-                {item.price * item.quantity}
-              </p>
-
-              {item.comments && (
-                <p style={itemDetailStyle}>
-                  <strong style={brandStyle}>Comments:</strong> {item.comments}
-                </p>
-              )}
-
-              {item.modifications.length > 0 && (
-                <p style={itemDetailStyle}>
-                  <strong style={brandStyle}>Modifications:</strong>
-                  <ul>
-                    {item.modifications.map((mod: ModificationData, index) => {
-                      return (
-                        <li key={index} className="">
-                          <p style={itemDetailStyle}>
-                            <strong style={brandStyle}>Modification:</strong>{" "}
-                            {mod.modification}
-                          </p>
-                          <p style={itemDetailStyle}>
-                            <strong style={brandStyle}>Price:</strong> $
-                            {mod.price / 100}
-                          </p>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </p>
-              )}
-            </li>
-          ))}
-        </ul>
-
-        <p style={itemDetailStyle}>
-          Subtotal: ${Math.ceil(total/100)}
-        </p>
-        <p style={itemDetailStyle}>
-          <strong style={brandStyle}>Total:</strong> ${Math.ceil(total * 1.06 / 100)}
-        </p>
-      </div>
-
-      <div style={sectionStyle}>
-        <p style={sectionTitleStyle}>Ready Time</p>
-        <div style={itemDetailStyle}>
-          {readyTime
-            ? readyTime
-            : "Sorry, we couldn't load when your order will be ready."}
-        </div>
-      </div>
-
-      <p style={footerStyle}>Thank you for choosing us!</p>
-    </div>
+            <Section className="text-center">
+              <table className="w-full">
+                <tr className="w-full">
+                  <td align="center">
+                    <Img
+                      alt="Amigos Street Tacos Logo"
+                      height="42"
+                      src={`${baseUrl}/static/amigos-logo.png`}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center">
+                    <Text className="m-0 font-bold">
+                      Online ordering system locally developed by Zorgo.
+                    </Text>
+                    <Text className="m-0 text-gray-500">
+                      Continue ordering online to support local businesses!
+                    </Text>
+                    <Text className="m-0 font-bold">
+                      Your order will be ready at {readyTime}!
+                    </Text>
+                  </td>
+                </tr>
+              </table>
+            </Section>
+          </Container>
+        </Body>
+      </Tailwind>
+    </Html>
   );
-}
+};
 
-export default OrderConfirmationEmail;
+export default VercelInviteUserEmail;
