@@ -84,7 +84,7 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       return;
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'http://localhost:3000';
+    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000';
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
