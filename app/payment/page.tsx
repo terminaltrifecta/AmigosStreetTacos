@@ -22,7 +22,7 @@ const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!, {
 export default function PaymentPage() {
   const [clientSecret, setClientSecret] = useState("");
 
-  const cart = useAppSelector((state: RootState) => state.cart);
+  const cart = useAppSelector((state: RootState) => state.cart.value);
   const time = useAppSelector((state: RootState) => state.time);
   const hours = useAppSelector((state: RootState) => state.menu.hours);
   const location = useAppSelector((state: RootState) => state.location.selectedLocation);

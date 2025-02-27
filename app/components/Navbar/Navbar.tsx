@@ -10,6 +10,7 @@ import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 import LocationSelector from "./LocationSelector/LocationSelector";
 import Image from "next/image";
+import { CartState } from "@/app/interfaces";
 
 export default function Navbar() {
   const [clicked, setClicked] = useState(false);
@@ -21,7 +22,7 @@ export default function Navbar() {
   }
 
   const cart = useAppSelector((state: RootState) => state.cart);
-  const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
+  const itemCount = cart.value.reduce((a: any, v: any) => (a = a + v.quantity), 0);
 
   useEffect(() => {
     setJustAdded(true); // begin the animation
