@@ -22,10 +22,12 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
   const [lastName, setLastName] = useState("");
   const [selectedTime, setSelectedTime] = useState(20);
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState({
     firstName: false,
     lastName: false,
     email: false,
+    phone: false,
   });
 
   //retrieves location info
@@ -39,9 +41,9 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
     fields: {
       billingDetails: {
         name: "auto",
-        email: "auto"
-      }
-    }
+        email: "auto",
+      },
+    },
   };
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -53,19 +55,29 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       firstName: firstName.trim() === "",
       lastName: lastName.trim() === "",
       email: email.trim() === "" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
+      phone: phone.trim() === "" || !/^[0-9]*$/.test(phone), // Basic phone validation: not empty and digits only
     };
 
     setErrors(newErrors);
 
     // Check for errors using the current newErrors object
-    if (newErrors.firstName || newErrors.lastName || newErrors.email) {
+    if (newErrors.firstName || newErrors.lastName || newErrors.email || newErrors.phone) {
       const errorMessages = [];
       if (newErrors.firstName) errorMessages.push("First name is required");
       if (newErrors.lastName) errorMessages.push("Last name is required");
       if (newErrors.email) {
-        errorMessages.push(email.trim() === "" ? "Email is required" : "Invalid email format");
+        errorMessages.push(
+          email.trim() === "" ? "Email is required" : "Invalid email format"
+        );
       }
-      
+      if (newErrors.phone) {
+        errorMessages.push(
+          phone.trim() === ""
+            ? "Phone number is required"
+            : "Invalid phone number format"
+        );
+      }
+
       setErrorMessage(errorMessages.join(" • "));
       setLoading(false);
       return;
@@ -84,7 +96,9 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       return;
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'http://localhost:3000';
+    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+      : "http://localhost:3000";
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
@@ -94,10 +108,11 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
           billing_details: {
             name: firstName + " " + lastName,
             email: email,
-          }
-        }
+            phone: phone
+          },
+        },
       },
-    })
+    });
 
     if (error) {
       setErrorMessage(error.message);
@@ -114,40 +129,50 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       <div className="text-3xl text-center font-bold tracking-wide">
         One step from yumminess..
       </div>
-      
+
       <div className="flex space-x-4 w-full">
-        <input 
+        <input
           onChange={(e) => {
             setFirstName(e.target.value);
-            setErrors(prev => ({ ...prev, firstName: false }));
+            setErrors((prev) => ({ ...prev, firstName: false }));
           }}
           className={`w-1/2 p-3 rounded-xl border-1 ${
-            errors.firstName ? 'border-red-500 bg-red-100' : 'border-slate-300'
-          } normal-case`} 
+            errors.firstName ? "border-red-500 bg-red-100" : "border-slate-300"
+          } normal-case`}
           placeholder="First Name"
         />
-        <input 
+        <input
           onChange={(e) => {
             setLastName(e.target.value);
-            setErrors(prev => ({ ...prev, lastName: false }));
+            setErrors((prev) => ({ ...prev, lastName: false }));
           }}
           className={`w-1/2 p-3 rounded-xl border-1 ${
-            errors.lastName ? 'border-red-500 bg-red-100' : 'border-slate-300'
-          } normal-case`} 
+            errors.lastName ? "border-red-500 bg-red-100" : "border-slate-300"
+          } normal-case`}
           placeholder="Last Name"
         />
       </div>
-      <input 
+      <input
         onChange={(e) => {
           setEmail(e.target.value);
-          setErrors(prev => ({ ...prev, email: false }));
+          setErrors((prev) => ({ ...prev, email: false }));
         }}
         className={`p-3 rounded-xl border-1 ${
-          errors.email ? ' border-red-500 bg-red-100' : 'border-slate-300'
-        } normal-case`} 
+          errors.email ? " border-red-500 bg-red-100" : "border-slate-300"
+        } normal-case`}
         placeholder="Email Address"
       />
-      {clientSecret && <PaymentElement options={paymentElementOptions}/>}
+      <input
+        onChange={(e) => {
+          setPhone(e.target.value);
+          setErrors((prev) => ({ ...prev, phone: false }));
+        }}
+        className={`p-3 rounded-xl border-1 ${
+          errors.phone ? " border-red-500 bg-red-100" : "border-slate-300"
+        } normal-case`}
+        placeholder="Phone Number"
+      />
+      {clientSecret && <PaymentElement options={paymentElementOptions} />}
       {errorMessage && (
         <div className="text-red-500 text-sm">
           {errorMessage.split(" • ").map((message, index) => (
@@ -157,11 +182,12 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
       )}
 
       <div className="text-lg">
-        This order will be placed at the {location?.location_name} location. If you would like to change this, go back to the menu and refresh the site.
+        This order will be placed at the {location?.location_name} location. If
+        you would like to change this, go back to the menu and refresh the site.
       </div>
 
-      <button 
-        disabled={!stripe || loading} 
+      <button
+        disabled={!stripe || loading}
         className="text-amigoswhite text-[1.3rem] font-semibold text-center flex items-center justify-center rounded-2xl max-h-32 transition duration-200 bg-amigosblack hover:text-amigosblack hover:bg-amigoswhite hover:shadow-md"
       >
         <div className="flex items-center justify-center p-4">

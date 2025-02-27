@@ -14,10 +14,10 @@ import LastMinuteAddOnsModal from "../components/LastMinuteAddOnsModal";
 export default function Cart() {
   const [closed, setClosed] = useState(true);
 
-  const cart = useAppSelector((state: RootState) => state.cart);
+  const cart = useAppSelector((state: RootState) => state.cart.value);
   const hours = useAppSelector((state: RootState) => state.menu.hours);
-  const [showAddOnsModal, setShowAddOnsModal] = useState(false);
   const locationState = useAppSelector((state: RootState) => state.location);
+  const [showAddOnsModal, setShowAddOnsModal] = useState(false);
 
   useEffect(() => {
     const location = locationState.locations.find(

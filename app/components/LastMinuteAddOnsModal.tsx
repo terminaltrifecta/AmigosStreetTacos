@@ -259,64 +259,6 @@ export default function LastMinuteAddOnsModal({
           </div>
         </div>
       )}
-
-      {/* Popup notifications */}
-      <div
-        className="position-fixed bottom-0 start-50 translate-middle-x p-3"
-        style={{ zIndex: 1051, maxWidth: "300px", width: "100%" }}
-      >
-        {popups.map((popup) => (
-          <div
-            key={popup.id}
-            className="toast show mb-2"
-            style={{
-              backgroundColor: "#140a02",
-              color: "#fff6eb",
-              animation: "fade-in-out 3s",
-              borderRadius: "8px",
-            }}
-          >
-            <div className="toast-body d-flex align-items-center">
-              <CheckCircle className="me-2" size={24} />
-              {popup.message}
-              <div
-                className="progress ms-2"
-                style={{ height: "4px", flexGrow: 1 }}
-              >
-                <div
-                  className="progress-bar"
-                  style={{ width: "100%", animation: "progress 3s linear" }}
-                />
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <style jsx>{`
-        @keyframes fade-in-out {
-          0% {
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          90% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
-        }
-        @keyframes progress {
-          from {
-            width: 100%;
-          }
-          to {
-            width: 0;
-          }
-        }
-      `}</style>
     </Modal>
   );
 }

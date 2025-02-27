@@ -1,5 +1,9 @@
 import { Json } from "@/database.types";
 
+export interface CartState {
+  value: OrderedItemData[];
+}
+
 //interface for each item in the cart
 export interface OrderedItemData {
   item_name: string;
@@ -59,7 +63,7 @@ export interface CustomerData {
   last_name: string;
   email: string;
   points: number;
-  phone_number: number;
+  phone_number: string;
 }
 
 export interface LocationHoursData {
