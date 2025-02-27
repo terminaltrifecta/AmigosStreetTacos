@@ -8,7 +8,7 @@ import {
 import React from "react";
 import NumberInput from "../numberInput/numberInput";
 import { Xmark } from "iconoir-react";
-import { ModificationData, OrderedItemData } from "@/app/interfaces";
+import { ModificationData } from "@/app/interfaces";
 
 // The CartItem functional component takes CartItemProps as props
 export default function CartItem({

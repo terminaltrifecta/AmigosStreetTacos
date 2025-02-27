@@ -7,7 +7,7 @@ export const cartSlice = createSlice({
     value: [] as OrderedItemData[]
   } as CartState,
   reducers: {
-    addToCart: (state: CartState, { payload }: PayloadAction<OrderedItemData>) => {
+    addToCart: (state: CartState, { payload }) => {
       const existingItemIndex = state.value.findIndex(
         (cartItem: OrderedItemData) => {
           return (
@@ -29,7 +29,7 @@ export const cartSlice = createSlice({
         state.value.push(payload);
       }
     },
-    removeFromCart: (state: CartState, { payload }: PayloadAction<OrderedItemData>) => {
+    removeFromCart: (state: CartState, { payload }) => {
       state.value = state.value.filter(
         (cartItem: OrderedItemData) =>
           !(
@@ -39,7 +39,7 @@ export const cartSlice = createSlice({
           )
       );
     },
-    setQuantity: (state: CartState, { payload }: PayloadAction<OrderedItemData>) => {
+    setQuantity: (state: CartState, { payload }) => {
       const updatedQuantity = payload.quantity < 1 ? 1 : payload.quantity;
       
       state.value = state.value.map((cartItem: OrderedItemData) =>
@@ -50,12 +50,7 @@ export const cartSlice = createSlice({
           : cartItem
       );
     },
-    setInstructions: (state: CartState, { payload }: PayloadAction<{
-      item_name: string;
-      oldComments: string;
-      comments: string;
-      modifications: ModificationData[];
-    }>) => {
+    setInstructions: (state: CartState, { payload }) => {
       state.value = state.value.map((cartItem: OrderedItemData) =>
         cartItem.item_name === payload.item_name &&
         cartItem.comments === payload.oldComments &&
