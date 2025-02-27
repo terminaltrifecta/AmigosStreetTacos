@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     }
 
     id = charge.metadata?.id;
-    phone = charge.metadata?.phone;
+    phone = charge.billing_details.phone!;
     ({ firstName, lastName } = formatName(charge.billing_details.name));
     email = charge.billing_details.email!;
   } catch (err: unknown) {
