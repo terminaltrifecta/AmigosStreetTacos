@@ -24,9 +24,7 @@ export default function Cart() {
       (loc) => loc.location_id === locationState.selectedLocation
     );
 
-    setClosed(
-      isClosed(new Date(), hours) || (location ? location.force_close : true)
-    );
+    setClosed(isClosed(new Date(), hours, location?.force_close));
     setClosed(false);
   }, [hours]);
 

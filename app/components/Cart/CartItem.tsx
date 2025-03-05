@@ -40,7 +40,7 @@ export default function CartItem({
                 setQuantity({
                   quantity: quantity + 1,
                   item_name: item_name,
-                  comments: comments,
+                  comments: comments
                 })
               );
               console.log("increased!!");
@@ -50,7 +50,7 @@ export default function CartItem({
                 setQuantity({
                   quantity: quantity - 1,
                   item_name: item_name,
-                  comments: comments,
+                  comments: comments
                 })
               );
             }}

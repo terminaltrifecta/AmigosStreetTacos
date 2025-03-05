@@ -198,7 +198,12 @@ export async function calculateCartPrice(cart: OrderedItemData[]) {
   }
 }
 
-export function isClosed(time: Date, hours: LocationHoursData): boolean {
+export function isClosed(time: Date, hours: LocationHoursData, forceClose: boolean | undefined): boolean {
+
+  if (forceClose) {
+    return true;
+  }
+
   const dayOfWeek = time.getDay(); // 0 (Sunday) to 6 (Saturday)
   const days = [
     "sunday",
