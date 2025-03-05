@@ -25,7 +25,6 @@ export default function Cart() {
     );
 
     setClosed(isClosed(new Date(), hours, location?.force_close));
-    setClosed(false);
   }, [hours]);
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
