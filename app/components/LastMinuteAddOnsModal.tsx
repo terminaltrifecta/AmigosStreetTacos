@@ -166,19 +166,10 @@ export default function LastMinuteAddOnsModal({
             <div className="p-6 border-t border-amigoslightgray flex w-full space-x-2">
               <button
                 onClick={handleCheckout}
-                className="w-1/2 text-amigoswhite text-[1.3rem] font-semibold text-center flex items-center justify-center rounded-2xl max-h-32 transition duration-200 bg-amigosred hover:text-amigosblack hover:bg-amigoswhite hover:shadow-md"
+                className="w-full text-amigoswhite text-[1.3rem] font-semibold text-center flex items-center justify-center rounded-2xl max-h-32 transition duration-200 bg-amigosred hover:text-amigosblack hover:bg-amigoswhite hover:shadow-md"
               >
                 <div className="flex items-center justify-center p-4">
                   Checkout
-                </div>
-              </button>
-
-              <button
-                onClick={onClose}
-                className="w-1/2 text-amigoswhite text-[1.3rem] font-semibold text-center flex items-center justify-center rounded-2xl max-h-32 transition duration-200 bg-amigosblack hover:text-amigosblack hover:bg-amigoswhite hover:shadow-md"
-              >
-                <div className="flex items-center justify-center p-4">
-                  Close
                 </div>
               </button>
             </div>

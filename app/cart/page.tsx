@@ -10,6 +10,8 @@ import Dropdown from "../components/Dropdown";
 import Link from "next/link";
 import { isClosed } from "../utils/menuUtils";
 import LastMinuteAddOnsModal from "../components/LastMinuteAddOnsModal";
+import { ChevronsDown } from "lucide-react";
+import PromoCode from "../components/PromoCode";
 
 export default function Cart() {
   const [closed, setClosed] = useState(true);
@@ -33,6 +35,12 @@ export default function Cart() {
     0
   ); //adds the sum of price and quantity for each item
   const tax = subtotal * 0.06;
+
+  function onApplyPromotion() {
+    //should check redux for active promotions
+    //should subtract promotion from subtotal
+
+  }
 
   return (
     <div className="p-4">
@@ -65,17 +73,26 @@ export default function Cart() {
         </div>
 
         <div className="buttonContainer flex flex-col space-y-4">
-          <Dropdown />    
-            {closed ? (
-              <button disabled id="buttonParent" className="bigRed uppercase">
-                Restaurant closed
-              </button>
-            ) : (
-              <button id="buttonParent" className="bigRed uppercase" onClick={() => setShowAddOnsModal(true)}>
-                Checkout
-              </button>
-            )}
-          
+          <Dropdown />
+          <PromoCode onApply={onApplyPromotion}/>
+
+          {closed ? (
+            <button
+              disabled
+              id="buttonParent"
+              className="bigRed uppercase px-2"
+            >
+              Not accepting orders
+            </button>
+          ) : (
+            <button
+              id="buttonParent"
+              className="bigRed uppercase"
+              onClick={() => setShowAddOnsModal(true)}
+            >
+              Checkout
+            </button>
+          )}
         </div>
         <LastMinuteAddOnsModal
           open={showAddOnsModal}

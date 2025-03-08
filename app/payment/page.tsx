@@ -20,6 +20,8 @@ const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!, {
 });
 
 export default function PaymentPage() {
+  //apply redux promotion code
+
   const [clientSecret, setClientSecret] = useState("");
 
   const cart = useAppSelector((state: RootState) => state.cart.value);
