@@ -22,10 +22,10 @@ const Button: React.FC<ButtonProps> = ({
   
   // Styles that vary based on variant
   const variantStyles = {
-    default: "bg-[#dc3c2e] text-[#fff6eb] hover:bg-[#140a02] text-xl h-24",
-    red: "bg-[#dc3c2e] text-[#fff6eb] hover:bg-[#fff6eb] hover:text-[#dc3c2e] hover:border hover:border-[#dc3c2e] text-xl h-24",
-    black: "bg-[#140a02] text-[#fff6eb] hover:bg-[#fff6eb] hover:text-[#140a02] hover:shadow-md text-xl h-24",
-    bigRed: "bg-[#dc3c2e] text-[#fff6eb] w-full h-40 text-2xl border-0 hover:bg-[#fff6eb] hover:text-[#dc3c2e] hover:border hover:border-[#dc3c2e] disabled:bg-[#140a02] disabled:hover:text-[#fff6eb] disabled:hover:bg-[#140a02]"
+    default: "bg-[#dc3c2e] text-[#fff6eb] hover:bg-[#140a02] text-xl",
+    red: "bg-[#dc3c2e] text-[#fff6eb] hover:bg-[#fff6eb] hover:text-[#dc3c2e] hover:border hover:border-[#dc3c2e] text-xl",
+    black: "bg-[#140a02] text-[#fff6eb] hover:bg-[#fff6eb] hover:text-[#140a02] hover:shadow-md text-xl",
+    bigRed: "bg-[#dc3c2e] text-[#fff6eb] w-full text-2xl border-0 hover:bg-[#fff6eb] hover:text-[#dc3c2e] hover:border hover:border-[#dc3c2e] disabled:bg-[#140a02] disabled:hover:text-[#fff6eb] disabled:hover:bg-[#140a02]"
   };
 
   // Optional text transform

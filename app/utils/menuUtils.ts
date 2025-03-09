@@ -3,6 +3,7 @@ import {
   setHours,
   setMenuItems,
   setModifications,
+  setPromotions,
 } from "@/slices/menuSlice";
 import { supabase } from "../supabase";
 
@@ -21,10 +22,8 @@ import { setLocations, LocationState } from "@/slices/locationSlice";
 
 export async function initializeMenu(dispatch: Dispatch) {
   try {
-    const { data, error } = await supabase
-      .from("category")
-      .select("*")
-      //.eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!);
+    const { data, error } = await supabase.from("category").select("*");
+    //.eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!);
     if (error || !data) {
       throw new Error("Failed to fetch menu categories");
     } else {
@@ -72,7 +71,7 @@ export async function initializeMenu(dispatch: Dispatch) {
     const { data, error } = await supabase
       .from("locations")
       .select("*")
-      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!)
+      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!);
     if (error || !data) {
       throw new Error("Failed to fetch locations");
     } else {
@@ -82,6 +81,25 @@ export async function initializeMenu(dispatch: Dispatch) {
   } catch (err) {
     console.error(err);
     throw new Error("Failed to fetch locations");
+  }
+
+  //Fetches promotions
+  try {
+    const { data, error } = await supabase
+      .from("promotions")
+      .select("*")
+      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!)
+      .gte("end_date", new Date().toISOString()) // Check if the promo is still valid
+      .lte("start_date", new Date().toISOString()); // Check if the promo has started
+    if (error || !data) {
+      throw new Error("Failed to fetch promotions");
+    } else {
+      console.log("dispatched promotions!");
+      dispatch(setPromotions(data));
+    }
+  } catch (err) {
+    console.error(err);
+    throw new Error("Failed to fetch promotions");
   }
 }
 
@@ -198,8 +216,11 @@ export async function calculateCartPrice(cart: OrderedItemData[]) {
   }
 }
 
-export function isClosed(time: Date, hours: LocationHoursData, forceClose: boolean | undefined): boolean {
-
+export function isClosed(
+  time: Date,
+  hours: LocationHoursData,
+  forceClose: boolean | undefined
+): boolean {
   if (forceClose) {
     return true;
   }
