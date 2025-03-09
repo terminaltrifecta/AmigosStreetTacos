@@ -2,9 +2,10 @@ import { PromotionData } from "../interfaces";
 
 interface ValidationResult {
   valid: boolean;
-  discountType?: "percentage" | "fixed";
-  discountValue?: number;
+  discount_type?: "percentage" | "fixed";
+  discount_value?: number;
   message: string;
+  promoName?: string;
 }
 
 export function validatePromoCode(
@@ -24,17 +25,26 @@ export function validatePromoCode(
 
   // Check if the promotion is active
   if (promo.start_date > currentDate || promo.end_date < currentDate) {
-    return { valid: false, message: "Promo code is expired or not yet active." };
+    return {
+      valid: false,
+      message: "Promo code is expired or not yet active.",
+    };
   }
 
   // Check if the promotion is specific to a location
   if (promo.location_id && promo.location_id !== locationId) {
-    return { valid: false, message: "This promo code is not valid at this location." };
+    return {
+      valid: false,
+      message: "This promo code is not valid at this location.",
+    };
   }
 
   // Check if the promotion applies to specific items
   if (promo.item_id && (!itemIds || !itemIds.includes(promo.item_id))) {
-    return { valid: false, message: "This promo code does not apply to the selected items." };
+    return {
+      valid: false,
+      message: "This promo code does not apply to the selected items.",
+    };
   }
 
   // Ensure the discount type and value are valid
@@ -45,8 +55,9 @@ export function validatePromoCode(
   // If all checks pass, return the promo details
   return {
     valid: true,
-    discountType: promo.discount_type,
-    discountValue: promo.discount_value,
+    promoName: promo.name,
+    discount_type: promo.discount_type,
+    discount_value: promo.discount_value,
     message: "Promo code applied successfully!",
   };
 }

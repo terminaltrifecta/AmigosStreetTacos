@@ -133,11 +133,14 @@ export async function initializeHours(
   }
 }
 
-export async function calculateCartPrice(cart: OrderedItemData[]) {
-  let amount = 0; // Base amount
+export async function calculateCartPrice(
+  cart: OrderedItemData[],
+  promoCode?: string
+): Promise<number> {
+  let amount = 0; // Base amount in cents
 
   try {
-    // Fetch all item prices and modifications in a single query
+    // 1. Fetch item prices
     const itemIds = cart.map((item) => item.item_id);
     const { data: itemsData, error: itemsError } = await supabase
       .from("items")
@@ -149,18 +152,17 @@ export async function calculateCartPrice(cart: OrderedItemData[]) {
         `Supabase error fetching item prices: ${itemsError.message}`
       );
     }
-
     if (!itemsData || itemsData.length === 0) {
       throw new Error("No items found for the given item IDs");
     }
 
-    // Create a map of item prices for quick lookup
+    // Create a lookup for item prices (assumed to be in dollars)
     const itemPriceMap = new Map(
-      itemsData.map((item) => [item.item_id, item.price])
+      itemsData.map((item: any) => [item.item_id, item.price])
     );
-    let modificationPriceMap = new Map<number, number>();
 
-    // Fetch all modification prices in a single query
+    // 2. Fetch modification prices
+    let modificationPriceMap = new Map<number, number>();
     const modificationIds = cart
       .flatMap((item) => item.modifications || [])
       .map((mod) => mod.modification_id);
@@ -177,27 +179,28 @@ export async function calculateCartPrice(cart: OrderedItemData[]) {
           `Supabase error fetching modification prices: ${modificationsError.message}`
         );
       }
-
       if (!modificationsData || modificationsData.length === 0) {
         throw new Error(
           "No modifications found for the given modification IDs"
         );
       }
 
-      // Create a map of modification prices for quick lookup
+      // Create a lookup for modification prices (assumed to already be in cents)
       modificationPriceMap = new Map(
-        modificationsData.map((mod) => [mod.modification_id, mod.price])
+        modificationsData.map((mod: any) => [mod.modification_id, mod.price])
       );
     }
 
-    // Calculate the total amount
+    // 3. Calculate the base amount (subtotal) in cents
     for (const item of cart) {
       const price = itemPriceMap.get(item.item_id);
       if (price === undefined) {
         throw new Error(`Price not found for item ID: ${item.item_id}`);
       }
+      // Convert dollars to cents and multiply by quantity
       amount += item.quantity * price * 100;
 
+      // Add the modifications (assumed to be in cents)
       for (const mod of item.modifications) {
         const modPrice = modificationPriceMap.get(mod.modification_id);
         if (modPrice === undefined) {
@@ -209,7 +212,43 @@ export async function calculateCartPrice(cart: OrderedItemData[]) {
       }
     }
 
-    return amount;
+    // 4. Apply promotion if promoCode is provided
+    let discount = 0;
+    if (promoCode) {
+      // Fetch the promotion record from the promotions table
+      const { data: promoData, error: promoError } = await supabase
+        .from("promotions")
+        .select("*")
+        .eq("name", promoCode)
+        .single();
+
+      if (promoError) {
+        console.error("Error fetching promotion:", promoError.message);
+      } else if (promoData) {
+        // Validate the promotion's eligibility (date check, etc.)
+        const now = new Date();
+        const startDate = new Date(promoData.start_date);
+        const endDate = new Date(promoData.end_date);
+
+        if (startDate > now || endDate < now) {
+          console.log("Promotion is not active.");
+        } else {
+          // If valid, calculate discount based on discount type
+          if (promoData.discount_type === "percentage") {
+            discount = amount * (promoData.discount_value / 100);
+          } else if (promoData.discount_type === "fixed") {
+            // Assume fixed discount is in dollars; convert to cents
+            discount = promoData.discount_value * 100;
+          }
+          // Ensure discount does not exceed the base amount
+          discount = Math.min(discount, amount);
+        }
+      }
+    }
+
+    // 5. Compute the final amount (ensure it never drops below zero)
+    const finalAmount = Math.max(amount - discount, 0);
+    return finalAmount;
   } catch (err: any) {
     console.error("Error calculating cart price:", err.message);
     throw new Error(`Error in calculateCartPrice: ${err.message}`);

@@ -1,7 +1,7 @@
 "use client";
 
 import "bootstrap/dist/css/bootstrap.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { RootState } from "@/lib/store";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import CartItem from "../components/Cart/CartItem";
@@ -19,19 +19,12 @@ export default function Cart() {
   const dispatch = useAppDispatch();
 
   const [closed, setClosed] = useState(true);
-  const [savings, setSavings] = useState(0);
-  const [subtotal, setSubtotal] = useState(0);
-  const [tax, setTax] = useState(0);
-  const [total, setTotal] = useState(0);
-
-  const cart = useAppSelector((state: RootState) => state.cart.value);
-  const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
-  const hours = useAppSelector((state: RootState) => state.menu.hours);
-
-  const locationState = useAppSelector((state: RootState) => state.location);
   const [showAddOnsModal, setShowAddOnsModal] = useState(false);
 
-  //promotion stuff
+  const cart = useAppSelector((state: RootState) => state.cart.value);
+  const itemCount = cart.reduce((a, v) => a + v.quantity, 0);
+  const hours = useAppSelector((state: RootState) => state.menu.hours);
+  const locationState = useAppSelector((state: RootState) => state.location);
   const promocode = useAppSelector(
     (state: RootState) => state.promotions.promocode
   );
@@ -46,47 +39,40 @@ export default function Cart() {
     const location = locationState.locations.find(
       (loc) => loc.location_id === locationState.selectedLocation
     );
-
     setClosed(isClosed(new Date(), hours, location?.force_close));
-  }, [hours]);
+  }, [hours, locationState]);
 
-  useEffect(() => {
-    setSubtotal(
-      cart.reduce((a: any, v: any) => (a = a + v.quantity * v.price), 0)
-    ); //adds the sum of price and quantity for each item
+  const subtotal = useMemo(() => {
+    return cart.reduce((a, v) => a + v.quantity * v.price, 0);
   }, [cart]);
 
-  useEffect(() => {
-    setTax((subtotal - savings) * 0.06);
-    setTotal(subtotal - savings + tax);
-  }, [savings, subtotal])
-
-
-  // Function to apply the promotion
-  function onApplyPromotion() {
-    // Prevent re-applying if a promotion is already selected
-    if (selectedPromotion) {
-      console.log("Promotion already applied.");
-      return;
+  const savings = useMemo(() => {
+    if (!selectedPromotion) return 0;
+    let discount = 0;
+    if (selectedPromotion.discount_type === "percentage") {
+      discount = subtotal * (selectedPromotion.discount_value / 100);
+    } else if (selectedPromotion.discount_type === "fixed") {
+      discount = selectedPromotion.discount_value;
     }
 
+    return Math.min(discount, subtotal);
+  }, [selectedPromotion, subtotal]);
+
+  const tax = useMemo(() => {
+    return (subtotal - savings) * 0.06;
+  }, [subtotal, savings]);
+
+  const total = useMemo(() => {
+    return subtotal - savings + tax;
+  }, [subtotal, savings, tax]);
+
+  function onApplyPromotion() {
+    if (selectedPromotion) {
+      return;
+    }
     const result = validatePromoCode(promocode, promotions);
-    console.log(result);
-
-    if (result.valid) {
+    if (result.valid && result) {
       dispatch(setSelectedPromotion(result));
-
-      let newSavings = 0;
-      if (result.discountType === "percentage") {
-        newSavings = subtotal * (result.discountValue! / 100);
-      } else if (result.discountType === "fixed") {
-        newSavings = result.discountValue!;
-      }
-
-      // Ensure savings are never more than subtotal
-      setSavings(newSavings > subtotal ? subtotal : newSavings);
-
-      console.log("Applied savings:", newSavings);
     }
   }
 
@@ -122,14 +108,12 @@ export default function Cart() {
             </div>
           )}
           <div className="text-sm text-slate-500">Tax: ${tax.toFixed(2)}</div>
-
-          <div className="text-lg">Total: ${(total).toFixed(2)}</div>
+          <div className="text-lg">Total: ${total.toFixed(2)}</div>
         </div>
 
         <div className="buttonContainer flex flex-col space-y-4">
           <Dropdown />
           <PromoCode onApply={onApplyPromotion} />
-
           {closed ? (
             <button
               disabled

@@ -2,13 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
-import {
-  Elements
-} from "@stripe/react-stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import CheckoutPage from "../components/CheckoutPage";
 import Image from "next/image";
 import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
+import { calculateCartPrice } from "../utils/menuUtils";
 
 //ensures environmental variables are defined
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
@@ -16,35 +15,44 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
 }
 
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!, {
-  stripeAccount: process.env.NEXT_PUBLIC_STRIPE_ACCOUNT
+  stripeAccount: process.env.NEXT_PUBLIC_STRIPE_ACCOUNT,
 });
 
 export default function PaymentPage() {
   //apply redux promotion code
 
   const [clientSecret, setClientSecret] = useState("");
+  const [amount, setAmount] = useState(0);
 
   const cart = useAppSelector((state: RootState) => state.cart.value);
   const time = useAppSelector((state: RootState) => state.time);
   const hours = useAppSelector((state: RootState) => state.menu.hours);
-  const location = useAppSelector((state: RootState) => state.location.selectedLocation);
+  const promoCode = useAppSelector(
+    (state: RootState) => state.promotions.promocode
+  );
+  const location = useAppSelector(
+    (state: RootState) => state.location.selectedLocation
+  );
 
-  const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
-  const subtotal = cart.reduce(
-    (a: any, v: any) => (a = a + v.quantity * v.price),
-    0
-  ); //adds the sum of price and quantity for each item
-  const tax = subtotal * 0.06;
-
-  const amount = (subtotal + tax).toFixed(2);
+  useEffect(() => {
+    calculateCartPrice(cart, promoCode).then((price) => {
+      const adjustedPrice = parseFloat((price/100 * 1.06).toFixed(2));
+      setAmount(adjustedPrice);
+    });
+  });
 
   useEffect(() => {
     let isMounted = true;
-    console.log("useffect");
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart: cart, time: time, location: location, hours: hours }),
+      body: JSON.stringify({
+        cart: cart,
+        time: time,
+        location: location,
+        hours: hours,
+        promoCode: promoCode,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -58,12 +66,12 @@ export default function PaymentPage() {
     };
   }, [cart, hours, location, time]);
 
-  const elementOptions:StripeElementsOptions = {
+  const elementOptions: StripeElementsOptions = {
     clientSecret: clientSecret,
     appearance: {
-      theme: "flat"
-    }
-  }
+      theme: "flat",
+    },
+  };
 
   return (
     <div className="flex justify-center bg-white min-h-[70dvh] p-4">
