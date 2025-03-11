@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
   let firstName: string | undefined;
   let lastName: string | undefined;
   let email: string | undefined;
+  let phone: string | undefined;
 
   try {
     event = stripe.webhooks.constructEvent(rawBody, sig!, endpointSecret!);
@@ -36,6 +37,7 @@ export async function POST(req: NextRequest) {
     }
 
     id = charge.metadata?.id;
+    phone = charge.billing_details.phone!;
     ({ firstName, lastName } = formatName(charge.billing_details.name));
     email = charge.billing_details.email!;
   } catch (err: unknown) {
@@ -55,13 +57,13 @@ export async function POST(req: NextRequest) {
     try {
       const { cart, timeRequested, location } = await fetchAndFormatCart(id);
 
-      const customer = await getCustomer(firstName, lastName, email);
+      const customer = await getCustomer(firstName, lastName, email, phone);
 
       const packageData: PostData = {
         customer_first_name: customer.first_name,
         customer_last_name: customer.last_name,
         email: customer.email,
-        phone_number: null,
+        phone_number: customer.phone_number,
         location_id: location,
         time_requested: timeRequested,
         location: null,
@@ -119,10 +121,12 @@ export async function POST(req: NextRequest) {
 async function getCustomer(
   firstName: string,
   lastName: string,
-  email: string
+  email: string,
+  phone: string
 ): Promise<CustomerData> {
   // Initialize variable for customerData
   let customerData: CustomerData | null = null;
+  console.log("Get customer has been called", phone)
 
   try {
     // Step 1: Try to retrieve existing customer
@@ -158,7 +162,7 @@ async function getCustomer(
           first_name: firstName,
           last_name: lastName,
           email: email, // Use the provided email
-          phone_number: null, // You can change this as needed
+          phone_number: phone, // You can change this as needed
         },
       ])
       .select("*")

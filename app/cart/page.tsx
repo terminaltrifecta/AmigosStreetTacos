@@ -1,49 +1,51 @@
 "use client";
 
 import "bootstrap/dist/css/bootstrap.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { RootState } from "@/lib/store";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import CartItem from "../components/Cart/CartItem";
 import { OrderedItemData } from "../interfaces";
 import Dropdown from "../components/Dropdown";
 import Link from "next/link";
 import { isClosed } from "../utils/menuUtils";
-<<<<<<< Updated upstream
-=======
+import { validatePromoCode } from "../utils/databaseUtils";
 import LastMinuteAddOnsModal from "../components/LastMinuteAddOnsModal";
 import { ChevronsDown } from "lucide-react";
 import PromoCode from "../components/PromoCode";
 import { setSelectedPromotion } from "@/slices/promotionSlice";
-import { validatePromoCode } from "../utils/databaseUtils";
->>>>>>> Stashed changes
 
 export default function Cart() {
-  const [closed, setClosed] = useState(true);
+  const dispatch = useAppDispatch();
 
-  const cart = useAppSelector((state: RootState) => state.cart);
+  const [closed, setClosed] = useState(true);
+  const [showAddOnsModal, setShowAddOnsModal] = useState(false);
+
+  const cart = useAppSelector((state: RootState) => state.cart.value);
+  const itemCount = cart.reduce((a, v) => a + v.quantity, 0);
   const hours = useAppSelector((state: RootState) => state.menu.hours);
   const locationState = useAppSelector((state: RootState) => state.location);
+  const promocode = useAppSelector(
+    (state: RootState) => state.promotions.promocode
+  );
+  const selectedPromotion = useAppSelector(
+    (state: RootState) => state.promotions.selectedPromotion
+  );
+  const promotions = useAppSelector(
+    (state: RootState) => state.menu.promotions
+  );
 
   useEffect(() => {
     const location = locationState.locations.find(
       (loc) => loc.location_id === locationState.selectedLocation
     );
+    setClosed(isClosed(new Date(), hours, location?.force_close));
+  }, [hours, locationState]);
 
-    setClosed(
-      isClosed(new Date(), hours) || (location ? location.force_close : true)
-    );
-    setClosed(false);
-  }, [hours]);
+  const subtotal = useMemo(() => {
+    return cart.reduce((a, v) => a + v.quantity * v.price, 0);
+  }, [cart]);
 
-<<<<<<< Updated upstream
-  const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
-  const subtotal = cart.reduce(
-    (a: any, v: any) => (a = a + v.quantity * v.price),
-    0
-  ); //adds the sum of price and quantity for each item
-  const tax = subtotal * 0.06;
-=======
   const savings = useMemo(() => {
     if (!selectedPromotion) return 0;
     let discount = 0;
@@ -70,10 +72,9 @@ export default function Cart() {
     }
     const result = validatePromoCode(promocode, promotions);
     if (result.valid && result) {
-      dispatch(setSelectedPromotion(result.promotion));
+      dispatch(setSelectedPromotion(result));
     }
   }
->>>>>>> Stashed changes
 
   return (
     <div className="p-4">
@@ -101,24 +102,40 @@ export default function Cart() {
           <div className="text-sm text-slate-500">
             Subtotal: ${subtotal.toFixed(2)}
           </div>
+          {selectedPromotion && (
+            <div className="text-sm text-red-500">
+              Applied Savings: -${savings.toFixed(2)}
+            </div>
+          )}
           <div className="text-sm text-slate-500">Tax: ${tax.toFixed(2)}</div>
-          <div className="text-lg">Total: ${(subtotal + tax).toFixed(2)}</div>
+          <div className="text-lg">Total: ${total.toFixed(2)}</div>
         </div>
 
         <div className="buttonContainer flex flex-col space-y-4">
           <Dropdown />
-          <Link id="aref" href="/payment">
-            {closed ? (
-              <button disabled id="buttonParent" className="bigRed uppercase">
-                Restaurant closed
-              </button>
-            ) : (
-              <button id="buttonParent" className="bigRed uppercase">
-                Checkout
-              </button>
-            )}
-          </Link>
+          <PromoCode onApply={onApplyPromotion} />
+          {closed ? (
+            <button
+              disabled
+              id="buttonParent"
+              className="bigRed uppercase px-2"
+            >
+              Not accepting orders
+            </button>
+          ) : (
+            <button
+              id="buttonParent"
+              className="bigRed uppercase"
+              onClick={() => setShowAddOnsModal(true)}
+            >
+              Checkout
+            </button>
+          )}
         </div>
+        <LastMinuteAddOnsModal
+          open={showAddOnsModal}
+          onClose={() => setShowAddOnsModal(false)}
+        />
       </div>
       <br />
     </div>

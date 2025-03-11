@@ -3,6 +3,7 @@ import cartReducer from '@/slices/cartSlice'
 import locationReducer from '@/slices/locationSlice'
 import menuReducer from '@/slices/menuSlice'
 import timeReducer from '@/slices/timeSlice'
+import promotionReducer from '@/slices/promotionSlice'
 
 export const makeStore = () => {
   return configureStore({
@@ -10,7 +11,8 @@ export const makeStore = () => {
         cart: cartReducer,
         location: locationReducer,
         menu: menuReducer,
-        time: timeReducer
+        time: timeReducer,
+        promotions: promotionReducer,
       }
   })
 }

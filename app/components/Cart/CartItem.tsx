@@ -8,7 +8,7 @@ import {
 import React from "react";
 import NumberInput from "../numberInput/numberInput";
 import { Xmark } from "iconoir-react";
-import { ModificationData, OrderedItemData } from "@/app/interfaces";
+import { ModificationData } from "@/app/interfaces";
 
 // The CartItem functional component takes CartItemProps as props
 export default function CartItem({
@@ -40,7 +40,7 @@ export default function CartItem({
                 setQuantity({
                   quantity: quantity + 1,
                   item_name: item_name,
-                  comments: comments,
+                  comments: comments
                 })
               );
               console.log("increased!!");
@@ -50,7 +50,7 @@ export default function CartItem({
                 setQuantity({
                   quantity: quantity - 1,
                   item_name: item_name,
-                  comments: comments,
+                  comments: comments
                 })
               );
             }}

@@ -2,8 +2,10 @@ import { PromotionData } from "../interfaces";
 
 interface ValidationResult {
   valid: boolean;
-  promotion?: PromotionData;
+  discount_type?: "percentage" | "fixed";
+  discount_value?: number;
   message: string;
+  promoName?: string;
 }
 
 export function validatePromoCode(
@@ -53,7 +55,9 @@ export function validatePromoCode(
   // If all checks pass, return the promo details
   return {
     valid: true,
-    promotion: promo,
+    promoName: promo.name,
+    discount_type: promo.discount_type,
+    discount_value: promo.discount_value,
     message: "Promo code applied successfully!",
   };
 }

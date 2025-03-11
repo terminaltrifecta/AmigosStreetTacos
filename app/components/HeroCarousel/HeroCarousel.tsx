@@ -55,12 +55,6 @@ const carouselImages: CarouselImage[] = [
     alt: "Authentic Cuisine",
     caption: "Authentic Cuisine",
   },
-  {
-    desktopSrc: "/static/assets/home/amigosSaintClair.jpg",
-    mobileSrc: "/static/assets/home/amigosSaintClair.jpg",
-    alt: "Use code AMIGOS10 for 10% off!",
-    caption: "Use code AMIGOS10 for 10% off!",
-  },
 ];
 
 function HeroCarousel() {

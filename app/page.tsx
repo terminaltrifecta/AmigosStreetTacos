@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import styles from "./page.module.css";
-import Slideshow from "./components/Slideshow/Slideshow";
+import HeroCarousel from "./components/HeroCarousel/HeroCarousel";
 import Tab from "./components/Tab/Tab";
 import CardTab from "./components/CardTab/CardTab";
 import { useEffect } from "react";
@@ -22,17 +22,12 @@ export default function Home() {
     ) {
       initializeMenu(dispatch);
     }
-  }, [
-    dispatch,
-    menu.categories.length,
-    menu.menuItems.length,
-    menu.modifications.length,
-  ]);
+  }, [dispatch, menu.categories.length, menu.menuItems.length, menu.modifications.length]);
 
   return (
     <>
       <div className="d-grid gap-3">
-        <Slideshow />
+      <HeroCarousel />
         <Tab
           text="Carne Asada Fries. They're absolutely delicious."
           textRight="true"

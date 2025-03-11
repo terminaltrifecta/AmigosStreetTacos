@@ -1,5 +1,24 @@
 import { Json } from "@/database.types";
 
+export interface CartState {
+  value: OrderedItemData[];
+}
+
+//Interface for promotions
+export interface PromotionData {
+  id: number; // Unique identifier for the promotion
+  name: string; // Promo code (e.g., "SUMMER50")
+  description?: string; // Optional human-readable description of the promo
+  discount_type: "percentage" | "fixed"; // Type of discount
+  discount_value: number; // Value of the discount (percentage or fixed amount)
+  start_date: string; // ISO string format (e.g., "2025-03-08T00:00:00Z")
+  end_date: string; // ISO string format
+  franchise_id?: number; // Nullable: If set, applies to all locations under this franchise
+  location_id?: number; // Nullable: If set, applies to this specific location
+  item_id?: number; // Nullable: If set, applies to this specific item
+  customer_id?: number; // Nullable: If set, applies only to this customer
+}
+
 //interface for each item in the cart
 export interface OrderedItemData {
   item_name: string;
@@ -43,7 +62,7 @@ export interface PostData {
   customer_first_name: string;
   customer_last_name: string;
   email: string;
-  phone_number: number | null;
+  phone_number: string | null;
   location_id: number;
   time_requested: number | null;
   location: string | null;
@@ -59,7 +78,7 @@ export interface CustomerData {
   last_name: string;
   email: string;
   points: number;
-  phone_number: number;
+  phone_number: string;
 }
 
 export interface LocationHoursData {

@@ -3,6 +3,7 @@ import {
   setHours,
   setMenuItems,
   setModifications,
+  setPromotions,
 } from "@/slices/menuSlice";
 import { supabase } from "../supabase";
 
@@ -21,10 +22,8 @@ import { setLocations, LocationState } from "@/slices/locationSlice";
 
 export async function initializeMenu(dispatch: Dispatch) {
   try {
-    const { data, error } = await supabase
-      .from("category")
-      .select("*")
-      //.eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!);
+    const { data, error } = await supabase.from("category").select("*");
+    //.eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!);
     if (error || !data) {
       throw new Error("Failed to fetch menu categories");
     } else {
@@ -72,7 +71,7 @@ export async function initializeMenu(dispatch: Dispatch) {
     const { data, error } = await supabase
       .from("locations")
       .select("*")
-      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!)
+      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!);
     if (error || !data) {
       throw new Error("Failed to fetch locations");
     } else {
@@ -82,6 +81,25 @@ export async function initializeMenu(dispatch: Dispatch) {
   } catch (err) {
     console.error(err);
     throw new Error("Failed to fetch locations");
+  }
+
+  //Fetches promotions
+  try {
+    const { data, error } = await supabase
+      .from("promotions")
+      .select("*")
+      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!)
+      .gte("end_date", new Date().toISOString()) // Check if the promo is still valid
+      .lte("start_date", new Date().toISOString()); // Check if the promo has started
+    if (error || !data) {
+      throw new Error("Failed to fetch promotions");
+    } else {
+      console.log("dispatched promotions!");
+      dispatch(setPromotions(data));
+    }
+  } catch (err) {
+    console.error(err);
+    throw new Error("Failed to fetch promotions");
   }
 }
 
@@ -115,19 +133,14 @@ export async function initializeHours(
   }
 }
 
-<<<<<<< Updated upstream
-export async function calculateCartPrice(cart: OrderedItemData[]) {
-  let amount = 0; // Base amount
-=======
 export async function calculateCartPrice(
   cart: OrderedItemData[],
-  promoCode?: number
+  promoCode?: string
 ): Promise<number> {
   let amount = 0; // Base amount in cents
->>>>>>> Stashed changes
 
   try {
-    // Fetch all item prices and modifications in a single query
+    // 1. Fetch item prices
     const itemIds = cart.map((item) => item.item_id);
     const { data: itemsData, error: itemsError } = await supabase
       .from("items")
@@ -139,18 +152,17 @@ export async function calculateCartPrice(
         `Supabase error fetching item prices: ${itemsError.message}`
       );
     }
-
     if (!itemsData || itemsData.length === 0) {
       throw new Error("No items found for the given item IDs");
     }
 
-    // Create a map of item prices for quick lookup
+    // Create a lookup for item prices (assumed to be in dollars)
     const itemPriceMap = new Map(
-      itemsData.map((item) => [item.item_id, item.price])
+      itemsData.map((item: any) => [item.item_id, item.price])
     );
-    let modificationPriceMap = new Map<number, number>();
 
-    // Fetch all modification prices in a single query
+    // 2. Fetch modification prices
+    let modificationPriceMap = new Map<number, number>();
     const modificationIds = cart
       .flatMap((item) => item.modifications || [])
       .map((mod) => mod.modification_id);
@@ -167,27 +179,28 @@ export async function calculateCartPrice(
           `Supabase error fetching modification prices: ${modificationsError.message}`
         );
       }
-
       if (!modificationsData || modificationsData.length === 0) {
         throw new Error(
           "No modifications found for the given modification IDs"
         );
       }
 
-      // Create a map of modification prices for quick lookup
+      // Create a lookup for modification prices (assumed to already be in cents)
       modificationPriceMap = new Map(
-        modificationsData.map((mod) => [mod.modification_id, mod.price])
+        modificationsData.map((mod: any) => [mod.modification_id, mod.price])
       );
     }
 
-    // Calculate the total amount
+    // 3. Calculate the base amount (subtotal) in cents
     for (const item of cart) {
       const price = itemPriceMap.get(item.item_id);
       if (price === undefined) {
         throw new Error(`Price not found for item ID: ${item.item_id}`);
       }
+      // Convert dollars to cents and multiply by quantity
       amount += item.quantity * price * 100;
 
+      // Add the modifications (assumed to be in cents)
       for (const mod of item.modifications) {
         const modPrice = modificationPriceMap.get(mod.modification_id);
         if (modPrice === undefined) {
@@ -199,9 +212,6 @@ export async function calculateCartPrice(
       }
     }
 
-<<<<<<< Updated upstream
-    return amount;
-=======
     // 4. Apply promotion if promoCode is provided
     let discount = 0;
     if (promoCode) {
@@ -209,7 +219,7 @@ export async function calculateCartPrice(
       const { data: promoData, error: promoError } = await supabase
         .from("promotions")
         .select("*")
-        .eq("id", promoCode)
+        .eq("name", promoCode)
         .single();
 
       if (promoError) {
@@ -239,14 +249,21 @@ export async function calculateCartPrice(
     // 5. Compute the final amount (ensure it never drops below zero)
     const finalAmount = Math.max(amount - discount, 0);
     return finalAmount;
->>>>>>> Stashed changes
   } catch (err: any) {
     console.error("Error calculating cart price:", err.message);
     throw new Error(`Error in calculateCartPrice: ${err.message}`);
   }
 }
 
-export function isClosed(time: Date, hours: LocationHoursData): boolean {
+export function isClosed(
+  time: Date,
+  hours: LocationHoursData,
+  forceClose: boolean | undefined
+): boolean {
+  if (forceClose) {
+    return true;
+  }
+
   const dayOfWeek = time.getDay(); // 0 (Sunday) to 6 (Saturday)
   const days = [
     "sunday",

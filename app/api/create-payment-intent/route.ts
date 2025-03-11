@@ -1,5 +1,5 @@
 export const dynamic = "force-dynamic";
-export const runtime = "nodejs";  // added runtime export
+export const runtime = "nodejs"; // added runtime export
 
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
@@ -21,7 +21,10 @@ let amount: number;
 
 export async function GET() {
   // Return 405 for GET requests
-  return new NextResponse(null, { status: 405, statusText: "Method Not Allowed" });
+  return new NextResponse(null, {
+    status: 405,
+    statusText: "Method Not Allowed",
+  });
 }
 
 export async function POST(req: NextRequest) {
@@ -38,19 +41,18 @@ export async function POST(req: NextRequest) {
     );
   }
 
-<<<<<<< Updated upstream
-  const { cart, time, location, hours } = body;
-=======
-  const { cart, time, location, hours, promoId } = body;
-  console.log(cart, time, location, hours, promoId);
->>>>>>> Stashed changes
+  const { cart, time, location, hours, promoCode } = body;
+  console.log(cart, time, location, hours, promoCode);
 
   // Step 2: Check if the restaurant is open
   // try {
   //   const requestedTime = new Date();
   //   if (isClosed(requestedTime, hours)) {
   //     return NextResponse.json(
-  //       { error: "The restaurant is currently closed. Please try again during opening hours." },
+  //       {
+  //         error:
+  //           "The restaurant is currently closed. Please try again during opening hours.",
+  //       },
   //       { status: 400 }
   //     );
   //   }
@@ -65,19 +67,14 @@ export async function POST(req: NextRequest) {
   // Check if the cart is empty
   if (cart.length == 0) {
     console.log("Cart is empty, payment intent was not created.");
-    return NextResponse.json(
-      {},
-      {status: 200}
-    )
+    return NextResponse.json({}, { status: 200 });
   }
 
   // Store the temporary cart data
   try {
     const { data, error } = await supabase
       .from("temporary_orders")
-      .insert([
-        { cart: cart, location_id: location, time_requested: time},
-      ])
+      .insert([{ cart: cart, location_id: location, time_requested: time }])
       .select()
       .single();
 
@@ -94,13 +91,9 @@ export async function POST(req: NextRequest) {
 
   // Calculate the order amount from the cart
   try {
-<<<<<<< Updated upstream
-    amount = Math.ceil(await calculateCartPrice(cart) * 1.06);
-=======
-    promoId
-      ? (amount = Math.ceil((await calculateCartPrice(cart, promoId)) * 1.06))
+    promoCode
+      ? (amount = Math.ceil((await calculateCartPrice(cart, promoCode)) * 1.06))
       : Math.ceil((await calculateCartPrice(cart)) * 1.06);
->>>>>>> Stashed changes
     console.log("Calculated cart total (in cents):", amount);
   } catch (err: any) {
     console.error("Error in calculateCartPrice:", err.message);
@@ -112,16 +105,18 @@ export async function POST(req: NextRequest) {
 
   // Create a PaymentIntent with the order amount and currency
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount,
-      currency: "usd",
-      metadata: {id: order_id},
-      automatic_payment_methods: { enabled: true },
-      application_fee_amount: Math.floor(0.02*amount)
-    },
-    {
-      stripeAccount: process.env.NEXT_PUBLIC_STRIPE_ACCOUNT
-    });
+    const paymentIntent = await stripe.paymentIntents.create(
+      {
+        amount: amount,
+        currency: "usd",
+        metadata: { id: order_id },
+        automatic_payment_methods: { enabled: true },
+        application_fee_amount: Math.floor(0.02 * amount),
+      },
+      {
+        stripeAccount: process.env.NEXT_PUBLIC_STRIPE_ACCOUNT,
+      }
+    );
     console.log("PaymentIntent created successfully:", paymentIntent.id);
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });
   } catch (err: any) {

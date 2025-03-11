@@ -115,7 +115,7 @@ export const VercelInviteUserEmail = ({
                     <Img
                       alt="Amigos Street Tacos Logo"
                       height="42"
-                      src={`${baseUrl}/static/amigos-logo.png`}
+                      src={`${baseUrl}/static/assets/amigoslogo.png`}
                     />
                   </td>
                 </tr>
