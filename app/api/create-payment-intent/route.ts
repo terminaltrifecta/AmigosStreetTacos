@@ -38,7 +38,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
+<<<<<<< Updated upstream
   const { cart, time, location, hours } = body;
+=======
+  const { cart, time, location, hours, promoId } = body;
+  console.log(cart, time, location, hours, promoId);
+>>>>>>> Stashed changes
 
   // Step 2: Check if the restaurant is open
   // try {
@@ -89,7 +94,13 @@ export async function POST(req: NextRequest) {
 
   // Calculate the order amount from the cart
   try {
+<<<<<<< Updated upstream
     amount = Math.ceil(await calculateCartPrice(cart) * 1.06);
+=======
+    promoId
+      ? (amount = Math.ceil((await calculateCartPrice(cart, promoId)) * 1.06))
+      : Math.ceil((await calculateCartPrice(cart)) * 1.06);
+>>>>>>> Stashed changes
     console.log("Calculated cart total (in cents):", amount);
   } catch (err: any) {
     console.error("Error in calculateCartPrice:", err.message);

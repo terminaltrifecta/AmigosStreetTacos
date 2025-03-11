@@ -9,6 +9,14 @@ import { OrderedItemData } from "../interfaces";
 import Dropdown from "../components/Dropdown";
 import Link from "next/link";
 import { isClosed } from "../utils/menuUtils";
+<<<<<<< Updated upstream
+=======
+import LastMinuteAddOnsModal from "../components/LastMinuteAddOnsModal";
+import { ChevronsDown } from "lucide-react";
+import PromoCode from "../components/PromoCode";
+import { setSelectedPromotion } from "@/slices/promotionSlice";
+import { validatePromoCode } from "../utils/databaseUtils";
+>>>>>>> Stashed changes
 
 export default function Cart() {
   const [closed, setClosed] = useState(true);
@@ -28,12 +36,44 @@ export default function Cart() {
     setClosed(false);
   }, [hours]);
 
+<<<<<<< Updated upstream
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
   const subtotal = cart.reduce(
     (a: any, v: any) => (a = a + v.quantity * v.price),
     0
   ); //adds the sum of price and quantity for each item
   const tax = subtotal * 0.06;
+=======
+  const savings = useMemo(() => {
+    if (!selectedPromotion) return 0;
+    let discount = 0;
+    if (selectedPromotion.discount_type === "percentage") {
+      discount = subtotal * (selectedPromotion.discount_value / 100);
+    } else if (selectedPromotion.discount_type === "fixed") {
+      discount = selectedPromotion.discount_value;
+    }
+
+    return Math.min(discount, subtotal);
+  }, [selectedPromotion, subtotal]);
+
+  const tax = useMemo(() => {
+    return (subtotal - savings) * 0.06;
+  }, [subtotal, savings]);
+
+  const total = useMemo(() => {
+    return subtotal - savings + tax;
+  }, [subtotal, savings, tax]);
+
+  function onApplyPromotion() {
+    if (selectedPromotion) {
+      return;
+    }
+    const result = validatePromoCode(promocode, promotions);
+    if (result.valid && result) {
+      dispatch(setSelectedPromotion(result.promotion));
+    }
+  }
+>>>>>>> Stashed changes
 
   return (
     <div className="p-4">

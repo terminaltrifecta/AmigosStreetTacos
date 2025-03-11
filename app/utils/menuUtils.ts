@@ -115,8 +115,16 @@ export async function initializeHours(
   }
 }
 
+<<<<<<< Updated upstream
 export async function calculateCartPrice(cart: OrderedItemData[]) {
   let amount = 0; // Base amount
+=======
+export async function calculateCartPrice(
+  cart: OrderedItemData[],
+  promoCode?: number
+): Promise<number> {
+  let amount = 0; // Base amount in cents
+>>>>>>> Stashed changes
 
   try {
     // Fetch all item prices and modifications in a single query
@@ -191,7 +199,47 @@ export async function calculateCartPrice(cart: OrderedItemData[]) {
       }
     }
 
+<<<<<<< Updated upstream
     return amount;
+=======
+    // 4. Apply promotion if promoCode is provided
+    let discount = 0;
+    if (promoCode) {
+      // Fetch the promotion record from the promotions table
+      const { data: promoData, error: promoError } = await supabase
+        .from("promotions")
+        .select("*")
+        .eq("id", promoCode)
+        .single();
+
+      if (promoError) {
+        console.error("Error fetching promotion:", promoError.message);
+      } else if (promoData) {
+        // Validate the promotion's eligibility (date check, etc.)
+        const now = new Date();
+        const startDate = new Date(promoData.start_date);
+        const endDate = new Date(promoData.end_date);
+
+        if (startDate > now || endDate < now) {
+          console.log("Promotion is not active.");
+        } else {
+          // If valid, calculate discount based on discount type
+          if (promoData.discount_type === "percentage") {
+            discount = amount * (promoData.discount_value / 100);
+          } else if (promoData.discount_type === "fixed") {
+            // Assume fixed discount is in dollars; convert to cents
+            discount = promoData.discount_value * 100;
+          }
+          // Ensure discount does not exceed the base amount
+          discount = Math.min(discount, amount);
+        }
+      }
+    }
+
+    // 5. Compute the final amount (ensure it never drops below zero)
+    const finalAmount = Math.max(amount - discount, 0);
+    return finalAmount;
+>>>>>>> Stashed changes
   } catch (err: any) {
     console.error("Error calculating cart price:", err.message);
     throw new Error(`Error in calculateCartPrice: ${err.message}`);

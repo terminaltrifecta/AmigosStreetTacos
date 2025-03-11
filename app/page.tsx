@@ -39,8 +39,13 @@ export default function Home() {
           img="/static/assets/home/fries.jpg"
         />
         <Tab
-          text="Enjoy real Mexican from the comfort of your home with online delivery services. You can find us anywhere!"
+          text="Use code AMIGOS10 for 10% off! 3/9/25 - 3/16/25!"
           textRight="false"
+          img="/static/assets/home/amigosSaintClair.jpg"
+        />
+        <Tab
+          text="Enjoy real Mexican from the comfort of your home with online delivery services. You can find us anywhere!"
+          textRight="true"
           img="/static/assets/home/delivery.jpg"
         />
         <CardTab

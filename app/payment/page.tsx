@@ -25,6 +25,7 @@ export default function PaymentPage() {
   const cart = useAppSelector((state: RootState) => state.cart);
   const time = useAppSelector((state: RootState) => state.time);
   const hours = useAppSelector((state: RootState) => state.menu.hours);
+<<<<<<< Updated upstream
   const location = useAppSelector((state: RootState) => state.location.selectedLocation);
 
   const itemCount = cart.reduce((a: any, v: any) => (a = a + v.quantity), 0);
@@ -35,6 +36,21 @@ export default function PaymentPage() {
   const tax = subtotal * 0.06;
 
   const amount = (subtotal + tax).toFixed(2);
+=======
+  const selectedPromotion = useAppSelector(
+    (state: RootState) => state.promotions.selectedPromotion
+  );
+  const location = useAppSelector(
+    (state: RootState) => state.location.selectedLocation
+  );
+
+  useEffect(() => {
+    calculateCartPrice(cart, selectedPromotion?.id).then((price) => {
+      const adjustedPrice = parseFloat((price/100 * 1.06).toFixed(2));
+      setAmount(adjustedPrice);
+    });
+  });
+>>>>>>> Stashed changes
 
   useEffect(() => {
     let isMounted = true;
@@ -42,7 +58,17 @@ export default function PaymentPage() {
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+<<<<<<< Updated upstream
       body: JSON.stringify({ cart: cart, time: time, location: location, hours: hours }),
+=======
+      body: JSON.stringify({
+        cart: cart,
+        time: time,
+        location: location,
+        hours: hours,
+        promoId: selectedPromotion?.id,
+      }),
+>>>>>>> Stashed changes
     })
       .then((res) => res.json())
       .then((data) => {
