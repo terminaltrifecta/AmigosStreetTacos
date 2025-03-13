@@ -93,15 +93,17 @@ export default function Navbar() {
       </div>
 
       <div id="orderMobileContainer" className="py-3">
-        <Button
-          variant="red"
-          className="my-4 px-3 lg:px-6"
-          onClick={() => {
-            setSelected("Order");
-          }}
-        >
-          Order
-        </Button>
+        <Link href="/menu">
+          <Button
+            variant="red"
+            className="my-4 px-3 lg:px-6"
+            onClick={() => {
+              setSelected("Order");
+            }}
+          >
+            Order
+          </Button>
+        </Link>
 
         {/* Location Selector */}
         <LocationSelector />
