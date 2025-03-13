@@ -92,8 +92,8 @@ export async function POST(req: NextRequest) {
   // Calculate the order amount from the cart
   try {
     promoCode
-      ? (amount = Math.ceil((await calculateCartPrice(cart, promoCode)) * 1.06))
-      : Math.ceil((await calculateCartPrice(cart)) * 1.06);
+      ? amount = Math.ceil((await calculateCartPrice(cart, promoCode)) * 1.06)
+      : amount = Math.ceil((await calculateCartPrice(cart)) * 1.06);
     console.log("Calculated cart total (in cents):", amount);
   } catch (err: any) {
     console.error("Error in calculateCartPrice:", err.message);

@@ -138,7 +138,6 @@ export async function calculateCartPrice(
   promoCode?: string
 ): Promise<number> {
   let amount = 0; // Base amount in cents
-
   try {
     // 1. Fetch item prices
     const itemIds = cart.map((item) => item.item_id);

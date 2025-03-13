@@ -20,7 +20,6 @@
     "@tanstack/react-query-devtools": "^5.61.4",
     "@vercel/analytics": "^1.5.0",
     "analytics": "github:vercel/analytics",
-    "anchor-pki": "^0.3.2",
     "axios": "^1.7.8",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
