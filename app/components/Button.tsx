@@ -13,19 +13,19 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: React.FC<ButtonProps> = ({
   children,
   variant = 'default',
-  uppercase = false,
+  uppercase = true,
   className = '',
   ...props
 }) => {
   // Base styles to match your custom CSS
-  const baseStyles = "flex items-center justify-center font-semibold rounded-2xl border-transparent transition-all duration-250 ease-in-out";
+  const baseStyles = "uppercase min-w-20 h-full flex items-center justify-center font-semibold rounded-2xl transition hover:shadow-md";
   
   // Styles that vary based on variant
   const variantStyles = {
-    default: "bg-[#dc3c2e] text-[#fff6eb] hover:bg-[#140a02] text-xl",
-    red: "bg-[#dc3c2e] text-[#fff6eb] hover:bg-[#fff6eb] hover:text-[#dc3c2e] hover:border hover:border-[#dc3c2e] text-xl",
-    black: "bg-[#140a02] text-[#fff6eb] hover:bg-[#fff6eb] hover:text-[#140a02] hover:shadow-md text-xl",
-    bigRed: "bg-[#dc3c2e] text-[#fff6eb] w-full text-2xl border-0 hover:bg-[#fff6eb] hover:text-[#dc3c2e] hover:border hover:border-[#dc3c2e] disabled:bg-[#140a02] disabled:hover:text-[#fff6eb] disabled:hover:bg-[#140a02]"
+    default: "bg-amigosred text-amigoswhite hover:bg-amigosblack text-xl",
+    red: "bg-amigosred text-amigoswhite hover:bg-amigoswhite hover:text-amigosred text-xl",
+    black: "bg-amigosblack text-amigoswhite hover:bg-amigoswhite hover:text-amigosblack text-xl",
+    bigRed: "bg-amigosred text-amigoswhite w-full text-2xl hover:bg-amigoswhite hover:text-amigosred disabled:bg-[#140a02] disabled:hover:text-amigoswhite disabled:hover:bg-[#140a02]"
   };
 
   // Optional text transform

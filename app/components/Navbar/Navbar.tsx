@@ -11,6 +11,7 @@ import { RootState } from "@/lib/store";
 import LocationSelector from "./LocationSelector/LocationSelector";
 import Image from "next/image";
 import { CartState } from "@/app/interfaces";
+import Button from "../Button";
 
 export default function Navbar() {
   const [clicked, setClicked] = useState(false);
@@ -22,7 +23,10 @@ export default function Navbar() {
   }
 
   const cart = useAppSelector((state: RootState) => state.cart);
-  const itemCount = cart.value.reduce((a: any, v: any) => (a = a + v.quantity), 0);
+  const itemCount = cart.value.reduce(
+    (a: any, v: any) => (a = a + v.quantity),
+    0,
+  );
 
   useEffect(() => {
     setJustAdded(true); // begin the animation
@@ -38,7 +42,13 @@ export default function Navbar() {
           setSelected("home");
         }}
       >
-        <Image src="/static/assets/amigoslogo.png" className="img-fluid" alt="Logo" width={100} height={100} />
+        <Image
+          src="/static/assets/amigoslogo.png"
+          className="img-fluid "
+          alt="Logo"
+          width={100}
+          height={100}
+        />
       </Link>
 
       {/* Overlay for shadow and click-to-close functionality */}
@@ -82,15 +92,16 @@ export default function Navbar() {
         </ul>
       </div>
 
-      <div id="orderMobileContainer">
-        {/* Order Button */}
-        <div
+      <div id="orderMobileContainer" className="py-3">
+        <Button
+          variant="red"
+          className="my-4 px-3 lg:px-6"
           onClick={() => {
             setSelected("Order");
           }}
         >
-          <Buttons color="red">Order</Buttons>
-        </div>
+          Order
+        </Button>
 
         {/* Location Selector */}
         <LocationSelector />
@@ -99,7 +110,11 @@ export default function Navbar() {
         <Link href="/cart" className="cartParent">
           <div className="orderMarker">
             {itemCount > 0 && (
-              <div className={justAdded ? "orderQuantity orderJustAdded" : "orderQuantity"}>
+              <div
+                className={
+                  justAdded ? "orderQuantity orderJustAdded" : "orderQuantity"
+                }
+              >
                 {itemCount}
               </div>
             )}

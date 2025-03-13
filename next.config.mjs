@@ -1,5 +1,5 @@
 const nextConfig = {
-  // Your Next.js config
+  optimizeFonts: false
 };
 
 export default nextConfig;

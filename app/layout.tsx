@@ -5,15 +5,16 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import StoreProvider from "./storeProvider";
 import React from "react";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import QueryProvider from "./providers";
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from "@vercel/analytics/next";
 
-const oswald = Oswald({ subsets: ["latin"], variable: "--font-oswald" });
+const oswald = Oswald({ 
+  subsets: ["latin"], 
+  variable: "--font-oswald" });
 
 export const metadata: Metadata = {
   title: "Amigos Street Tacos",
-  description: "The home of tacos",
+  description:
+    "The best, most authentic Mexican food in the metro Detroit area!",
 };
 
 export default function RootLayout({
@@ -21,21 +22,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
-    <html lang="en">
+    <html className={`${oswald.variable}`} lang="en">
       <head></head>
-      <body className={oswald.className}>
-        <QueryProvider>
-          <StoreProvider>
-            <Navbar />
-            <div className="spacer" />
-            {children}
-            <Analytics />
-            <Footer />
-          </StoreProvider>
-          <ReactQueryDevtools/>
-        </QueryProvider>
+      <body>
+        <StoreProvider>
+          <Navbar />
+          <div className="spacer" />
+          {children}
+          <Analytics />
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );

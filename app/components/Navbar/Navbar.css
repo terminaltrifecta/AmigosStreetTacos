@@ -15,6 +15,7 @@
   transition: 0.25s ease-in-out;
   width: 100vw;
   height: 10vh;
+  min-height: 5rem;
 }
 
 .logo {
@@ -46,6 +47,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100%;
 }
 
 .cart {
