@@ -93,12 +93,12 @@ export default function Navbar() {
       </div>
 
       <div id="orderMobileContainer" className="py-3">
-        <Link href="/menu">
+        <Link href="/menu" className="h-full my-4 no-underline">
           <Button
             variant="red"
-            className="my-4 px-3 lg:px-6"
+            className="px-3 lg:px-6"
             onClick={() => {
-              setSelected("Order");
+              setSelected("menu");
             }}
           >
             Order
