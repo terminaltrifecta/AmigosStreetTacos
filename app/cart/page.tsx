@@ -14,6 +14,7 @@ import LastMinuteAddOnsModal from "../components/LastMinuteAddOnsModal";
 import { ChevronsDown } from "lucide-react";
 import PromoCode from "../components/PromoCode";
 import { setSelectedPromotion } from "@/slices/promotionSlice";
+import Button from "../components/Button";
 
 export default function Cart() {
   const dispatch = useAppDispatch();
@@ -97,8 +98,8 @@ export default function Cart() {
       )}
 
       <br />
-      <div className="whiteBorder p-4 space-y-4">
-        <div className="priceContainer">
+      <div className="bg-amigoswhite whiteBorder p-4 space-y-4">
+        <div className="">
           <div className="text-sm text-slate-500">
             Subtotal: ${subtotal.toFixed(2)}
           </div>
@@ -115,21 +116,21 @@ export default function Cart() {
           <Dropdown />
           <PromoCode onApply={onApplyPromotion} />
           {closed ? (
-            <button
+            <Button
               disabled
-              id="buttonParent"
-              className="bigRed uppercase px-2"
+              variant="bigRed"
+              className="h-[4.5rem]"
             >
               Not accepting orders
-            </button>
+            </Button>
           ) : (
-            <button
-              id="buttonParent"
-              className="bigRed uppercase"
+            <Button
+              variant="bigRed"
+              className="h-[4.5rem]"
               onClick={() => setShowAddOnsModal(true)}
             >
               Checkout
-            </button>
+            </Button>
           )}
         </div>
         <LastMinuteAddOnsModal

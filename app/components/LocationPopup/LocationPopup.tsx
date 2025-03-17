@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { setLocation } from "@/slices/locationSlice";
 import { initializeHours } from "@/app/utils/menuUtils";
 import { RootState } from "@/lib/store";
@@ -7,6 +7,7 @@ import { LocationData } from "@/app/interfaces";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/lib/hooks";
 import { MapPin } from "iconoir-react";
+import Button from "../Button";
 
 interface LocationPopupProps {
   show: boolean;
@@ -41,16 +42,15 @@ const LocationPopup: React.FC<LocationPopupProps> = ({ show, onClose }) => {
             {locationState.locations.map(
               (location: LocationData, index: number) => {
                 return (
-                  <button
+                  <Button
                     key={index}
-                    id="buttonParent"
-                    className="red"
+                    variant="red"
                     onClick={() => handleLocationSelect(location.location_id)}
                   >
                     <div className="align-items-center justify-content-center p-2 text-sm lg:text-lg">
                       {location.location_name}
                     </div>
-                  </button>
+                  </Button>
                 );
               }
             )}

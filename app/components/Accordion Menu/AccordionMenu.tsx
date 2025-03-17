@@ -19,6 +19,7 @@ import Modal from "../Modal";
 import NumberInput from "../numberInput/numberInput";
 import { RootState } from "@/lib/store";
 import { initializeMenu, isClosed } from "@/app/utils/menuUtils";
+import Button from "../Button";
 
 interface Popup {
   id: number;
@@ -29,7 +30,7 @@ export default function AccordionMenuOrder() {
   // Redux state and dispatch
   const dispatch = useAppDispatch();
   const menu = useAppSelector((state: RootState) => state.menu);
-  const location = useAppSelector((state: RootState) => state.location);
+  const popularItems = useAppSelector((state) => state.menu.popularItems);
 
   //current item state for modal
   const [selectedItem, setSelectedItem] = useState<MenuItemData | null>(null);
@@ -85,7 +86,7 @@ export default function AccordionMenuOrder() {
 
     setTimeout(() => {
       setPopups((prevPopups) =>
-        prevPopups.filter((popup) => popup.id !== newPopup.id)
+        prevPopups.filter((popup) => popup.id !== newPopup.id),
       );
     }, 3000);
   }
@@ -94,7 +95,7 @@ export default function AccordionMenuOrder() {
     if (selectedModifications.includes(modification)) {
       setPrice(price - modification.price / 100);
       setSelectedModifications(
-        selectedModifications.filter((modId) => modId !== modification)
+        selectedModifications.filter((modId) => modId !== modification),
       );
     } else {
       setPrice(price + modification.price / 100);
@@ -106,7 +107,34 @@ export default function AccordionMenuOrder() {
   };
 
   return (
-    <>
+    <div className="gap-y-4 grid">
+      <div className="w-full grid grid-cols-3 gap-x-4">
+        {popularItems.map((item: MenuItemData, index: number) => {
+          return (
+            <div
+              key={index}
+              className="gap-4 rounded-xl bg-amigoswhite p-8 grid items-center"
+            >
+              <div className="text-xl text-amigosred font-bold">
+                #{index + 1} most ordered item!
+              </div>
+
+              <div className="flex justify-between">
+                <div className="text-xl font-bold">{item.name}</div>
+                <div className="text-sm">${item.price}</div>
+              </div>
+              <Button
+                variant="red"
+                className="h-[3rem]"
+                onClick={() => openModifications(item)}
+              >
+                Order now
+              </Button>
+            </div>
+          );
+        })}
+      </div>
+
       <Accordion>
         {menu.categories.map((category: CategoryData, index) => (
           <Accordion.Item eventKey={`${index + 1}`} key={category.name}>
@@ -116,7 +144,10 @@ export default function AccordionMenuOrder() {
             <Accordion.Body>
               <ListGroup variant="flush">
                 {menu.menuItems
-                  .filter((item: MenuItemData) => item.category_id === category.category_id)
+                  .filter(
+                    (item: MenuItemData) =>
+                      item.category_id === category.category_id,
+                  )
                   .map((item: MenuItemData) => (
                     <ListGroup.Item
                       key={item.item_id}
@@ -154,7 +185,7 @@ export default function AccordionMenuOrder() {
                 .filter(
                   (modification: ModificationData) =>
                     modification.category_id === selectedItem?.category_id ||
-                    modification.item_id === selectedItem?.item_id
+                    modification.item_id === selectedItem?.item_id,
                 )
                 .map((modification: ModificationData) => (
                   <div
@@ -270,6 +301,6 @@ export default function AccordionMenuOrder() {
           }
         }
       `}</style>
-    </>
+    </div>
   );
 }

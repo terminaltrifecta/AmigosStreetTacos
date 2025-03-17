@@ -3,6 +3,7 @@ import {
   setHours,
   setMenuItems,
   setModifications,
+  setPopularItems,
   setPromotions,
 } from "@/slices/menuSlice";
 import { supabase } from "../supabase";
@@ -11,8 +12,10 @@ import { Dispatch } from "redux";
 import {
   LocationData,
   LocationHoursData,
+  MenuItemData,
   ModificationData,
   OrderedItemData,
+  PopularityItem,
 } from "../interfaces";
 import { formatInTimeZone } from "date-fns-tz";
 import { useSelector, useDispatch } from "react-redux";
@@ -83,6 +86,38 @@ export async function initializeMenu(dispatch: Dispatch) {
     throw new Error("Failed to fetch locations");
   }
 
+  // Fetches popular items
+  try {
+    const { data, error } = await supabase
+      .from("popularity")
+      .select(
+        `
+            item_id,
+            total_quantity,
+            items (
+            *
+            )
+          `,
+      )
+      .eq("items.franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!)
+      .order("total_quantity", { ascending: false }) // Order by total_quantity DESC
+      .limit(3); // Limit to 3 rows
+
+    if (error || !data) {
+      throw new Error("Failed to fetch locations");
+    } else {
+      console.log("Dispatched popular items!");
+      const popularItems = data.map((item: any) => ({
+        ...item.items,
+      }));
+
+      dispatch(setPopularItems(popularItems));
+    }
+  } catch (err) {
+    console.error(err);
+    throw new Error("Failed to fetch popular items");
+  }
+
   //Fetches promotions
   try {
     const { data, error } = await supabase
@@ -106,7 +141,7 @@ export async function initializeMenu(dispatch: Dispatch) {
 export async function initializeHours(
   dispatch: Dispatch,
   locations: LocationData[],
-  location_id: number | null
+  location_id: number | null,
 ) {
   const location = locations.find((loc) => loc.location_id === location_id);
   if (!location) {
@@ -135,7 +170,7 @@ export async function initializeHours(
 
 export async function calculateCartPrice(
   cart: OrderedItemData[],
-  promoCode?: string
+  promoCode?: string,
 ): Promise<number> {
   let amount = 0; // Base amount in cents
   try {
@@ -148,7 +183,7 @@ export async function calculateCartPrice(
 
     if (itemsError) {
       throw new Error(
-        `Supabase error fetching item prices: ${itemsError.message}`
+        `Supabase error fetching item prices: ${itemsError.message}`,
       );
     }
     if (!itemsData || itemsData.length === 0) {
@@ -157,7 +192,7 @@ export async function calculateCartPrice(
 
     // Create a lookup for item prices (assumed to be in dollars)
     const itemPriceMap = new Map(
-      itemsData.map((item: any) => [item.item_id, item.price])
+      itemsData.map((item: any) => [item.item_id, item.price]),
     );
 
     // 2. Fetch modification prices
@@ -175,18 +210,18 @@ export async function calculateCartPrice(
 
       if (modificationsError) {
         throw new Error(
-          `Supabase error fetching modification prices: ${modificationsError.message}`
+          `Supabase error fetching modification prices: ${modificationsError.message}`,
         );
       }
       if (!modificationsData || modificationsData.length === 0) {
         throw new Error(
-          "No modifications found for the given modification IDs"
+          "No modifications found for the given modification IDs",
         );
       }
 
       // Create a lookup for modification prices (assumed to already be in cents)
       modificationPriceMap = new Map(
-        modificationsData.map((mod: any) => [mod.modification_id, mod.price])
+        modificationsData.map((mod: any) => [mod.modification_id, mod.price]),
       );
     }
 
@@ -204,7 +239,7 @@ export async function calculateCartPrice(
         const modPrice = modificationPriceMap.get(mod.modification_id);
         if (modPrice === undefined) {
           throw new Error(
-            `Price not found for modification ID: ${mod.modification_id}`
+            `Price not found for modification ID: ${mod.modification_id}`,
           );
         }
         amount += modPrice * item.quantity;
@@ -257,7 +292,7 @@ export async function calculateCartPrice(
 export function isClosed(
   time: Date,
   hours: LocationHoursData,
-  forceClose: boolean | undefined
+  forceClose: boolean | undefined,
 ): boolean {
   if (forceClose) {
     return true;
@@ -292,7 +327,7 @@ export function isClosed(
     1,
     parseInt(openTimeStr!.split(":")[0]),
     parseInt(openTimeStr!.split(":")[1]),
-    parseInt(openTimeStr!.split(":")[2])
+    parseInt(openTimeStr!.split(":")[2]),
   );
   const closeTime = new Date(
     2025,
@@ -300,7 +335,7 @@ export function isClosed(
     1,
     parseInt(closeTimeStr!.split(":")[0]),
     parseInt(closeTimeStr!.split(":")[1]),
-    parseInt(closeTimeStr!.split(":")[2])
+    parseInt(closeTimeStr!.split(":")[2]),
   );
 
   // Convert the input 'time' (which is in UTC from new Date()) to EST
@@ -311,7 +346,7 @@ export function isClosed(
     1,
     parseInt(timeInEst.split(":")[0]),
     parseInt(timeInEst.split(":")[1]),
-    parseInt(timeInEst.split(":")[2])
+    parseInt(timeInEst.split(":")[2]),
   );
 
   // Check if the current time (in EST) is within the open interval [openDateEst, closeDateEst)

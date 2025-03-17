@@ -4,6 +4,12 @@ export interface CartState {
   value: OrderedItemData[];
 }
 
+export interface PopularityItem {
+  item_id: number;
+  total_quantity: number;
+  items: MenuItemData; // Matches the items table structure
+}
+
 //Interface for promotions
 export interface PromotionData {
   id: number; // Unique identifier for the promotion

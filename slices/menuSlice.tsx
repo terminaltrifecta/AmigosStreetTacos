@@ -14,6 +14,7 @@ export interface MenuState {
   categories: CategoryData[];
   modifications: ModificationData[];
   promotions: PromotionData[];
+  popularItems: MenuItemData[];
   hours: LocationHoursData;
 }
 
@@ -24,6 +25,7 @@ export const menuSlice = createSlice({
     categories: [],
     modifications: [],
     promotions: [],
+    popularItems: [],
     hours: {
       monday_open: "",
       monday_close: "",
@@ -48,6 +50,13 @@ export const menuSlice = createSlice({
     ) => {
       state.promotions = payload;
     },
+    setPopularItems: (
+      state: MenuState,
+      { payload }: PayloadAction<MenuItemData[]>
+    ) => {
+      state.popularItems = payload;
+    },
+    
     setMenuItems: (
       state: MenuState,
       { payload }: PayloadAction<MenuItemData[]>
@@ -75,7 +84,7 @@ export const menuSlice = createSlice({
   },
 });
 
-export const { setPromotions, setMenuItems, setCategories, setModifications, setHours } =
+export const { setPromotions, setMenuItems, setCategories, setModifications, setHours, setPopularItems } =
   menuSlice.actions;
 
 export default menuSlice.reducer;
