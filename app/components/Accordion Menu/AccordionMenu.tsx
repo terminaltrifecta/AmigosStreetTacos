@@ -108,20 +108,21 @@ export default function AccordionMenuOrder() {
 
   return (
     <div className="gap-y-4 grid">
-      <div className="w-full grid grid-cols-3 gap-x-4">
+      <div className="w-full grid md:grid-cols-3 gap-2">
         {popularItems.map((item: MenuItemData, index: number) => {
           return (
             <div
               key={index}
-              className="gap-4 rounded-xl bg-amigoswhite p-8 grid items-center"
+              className="gap-2 rounded-xl bg-amigoswhite p-4 grid grid-rows-1 items-center"
             >
-              <div className="text-xl text-amigosred font-bold">
-                #{index + 1} most ordered item!
-              </div>
-
-              <div className="flex justify-between">
-                <div className="text-xl font-bold">{item.name}</div>
-                <div className="text-sm">${item.price}</div>
+              <div>
+                <div className="text-xl text-amigosred font-bold">
+                  #{index + 1} most ordered item!
+                </div>
+                <div className="flex justify-between">
+                  <div className="text-xl font-bold">{item.name}</div>
+                  <div className="text-sm">${item.price}</div>
+                </div>
               </div>
               <Button
                 variant="red"
