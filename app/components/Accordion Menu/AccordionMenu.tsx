@@ -5,7 +5,7 @@ import { addToCart } from "@/slices/cartSlice";
 import React, { use, useEffect } from "react";
 import { Accordion, ListGroup } from "react-bootstrap";
 import { useState } from "react";
-import { CheckCircle, Icon2Square } from "react-bootstrap-icons"; // Importing Bootstrap icon
+import { CartPlusFill, CheckCircle, Icon2Square } from "react-bootstrap-icons"; // Importing Bootstrap icon
 import { CartAlt, PlusCircle } from "iconoir-react";
 import "../Accordion Menu/AccordionMenu.css";
 import { supabase } from "@/app/supabase";
@@ -20,6 +20,7 @@ import NumberInput from "../numberInput/numberInput";
 import { RootState } from "@/lib/store";
 import { initializeMenu, isClosed } from "@/app/utils/menuUtils";
 import Button from "../Button";
+import { CartPlus } from "iconoir-react/regular";
 
 interface Popup {
   id: number;
@@ -86,7 +87,7 @@ export default function AccordionMenuOrder() {
 
     setTimeout(() => {
       setPopups((prevPopups) =>
-        prevPopups.filter((popup) => popup.id !== newPopup.id),
+        prevPopups.filter((popup) => popup.id !== newPopup.id)
       );
     }, 3000);
   }
@@ -95,7 +96,7 @@ export default function AccordionMenuOrder() {
     if (selectedModifications.includes(modification)) {
       setPrice(price - modification.price / 100);
       setSelectedModifications(
-        selectedModifications.filter((modId) => modId !== modification),
+        selectedModifications.filter((modId) => modId !== modification)
       );
     } else {
       setPrice(price + modification.price / 100);
@@ -113,24 +114,27 @@ export default function AccordionMenuOrder() {
           return (
             <div
               key={index}
-              className="gap-2 rounded-xl bg-amigoswhite p-4 grid grid-rows-1 items-center"
+              className="p-3 grid grid-cols-4 justify-between rounded-xl bg-amigoswhite"
             >
-              <div>
+              <div className="col-span-3">
                 <div className="text-xl text-amigosred font-bold">
                   #{index + 1} most ordered item!
                 </div>
-                <div className="flex justify-between">
+                <div className="flex gap-4">
                   <div className="text-xl font-bold">{item.name}</div>
-                  <div className="text-sm">${item.price}</div>
+                  <div className="text-xl">${item.price}</div>
                 </div>
               </div>
-              <Button
-                variant="red"
-                className="h-[3rem]"
-                onClick={() => openModifications(item)}
-              >
-                Order now
-              </Button>
+
+              <div className="flex items-center justify-center">
+                <PlusCircle
+                  onClick={() => openModifications(item)}
+                  className="transition hover:rotate-12 hover:text-amigosred"
+                  width={36}
+                  height={36}
+                  strokeWidth={2}
+                />
+              </div>
             </div>
           );
         })}
@@ -147,7 +151,7 @@ export default function AccordionMenuOrder() {
                 {menu.menuItems
                   .filter(
                     (item: MenuItemData) =>
-                      item.category_id === category.category_id,
+                      item.category_id === category.category_id
                   )
                   .map((item: MenuItemData) => (
                     <ListGroup.Item
@@ -186,7 +190,7 @@ export default function AccordionMenuOrder() {
                 .filter(
                   (modification: ModificationData) =>
                     modification.category_id === selectedItem?.category_id ||
-                    modification.item_id === selectedItem?.item_id,
+                    modification.item_id === selectedItem?.item_id
                 )
                 .map((modification: ModificationData) => (
                   <div

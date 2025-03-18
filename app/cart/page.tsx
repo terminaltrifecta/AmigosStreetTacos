@@ -116,17 +116,13 @@ export default function Cart() {
           <Dropdown />
           <PromoCode onApply={onApplyPromotion} />
           {closed ? (
-            <Button
-              disabled
-              variant="bigRed"
-              className="h-[4.5rem]"
-            >
+            <Button disabled variant="bigRed" className="h-[4.5rem] p-3">
               Not accepting orders
             </Button>
           ) : (
             <Button
               variant="bigRed"
-              className="h-[4.5rem]"
+              className="h-[4.5rem] p-3"
               onClick={() => setShowAddOnsModal(true)}
             >
               Checkout

@@ -34,13 +34,8 @@ export default function Home() {
           img="/static/assets/home/fries.jpg"
         />
         <Tab
-          text="Use code AMIGOS10 for 10% off! 3/9/25 - 3/16/25!"
-          textRight="false"
-          img="/static/assets/home/amigosSaintClair.jpg"
-        />
-        <Tab
           text="Enjoy real Mexican from the comfort of your home with online delivery services. You can find us anywhere!"
-          textRight="true"
+          textRight="false"
           img="/static/assets/home/delivery.jpg"
         />
         <CardTab
@@ -64,7 +59,7 @@ export default function Home() {
         <Tab
           text="Like what you see? Come and try our birria tacos today!"
           textRight="false"
-          img="/static/assets/home/birria_tacos_AdobeExpress.gif"
+          img="/static/assets/home/amigosTacos.jpg"
         />
         <Tab
           text="Be sure to try our lunch combo! It comes 2 tacos, rice and beans, a can of pop, and chips and salsa! All for $12!"
