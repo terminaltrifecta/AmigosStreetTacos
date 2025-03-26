@@ -1,11 +1,9 @@
 import { PromotionData } from "../interfaces";
 
-interface ValidationResult {
+interface promoValidationResult {
   valid: boolean;
-  discount_type?: "percentage" | "fixed";
-  discount_value?: number;
-  message: string;
-  promoName?: string;
+  message?: string;
+  promotion?: PromotionData;
 }
 
 export function validatePromoCode(
@@ -13,9 +11,10 @@ export function validatePromoCode(
   promotions: PromotionData[], // Redux state promotions
   locationId?: number,
   itemIds?: number[]
-): ValidationResult {
+): promoValidationResult {
   // Find the promotion by name
   const promo = promotions.find((p) => p.name === promoCode);
+  console.log("promo", promo);
 
   if (!promo) {
     return { valid: false, message: "Invalid promo code." };
@@ -48,16 +47,14 @@ export function validatePromoCode(
   }
 
   // Ensure the discount type and value are valid
-  if (!promo.discount_type || promo.discount_value <= 0) {
+  if (!promo.promotion_type_id || promo.discount_value <= 0) {
     return { valid: false, message: "Invalid promotion details." };
   }
 
   // If all checks pass, return the promo details
   return {
     valid: true,
-    promoName: promo.name,
-    discount_type: promo.discount_type,
-    discount_value: promo.discount_value,
     message: "Promo code applied successfully!",
+    promotion: promo,
   };
 }

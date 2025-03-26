@@ -15,7 +15,7 @@ export interface PromotionData {
   id: number; // Unique identifier for the promotion
   name: string; // Promo code (e.g., "SUMMER50")
   description?: string; // Optional human-readable description of the promo
-  discount_type: "percentage" | "fixed"; // Type of discount
+  promotion_type_id: number; // Type of discount
   discount_value: number; // Value of the discount (percentage or fixed amount)
   start_date: string; // ISO string format (e.g., "2025-03-08T00:00:00Z")
   end_date: string; // ISO string format
@@ -23,6 +23,12 @@ export interface PromotionData {
   location_id?: number; // Nullable: If set, applies to this specific location
   item_id?: number; // Nullable: If set, applies to this specific item
   customer_id?: number; // Nullable: If set, applies only to this customer
+}
+
+//Interface for promotions
+export interface PromotionTypes {
+  id: number; // Unique identifier for the promotion
+  promotion_type_id: "percentage" | "fixed"; // Type of discount
 }
 
 //interface for each item in the cart

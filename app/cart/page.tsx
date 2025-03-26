@@ -50,9 +50,11 @@ export default function Cart() {
   const savings = useMemo(() => {
     if (!selectedPromotion) return 0;
     let discount = 0;
-    if (selectedPromotion.discount_type === "percentage") {
+    if (selectedPromotion.promotion_type_id === 1) {
+      //percentage
       discount = subtotal * (selectedPromotion.discount_value / 100);
-    } else if (selectedPromotion.discount_type === "fixed") {
+    } else if (selectedPromotion.promotion_type_id === 2) {
+      //fixed
       discount = selectedPromotion.discount_value;
     }
 
@@ -72,8 +74,9 @@ export default function Cart() {
       return;
     }
     const result = validatePromoCode(promocode, promotions);
-    if (result.valid && result) {
-      dispatch(setSelectedPromotion(result));
+    console.log("result", result);
+    if (result.valid) {
+      dispatch(setSelectedPromotion(result.promotion));
     }
   }
 
