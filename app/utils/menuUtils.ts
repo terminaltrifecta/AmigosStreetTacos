@@ -4,7 +4,6 @@ import {
   setMenuItems,
   setModifications,
   setPopularItems,
-  setPromotions,
 } from "@/slices/menuSlice";
 import { supabase } from "../supabase";
 
@@ -22,6 +21,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/lib/store";
 import { isAfter, isBefore, isEqual, subMinutes } from "date-fns";
 import { setLocations, LocationState } from "@/slices/locationSlice";
+import { validatePromoCode } from "./databaseUtils";
 
 export async function initializeMenu(dispatch: Dispatch) {
   try {
@@ -116,25 +116,6 @@ export async function initializeMenu(dispatch: Dispatch) {
   } catch (err) {
     console.error(err);
     throw new Error("Failed to fetch popular items");
-  }
-
-  //Fetches promotions
-  try {
-    const { data, error } = await supabase
-      .from("promotions")
-      .select("*")
-      .eq("franchise_id", process.env.NEXT_PUBLIC_FRANCHISE_ID!)
-      .gte("end_date", new Date().toISOString()) // Check if the promo is still valid
-      .lte("start_date", new Date().toISOString()); // Check if the promo has started
-    if (error || !data) {
-      throw new Error("Failed to fetch promotions");
-    } else {
-      console.log("dispatched promotions!");
-      dispatch(setPromotions(data));
-    }
-  } catch (err) {
-    console.error(err);
-    throw new Error("Failed to fetch promotions");
   }
 }
 
@@ -250,32 +231,18 @@ export async function calculateCartPrice(
     let discount = 0;
     if (promoCode) {
       // Fetch the promotion record from the promotions table
-      const { data: promoData, error: promoError } = await supabase
-        .from("promotions")
-        .select("*")
-        .eq("name", promoCode)
-        .single();
+      const { valid, promotion, message } = await validatePromoCode(promoCode);
 
-      if (promoError) {
-        console.error("Error fetching promotion:", promoError.message);
-      } else if (promoData) {
+      if (!valid) {
+        console.error("Error fetching promotion:", message);
+      } else if (promotion) {
         // Validate the promotion's eligibility (date check, etc.)
-        const now = new Date();
-        const startDate = new Date(promoData.start_date);
-        const endDate = new Date(promoData.end_date);
-
-        if (startDate > now || endDate < now) {
-          console.log("Promotion is not active.");
-        } else {
-          // If valid, calculate discount based on discount type
-          if (promoData.discount_type === "percentage") {
-            discount = amount * (promoData.discount_value / 100);
-          } else if (promoData.discount_type === "fixed") {
-            // Assume fixed discount is in dollars; convert to cents
-            discount = promoData.discount_value * 100;
-          }
-          // Ensure discount does not exceed the base amount
-          discount = Math.min(discount, amount);
+        if (promotion.promotion_type_id === 1) {
+          //percentage
+          discount = amount * (promotion.discount_value / 100);
+        } else if (promotion.promotion_type_id === 2) {
+          //fixed
+          discount = promotion.discount_value;
         }
       }
     }

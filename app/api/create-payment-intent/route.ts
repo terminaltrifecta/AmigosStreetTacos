@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { OrderedItemData } from "@/app/interfaces";
 import { calculateCartPrice, isClosed } from "@/app/utils/menuUtils";
+import { validatePromoCode } from "@/app/utils/databaseUtils";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-11-20.acacia",
@@ -44,26 +45,6 @@ export async function POST(req: NextRequest) {
   const { cart, time, location, hours, promoCode } = body;
   console.log(cart, time, location, hours, promoCode);
 
-  // Step 2: Check if the restaurant is open
-  // try {
-  //   const requestedTime = new Date();
-  //   if (isClosed(requestedTime, hours)) {
-  //     return NextResponse.json(
-  //       {
-  //         error:
-  //           "The restaurant is currently closed. Please try again during opening hours.",
-  //       },
-  //       { status: 400 }
-  //     );
-  //   }
-  // } catch (err: any) {
-  //   console.error("Error checking restaurant hours:", err.message);
-  //   return NextResponse.json(
-  //     { error: `Failed to check restaurant hours: ${err.message}` },
-  //     { status: 500 }
-  //   );
-  // }
-
   // Check if the cart is empty
   if (cart.length == 0) {
     console.log("Cart is empty, payment intent was not created.");
@@ -72,9 +53,18 @@ export async function POST(req: NextRequest) {
 
   // Store the temporary cart data
   try {
+    const { valid, promotion } = await validatePromoCode(promoCode);
+
     const { data, error } = await supabase
       .from("temporary_orders")
-      .insert([{ cart: cart, location_id: location, time_requested: time }])
+      .insert([
+        {
+          cart: cart,
+          location_id: location,
+          time_requested: time,
+          promotion_id: promotion && promotion?.id,
+        },
+      ])
       .select()
       .single();
 
@@ -92,8 +82,8 @@ export async function POST(req: NextRequest) {
   // Calculate the order amount from the cart
   try {
     promoCode
-      ? amount = Math.ceil((await calculateCartPrice(cart, promoCode)) * 1.06)
-      : amount = Math.ceil((await calculateCartPrice(cart)) * 1.06);
+      ? (amount = Math.ceil((await calculateCartPrice(cart, promoCode)) * 1.06))
+      : (amount = Math.ceil((await calculateCartPrice(cart)) * 1.06));
     console.log("Calculated cart total (in cents):", amount);
   } catch (err: any) {
     console.error("Error in calculateCartPrice:", err.message);

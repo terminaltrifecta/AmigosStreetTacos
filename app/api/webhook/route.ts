@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { PostData, OrderedItemData, CustomerData } from "@/app/interfaces";
 import { addMinutes } from "date-fns";
-import { Json } from "@/database.types";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -55,7 +54,8 @@ export async function POST(req: NextRequest) {
   if (event.type === "charge.succeeded") {
     //gets the json from the uuid of the charge
     try {
-      const { cart, timeRequested, location } = await fetchAndFormatCart(id);
+      const { cart, timeRequested, location, promotion_id } =
+        await fetchAndFormatCart(id);
 
       const customer = await getCustomer(firstName, lastName, email, phone);
 
@@ -71,6 +71,7 @@ export async function POST(req: NextRequest) {
         status_id: 1,
         cart: cart,
         customer_id: customer.customer_id,
+        promotion_id: promotion_id || null,
       };
 
       const response = await sendCartData(packageData);
@@ -126,7 +127,7 @@ async function getCustomer(
 ): Promise<CustomerData> {
   // Initialize variable for customerData
   let customerData: CustomerData | null = null;
-  console.log("Get customer has been called", phone)
+  console.log("Get customer has been called", phone);
 
   try {
     // Step 1: Try to retrieve existing customer
@@ -188,6 +189,7 @@ async function fetchAndFormatCart(id: string): Promise<{
   cart: OrderedItemData[];
   timeRequested: number;
   location: number;
+  promotion_id?: number;
 }> {
   try {
     console.log("id", id);
@@ -197,7 +199,8 @@ async function fetchAndFormatCart(id: string): Promise<{
       .from("temporary_orders")
       .select("*")
       .eq("temporary_order_id", id)
-      .limit(1);
+      .limit(1)
+      .single();
 
     if (error) {
       throw new Error(`Error fetching data: ${error.message}`);
@@ -206,27 +209,12 @@ async function fetchAndFormatCart(id: string): Promise<{
     if (!data || data.length === 0) {
       throw new Error("No data retrieved from Supabase");
     }
-
-    const rawCart = data[0].cart;
-
-    if (!Array.isArray(rawCart)) {
-      throw new Error("Cart data is not an array");
-    }
-
-    // Step 2: Format the cart data
-    const cart: OrderedItemData[] = rawCart.map((item: OrderedItemData) => ({
-      item_id: item.item_id,
-      comments: item.comments || "", // Ensure comments is an empty string if null
-      quantity: item.quantity,
-      item_name: item.item_name,
-      price: item.price, // Include the price property
-      modifications: item.modifications || [], // Ensure modifications is an empty array if null
-    }));
-
-    // Step 3: Caclulate the time requested
-    const timeRequested = data[0].time_requested;
-
-    return { cart, timeRequested, location: data[0].location_id };
+    return {
+      cart: data.cart,
+      timeRequested: data.time_requested,
+      location: data.location_id,
+      promotion_id: data.promotion_id,
+    };
   } catch (err) {
     console.error(err);
     throw new Error("Failed to fetch and format cart data");
@@ -252,6 +240,7 @@ async function sendCartData(postData: PostData) {
           location: postData.location,
           is_pickup: postData.is_pickup,
           status_id: postData.status_id,
+          promotion_id: postData.promotion_id
         },
       ])
       .select("order_id, time_placed, time_requested")
@@ -351,10 +340,12 @@ async function sendEmail(
   cart: OrderedItemData[],
   readyTime: Date,
   location: number,
-  status: string,
+  status: string
 ) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'http://localhost:3000';
+    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+      : "http://localhost:3000";
     await fetch(`${baseUrl}/api/email`, {
       method: "POST",
       headers: {

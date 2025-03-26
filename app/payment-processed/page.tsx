@@ -23,7 +23,7 @@ function PaymentSuccessContent() {
           <div className="text-4xl font-extrabold">Thank you!</div>
           <div className="text-2xl">We have received your payment of</div>
           <div className="bg-amigosblack text-amigoswhite w-fit py-4 px-24 rounded-xl text-4xl font-bold">
-            ${amount}
+            ${parseFloat(amount!).toFixed(2)}
           </div>
         </>
       ) : (

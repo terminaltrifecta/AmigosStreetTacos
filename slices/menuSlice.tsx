@@ -7,13 +7,11 @@ import {
 } from "@/app/interfaces";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { set } from "date-fns";
 
 export interface MenuState {
   menuItems: MenuItemData[];
   categories: CategoryData[];
   modifications: ModificationData[];
-  promotions: PromotionData[];
   popularItems: MenuItemData[];
   hours: LocationHoursData;
 }
@@ -24,7 +22,6 @@ export const menuSlice = createSlice({
     menuItems: [],
     categories: [],
     modifications: [],
-    promotions: [],
     popularItems: [],
     hours: {
       monday_open: "",
@@ -44,12 +41,6 @@ export const menuSlice = createSlice({
     },
   },
   reducers: {
-    setPromotions: (
-      state: MenuState,
-      { payload }: PayloadAction<PromotionData[]>
-    ) => {
-      state.promotions = payload;
-    },
     setPopularItems: (
       state: MenuState,
       { payload }: PayloadAction<MenuItemData[]>
@@ -84,7 +75,7 @@ export const menuSlice = createSlice({
   },
 });
 
-export const { setPromotions, setMenuItems, setCategories, setModifications, setHours, setPopularItems } =
+export const { setMenuItems, setCategories, setModifications, setHours, setPopularItems } =
   menuSlice.actions;
 
 export default menuSlice.reducer;

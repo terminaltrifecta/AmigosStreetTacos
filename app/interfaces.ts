@@ -82,6 +82,7 @@ export interface PostData {
   status_id: number;
   cart: OrderedItemData[];
   customer_id: number;
+  promotion_id: number | null;
 }
 
 export interface CustomerData {

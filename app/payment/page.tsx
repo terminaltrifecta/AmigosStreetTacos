@@ -28,7 +28,7 @@ export default function PaymentPage() {
   const time = useAppSelector((state: RootState) => state.time);
   const hours = useAppSelector((state: RootState) => state.menu.hours);
   const promoCode = useAppSelector(
-    (state: RootState) => state.promotions.promocode
+    (state: RootState) => state.promotions.selectedPromotion?.name
   );
   const location = useAppSelector(
     (state: RootState) => state.location.selectedLocation

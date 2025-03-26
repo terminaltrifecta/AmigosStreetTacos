@@ -32,9 +32,6 @@ export default function Cart() {
   const selectedPromotion = useAppSelector(
     (state: RootState) => state.promotions.selectedPromotion
   );
-  const promotions = useAppSelector(
-    (state: RootState) => state.menu.promotions
-  );
 
   useEffect(() => {
     const location = locationState.locations.find(
@@ -69,11 +66,11 @@ export default function Cart() {
     return subtotal - savings + tax;
   }, [subtotal, savings, tax]);
 
-  function onApplyPromotion() {
+  async function onApplyPromotion() {
     if (selectedPromotion) {
       return;
     }
-    const result = validatePromoCode(promocode, promotions);
+    const result = await validatePromoCode(promocode);
     console.log("result", result);
     if (result.valid) {
       dispatch(setSelectedPromotion(result.promotion));
