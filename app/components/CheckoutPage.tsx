@@ -189,7 +189,7 @@ export default function CheckoutPage({ amount, clientSecret }: any) {
         className="text-amigoswhite text-[1.3rem] font-semibold text-center flex items-center justify-center rounded-2xl max-h-32 transition duration-200 bg-amigosblack hover:text-amigosblack hover:bg-amigoswhite hover:shadow-md"
       >
         <div className="flex items-center justify-center p-4">
-          {loading ? "Processing ..." : `Pay $${amount}`}
+          {loading ? "Processing ..." : `Pay $${amount.toFixed(2)}`}
         </div>
       </button>
     </form>

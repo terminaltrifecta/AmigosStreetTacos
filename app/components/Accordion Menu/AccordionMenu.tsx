@@ -185,7 +185,7 @@ export default function AccordionMenuOrder() {
               </div>
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-1 max-h-32 overflow-y-auto">
               {menu.modifications
                 .filter(
                   (modification: ModificationData) =>
@@ -236,14 +236,14 @@ export default function AccordionMenuOrder() {
               className="btn btn-danger w-full"
               onClick={() => handleAddToCart(selectedItem as MenuItemData)}
             >
-              <div className="normal-case">Add</div>
+              <div className="normal-case">ADD</div>
             </div>
 
             <div
               className="btn btn-light w-full"
               onClick={() => setOpen(false)}
             >
-              <div className="normal-case">Cancel</div>
+              <div className="normal-case">CANCEL</div>
             </div>
           </div>
         </div>
